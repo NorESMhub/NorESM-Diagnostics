@@ -257,7 +257,7 @@ if [ ! $(echo $DIAG_PATH |grep '\/cluster\/') ]; then
 else
     [ ! -d $DIAG_PATH ] && mkdir -p $DIAG_PATH
 fi
-if [ $(echo $WEB_PATH |grep -P '\/trd-project\d\/') ]; then
+if [ $(echo $WEB_PATH |grep -P '\/nird\/projects\/') ]; then
     echo " "
     echo "**  **  **"
     echo "WARNING: WEB_PATH is set to nird: $WEB_PATH"
@@ -306,7 +306,7 @@ cat <<EOF >/tmp/submit$$.sh
 #SBATCH --job-name=diagsrun
 #SBATCH --partition=preproc
 #SBATCH --ntasks=1 --cpus-per-task=12
-#SBATCH --mem-per-cpu=2G
+#SBATCH --mem-per-cpu=8G
 #SBATCH --time=$TIME
 #SBATCH --output=${LOG_PATH}/slurm-${YMD}-${HMS}.log
 
@@ -352,10 +352,10 @@ done
 echo "Done!"
 echo ""
 
-if [ $(echo $WEB_PATH0 |grep -P '\/trd-project\d\/') ]; then
-    PROJECT=$(echo $WEB_PATH0 |cut -d"/" -f3 |tr [:upper:] [:lower:])
+if [ $(echo $WEB_PATH0 |grep -P '\/nird\/projects\/') ]; then
+    PROJECT=$(echo $WEB_PATH0 |cut -d"/" -f4 |tr [:upper:] [:lower:])
     if [ ! $(echo $PROJECT |grep -P -i '^ns\d{4}.*k$') ];then
-        echo "** ERROR: \$WEB_PATH: $WEB_PATH0 must start with /trd-project?/NSxxxxK/ **"
+        echo "** ERROR: \$WEB_PATH: $WEB_PATH0 must start with /nird/projects/NSxxxxK/ **"
         echo "*** EXITING THE SCRIPT ***"
         exit 1
     fi
