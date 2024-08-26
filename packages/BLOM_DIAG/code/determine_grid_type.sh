@@ -25,6 +25,7 @@ echo " "
 gp_tn0083=14934240 # (4320x3457) number of gridpoints on tn0.083 grids
 gp_tn0125=6223680  # (2880x2165) number of gridpoints on tn0.125 grids
 gp_tn025=1660320   # (1440x1153) number of gridpoints on tn0.25  grids (multiple choices)
+gp_tn05=461520     # (1440x1153) number of gridpoints on tn0.5   grids (multiple choices)
 gp_tn1=138600      # (360x385)   number of gridpoints on tn1     grids (multiple choices)
 gp_tn15=61680      # (240x257)   number of gridpoints on tn1.5   grids
 gp_tn2=34740       # (180x193)   number of gridpoints on tn2     grids
@@ -35,6 +36,7 @@ nmiss_tn0125v4=2591643
 nmiss_tn025v1=682899
 nmiss_tn025v3=681867
 nmiss_tn025v4=682843
+nmiss_tn05v1=174695
 nmiss_tn1v1=51715
 nmiss_tn1v1_lgm=60417
 nmiss_tn1v1_lgm2=59576
@@ -81,6 +83,17 @@ elif [ $gp -eq $gp_tn025 ]; then
         echo "ERROR: could not determine version of tn0.25 grid:"
         echo "Number of missing values found: $nmiss"
         echo "Should be ${nmiss_tn025v1},${nmiss_tn025v3},${nmiss_tn025v4} in v1,3,4 respectively."
+        echo "*** EXITING THE SCRIPT ***"
+        exit 1
+    fi
+elif [ $gp -eq $gp_tn05 ]; then
+    grid_type=tnx0.5
+    if [ $nmiss -eq $nmiss_tn05v1 ]; then
+        grid_ver=1
+    else
+        echo "ERROR: could not determine version of tnx0.5 grid:"
+        echo "Number of missing values found: $nmiss"
+        echo "Should be ${nmiss_tn05v1} in v1."
         echo "*** EXITING THE SCRIPT ***"
         exit 1
     fi
