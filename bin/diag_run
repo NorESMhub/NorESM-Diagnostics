@@ -10,10 +10,6 @@ ROOT_FOLD=$(basename $ROOT_DIR)
 
 ## Initial values
 THIS_SCRIPT_NAME=`basename "$0"`
-DIAG_PATH=$ROOT_DIR/out/$USER
-if [ $ROOT_DIR = '/cluster/shared/noresm/diagnostics/noresm' ]; then
-    DIAG_PATH=/cluster/work/users/$USER/diagnostics/out
-fi
 USER_MODEL=none
 CASE1=none
 SYR1=-1
@@ -21,21 +17,35 @@ EYR1=-1
 CASE2=none
 SYR2=-1
 EYR2=-1
-if [ -d /projects/NS2345K/noresm/cases ]; then
-    WEB_PATH=/projects/NS2345K/www/diagnostics/noresm/$USER
-    HISTORY_PATH1=/projects/NS2345K/noresm/cases
-    HISTORY_PATH2=/projects/NS2345K/noresm/cases
-elif [ -d /trd-project1/NS2345K/noresm/cases ]; then
-    WEB_PATH=/trd-project1/NS2345K/www/diagnostics/noresm/$USER
-    HISTORY_PATH1=/trd-project1/NS2345K/noresm/cases
-    HISTORY_PATH2=/trd-project1/NS2345K/noresm/cases
-elif [ -d /cluster/work/users/$USER ]; then
+
+if [ -d /cluster/work/users ]; then                                                     # Betzy
     WEB_PATH=/cluster/work/users/$USER/diagnostics/www
     HISTORY_PATH1=/cluster/work/users/$USER/archive
     HISTORY_PATH2=/cluster/work/users/$USER/archive
     DIAG_PATH=/cluster/work/users/$USER/diagnostics/out
+elif [ -d /projects/NS9560K-datalake/www ] && [ -w /projects/NS9560K-datalake/www ]; then # IPCC
+    WEB_PATH=/projects/NS9560K-datalake/www/diagnostics/noresm/$USER
+    HISTORY_PATH1=/projects/NS9560K/noresm/cases
+    HISTORY_PATH2=$HISTORY_PATH1
+    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
+elif [ -d /nird/datalake/NS9560K ] && [ -w /nird/datalake/NS9560K/www ]; then             # NIRD
+    WEB_PATH=/nird/datalake/NS9560K/www/diagnostics/noresm/$USER
+    HISTORY_PATH1=/nird/datapeak/NS9560K/noresm/cases
+    HISTORY_PATH2=$HISTORY_PATH1
+    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
+elif [ -d /projects/NS2345K-datalake/www ] && [ -w /projects/NS2345K-datalake/www ]; then # IPCC
+    WEB_PATH=/projects/NS2345K-datalake/www/diagnostics/noresm/$USER
+    HISTORY_PATH1=/projects/NS2345K/noresm/cases
+    HISTORY_PATH2=$HISTORY_PATH1
+    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
+elif [ -d /nird/datalake/NS2345K ] && [ -w /nird/datalake/NS2345K/www ]; then             # NIRD
+    WEB_PATH=/nird/datalake/NS2345K/www/diagnostics/noresm/$USER
+    HISTORY_PATH1=/nird/datapeak/NS2345K/noresm/cases
+    HISTORY_PATH2=$HISTORY_PATH1
+    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
 else
-    echo "NO default input and out path set"
+    echo "NO default values for input and output paths"
+    echo "Positional argument inputs by -i, -w, -o will be used"
     #echo "*** EXIT ***"
     #exit 1
 fi
