@@ -40,7 +40,7 @@ echo "downloaded:"
 while read -r subfolder
 do
     wget -nv -c --timestamping -nd -r -l 1 -nH -np -R "index.html*"  --directory-prefix=${diagroot}/packages/${subfolder}/ \
-        http://ns2345k.web.sigma2.no/diagnostics/inputdata/${subfolder}/ \
+        http://ns9560k.web.sigma2.no/datapeak/diagnostics/inputdata/${subfolder}/ \
         &>>/tmp/wget$$.log &
     wait
     [ $? -eq 0 ] && echo $subfolder
