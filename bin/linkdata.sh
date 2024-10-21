@@ -12,16 +12,18 @@ echo "--------------------------------------------------------------------------
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 cd $ROOT_DIR
 
-if [ -d /projects/NS2345K/www/diagnostics/inputdata ]; then
-    DATA_ROOT=/projects/NS2345K/www/diagnostics/inputdata
+if [ ! -z $1 ]; then
+    DATA_ROOT=$1
+elif [ -d /projects/NS9560K/www/diagnostics/inputdata ]; then
+    DATA_ROOT=/projects/NS9560K/www/diagnostics/inputdata
+elif [ -d /projects/NS9560K-datalake/www/diagnostics/inputdata ]; then
+    DATA_ROOT=/projects/NS9560K-datalake/www/diagnostics/inputdata
+elif [ -d /nird/projects/NS9560K/www/diagnostics/inputdata ]; then
+    DATA_ROOT=/nird/projects/NS9560K/www/diagnostics/inputdata
+elif [ -d /nird/datalake/NS9560K/www/diagnostics/inputdata ]; then
+    DATA_ROOT=/nird/datalake/NS9560K/www/diagnostics/inputdata
 elif [ -d /cluster/work/users/$USER/diagnostics/inputdata ]; then
     DATA_ROOT=/cluster/work/users/$USER/diagnostics/inputdata/
-elif [ -d /trd-project1/NS2345K/www/diagnostics/inputdata ]; then
-    DATA_ROOT=/trd-project1/NS2345K/www/diagnostics/inputdata
-elif [ -d /nird/projects/NS2345K/www/diagnostics/inputdata ]; then
-    DATA_ROOT=/nird/projects/NS2345K/www/diagnostics/inputdata
-elif [ -d /cluster/work/users/$USER/diagnostics/noresm/packages ]; then
-    DATA_ROOT=/cluster/work/users/$USER/diagnostics/noresm/packages
 else
     echo "                                                                             "
     echo "*** FAIL TO LINK TO DATA FILES OF THE FULL NORESM DIAGNOSTIC TOOL PACKAGE ***"
@@ -33,8 +35,6 @@ else
     echo "*** EXIT THE SCRIPT ***"
     exit 1
 fi
-
-[ ! -z $1 ] && DATA_ROOT=$1
 
 echo "DATA_ROOT:"
 echo $DATA_ROOT
