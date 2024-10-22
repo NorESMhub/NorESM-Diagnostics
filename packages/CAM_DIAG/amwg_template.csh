@@ -20,6 +20,7 @@ if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
     setenv nco_dir  `dirname $ncksbin`
     setenv cdobin   `which cdo`
     setenv cdo_dir  `dirname $cdobin`
+    setenv UDUNITS2_XML_PATH /diagnostics/toolkit/share/udunits/udunits2.xml
 else if ( `echo "$MACHINE" |grep 'login[0-9]-nird'` != '' ) then
     set MACHINE = 'login.nird'
     module purge
@@ -1411,6 +1412,11 @@ if ($use_swift == 1) then  # beginning of use_swift branch
         set file_prefix = ${DATA_ROOT}/${CASE_TO_READ}/atm/hist/${CASE_TO_READ}.cam.h0.
         set first_file  = `ls ${file_prefix}* | head -n 1`
         set last_file   = `ls ${file_prefix}* | tail -n 1`
+        if ("$first_file" == "") then
+            set file_prefix = ${DATA_ROOT}/${CASE_TO_READ}/atm/hist/${CASE_TO_READ}.cam.h0a.
+            set first_file  = `ls ${file_prefix}* | head -n 1`
+            set last_file   = `ls ${file_prefix}* | tail -n 1`
+        endif
         if ("$first_file" == "") then
           set file_prefix = ${DATA_ROOT}/${CASE_TO_READ}/atm/hist/${CASE_TO_READ}.cam2.h0.
           set first_file  = `ls ${file_prefix}* | head -n 1`
@@ -3425,9 +3431,12 @@ if ($email == 0) then
   echo E-MAIL SENT
   \rm -f email_msg
 endif  
-# Publish html data (JL Sep 2017)
+# Publish html data
 if ($web_pages == 0 && $publish_html == 0) then
-   set web_server_path = /projects/NS2345K/www
+   set web_server_path = /projects/NS9560K-datalake/www
+   if ( ! -d $web_server_path ) then
+      set web_server_path = /nird/datalake/NS9560K/www
+   endif
    if ( "$publish_html_root" == "" ) then
       set publish_html_root = ${web_server_path}/noresm
    endif
@@ -3442,9 +3451,9 @@ if ($web_pages == 0 && $publish_html == 0) then
    if (-e ${publish_html_path} && `stat -c %a ${publish_html_path}` != 775 ) then
       chmod 775 ${publish_html_path}
    endif
-   set web_server      = http://ns2345k.web.sigma2.no
-   set path_pref       = `echo ${publish_html_path} | cut -c -21`
-   set path_suff       = `echo ${publish_html_path} | cut -c 23-`
+   set web_server      = http://ns9560k.web.sigma2.no/datalake
+   set path_pref       = `echo ${publish_html_path} | awk -F'www/' '{print $1 "www"}'`
+   set path_suff       = `echo ${publish_html_path} | awk -F'www/' '{print $2 }'`
    echo ' '
    tar -xf ${test_path_diag}/$tarfile -C ${publish_html_path}
    if ( $status == 0 ) then

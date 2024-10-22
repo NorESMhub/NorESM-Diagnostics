@@ -1584,7 +1584,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTHICK_ISCCPCOSP") then
     A = get_CLDTHICK_ISCCPCOSP (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (" CLDTHICK_ISCCPCOSP not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1596,7 +1596,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "MEANPTOP_ISCCPCOSP") then
     A = get_MEANPTOP_ISCCPCOSP (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("MEANPTOP_ISCCPCOSP not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1608,7 +1608,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "MEANCLDALB_ISCCPCOSP") then
     A = get_MEANCLDALB_ISCCPCOSP (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("MEANCLDALB_ISCCPCOSP not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1620,7 +1620,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTOT_MISR") then
     A = get_CLDTOT_MISR (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTOT_MISR not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1632,7 +1632,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDLOW_MISR") then
     A = get_CLDLOW_MISR (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDLOW_MISR not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1644,7 +1644,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDMED_MISR") then
     A = get_CLDMED_MISR (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDMED_MISR not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1656,7 +1656,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDHGH_MISR") then
     A = get_CLDHGH_MISR (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDHGH_MISR not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1668,7 +1668,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTHICK_MISR") then
     A = get_CLDTHICK_MISR (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTHICK_MISR not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1680,7 +1680,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTOT_MODIS") then
     A = get_CLDTOT_MODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTOT_MODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1692,7 +1692,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDLOW_MODIS") then
     A = get_CLDLOW_MODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDLOW_MODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1704,7 +1704,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDMED_MODIS") then
     A = get_CLDMED_MODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDMED_MODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1716,7 +1716,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDHGH_MODIS") then
     A = get_CLDHGH_MODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDHGH_MODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1728,7 +1728,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTHICK_MODIS") then
     A = get_CLDTHICK_MODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTHICK_MODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1740,7 +1740,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLWMODIS") then
     A = get_CLWMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLWMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1752,7 +1752,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLIMODIS") then
     A = get_CLIMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLIMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1764,7 +1764,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "IWPMODIS") then
     A = get_IWPMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("IWPMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1776,7 +1776,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "LWPMODIS") then
     A = get_LWPMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("LWPMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1788,7 +1788,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "REFFCLIMODIS") then
     A = get_REFFCLIMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("REFFCLIMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1800,7 +1800,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "REFFCLWMODIS") then
     A = get_REFFCLWMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("REFFCLWMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1812,7 +1812,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUTLOGMODIS") then
     A = get_TAUTLOGMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUTLOGMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1824,7 +1824,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUILOGMODIS") then
     A = get_TAUILOGMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUILOGMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1836,7 +1836,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUWLOGMODIS") then
     A = get_TAUWLOGMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUWLOGMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1848,7 +1848,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUTMODIS") then
     A = get_TAUTMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUTMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1860,7 +1860,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUIMODIS") then
     A = get_TAUIMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUIMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1872,7 +1872,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "TAUWMODIS") then
     A = get_TAUWMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("TAUWMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1884,7 +1884,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "PCTMODIS") then
     A = get_PCTMODIS (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("PCTMODIS not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1896,7 +1896,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTOT_CAL") then
     A = get_CLDTOT_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTOT_CAL not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1908,7 +1908,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDLOW_CAL") then
     A = get_CLDLOW_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDLOW_CAL not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1920,7 +1920,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDMED_CAL") then
     A = get_CLDMED_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDMED_CAL not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1932,7 +1932,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDHGH_CAL") then
     A = get_CLDHGH_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDHGH_CAL not present in test case input file.")
       delete (A)
       continue
     else  
@@ -1944,7 +1944,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTOT_CS2") then
     A = get_CLDTOT_CS2 (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print ("CLDTOT_CS2 not present in test case input file.")
       delete (A)
       continue
     else  

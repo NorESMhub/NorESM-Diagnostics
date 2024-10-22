@@ -27,10 +27,16 @@ set casetype          = $7
 set cam_grid          = $8
 set four_seas         = $9
 
+set hst_nm=`cat ${path_diag}/attributes/${casetype}_rootname |awk -F. '{print $(NF-1)}'`
+
 set modelname = `cat ${path_diag}/attributes/${casetype}_modelname`
 set req_vars = "gw FSNT FLNT TREFHT PRECT PRECC PRECL CLDTOT CLDLOW CLDMED CLDHGH SWCF LWCF"
 set history_path = $history_path_root/$casename/atm/hist
 set fullpath_filename = $history_path/$casename.$modelname.h0.`printf "%04d" ${syr}`-01.nc
+
+if (! -e ${fullpath_filename} ) then
+    set fullpath_filename = $history_path/$casename.$modelname.h0a.`printf "%04d" ${syr}`-01.nc
+endif
 
 set first_find = 1
 set var_list = " "
@@ -76,7 +82,7 @@ if ($four_seas == 1) then
       while ( $iyr <= $eyr )
           set iyr_prnt = `printf "%04d" ${iyr}`
          echo " COMPUTING ANN, DJF, JJA AND GLOBAL MEAN OF $casename FOR YR=$iyr_prnt"
-         $nco_dir/ncclimo --no_stdin --clm_md=mth -m $modelname -v $var_list -a sdd --no_amwg_links -c $casename -s $iyr -e $iyr -i $history_path -o $time_out_path > $time_out_path/tmp_ncclimo.txt
+         $nco_dir/ncclimo --no_stdin --clm_md=mth -m $modelname --hst_nm=$hst_nm -v $var_list -a sdd --no_amwg_links -c $casename -s $iyr -e $iyr -i $history_path -o $time_out_path > $time_out_path/tmp_ncclimo.txt
          $nco_dir/ncwa -h -O -w gw -a lat,lon $time_out_path/${casename}_ANN_${iyr_prnt}01_${iyr_prnt}12_climo.nc $time_out_path/global_mean_ANN_${iyr_prnt}.nc
          $nco_dir/ncwa -h -O -w gw -a lat,lon $time_out_path/${casename}_DJF_${iyr_prnt}01_${iyr_prnt}12_climo.nc $time_out_path/global_mean_DJF_${iyr_prnt}.nc
          $nco_dir/ncwa -h -O -w gw -a lat,lon $time_out_path/${casename}_JJA_${iyr_prnt}06_${iyr_prnt}08_climo.nc $time_out_path/global_mean_JJA_${iyr_prnt}.nc

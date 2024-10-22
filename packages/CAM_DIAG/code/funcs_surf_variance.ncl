@@ -741,6 +741,10 @@ end
 function get_PLEVEL_VARIANCE (inptr:file,outptr:file,var:string,plev:numeric)
 local vari, hyam, hybm, ps, u, v, psi, chi, tmp, vvpuu, uu, vv
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    vari    = -999.0
+    return (vari)
+  end if
   if (isfilevar(outptr,var)) then
     vari  = outptr->$var$
   else

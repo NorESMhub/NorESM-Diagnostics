@@ -767,7 +767,7 @@ do i = 0, nvars-1
  if (vars(i) .eq. "CLDTOT_CAL") then
     A = get_CLDTOT_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (vars(i)+" not present in test case input file.")
       delete (A)
       continue
     else  
@@ -779,7 +779,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDLOW_CAL") then
     A = get_CLDLOW_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (vars(i)+" not present in test case input file.")
       delete (A)
       continue
     else  
@@ -791,7 +791,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDMED_CAL") then
     A = get_CLDMED_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (vars(i)+" not present in test case input file.")
       delete (A)
       continue
     else  
@@ -803,7 +803,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDHGH_CAL") then
     A = get_CLDHGH_CAL (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (vars(i)+" not present in test case input file.")
       delete (A)
       continue
     else  
@@ -815,7 +815,7 @@ do i = 0, nvars-1
   if (vars(i) .eq. "CLDTOT_CS2") then
     A = get_CLDTOT_CS2 (inptr1,outptr1)
     if (all(A.eq.-999.)) then
-      print (" not present in test case input file.")
+      print (vars(i)+" not present in test case input file.")
       delete (A)
       continue
     else  

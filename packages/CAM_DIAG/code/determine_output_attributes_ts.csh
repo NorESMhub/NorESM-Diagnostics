@@ -43,7 +43,15 @@ set rootname     = ${casename}.${modelname}.h0.    # new terminology
 set filename     = ${rootname}`printf "%04d" ${first_year}`-01.nc
 set filename_tar = ${rootname}`printf "%04d" ${first_year}`.tar   
 set fullpath_filename  = ${path_history}/${casename}/atm/hist/${filename}
-echo ${modelname} > ${path_diag}/attributes/${casetype}_modelname
+##  If file does not exist check, the old terminology, NorESM2.x
+if (! -e ${fullpath_filename} || -z ${fullpath_filename} ) then
+    set rootname = ' '
+    set modelname    = cam
+    set rootname     = ${casename}.${modelname}.h0a.    # new terminology
+    set filename     = ${rootname}`printf "%04d" ${first_year}`-01.nc
+    set filename_tar = ${rootname}`printf "%04d" ${first_year}`.tar   
+    set fullpath_filename  = ${path_history}/${casename}/atm/hist/${filename}
+endif
 ##  If file does not exist check, the old terminology
 if (! -e ${fullpath_filename} || -z ${fullpath_filename} ) then
     set modelname    = cam2
@@ -52,8 +60,8 @@ if (! -e ${fullpath_filename} || -z ${fullpath_filename} ) then
     set filename_tar = ${rootname}`printf "%04d" ${first_year}`.tar   
     set fullpath_filename  = ${path_history}/${casename}/atm/hist/${filename}
     echo $fullpath_filename
-    echo ${modelname} > ${path_diag}/attributes/${casetype}_modelname
 endif
+echo ${modelname} > ${path_diag}/attributes/${casetype}_modelname
 
 echo "ATTEMPT TO LOCATE FILE TO DETERMINE HISTORY ATTRIBUTES "  
 if (! -e ${fullpath_filename} || -z ${fullpath_filename} ) then
