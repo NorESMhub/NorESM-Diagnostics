@@ -12,6 +12,7 @@ if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`
     setenv ncksbin $ncclimo_dir
+    setenv UDUNITS2_XML_PATH /diagnostics/toolkit/share/udunits/udunits2.xml
 else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
     module purge
     module load CDO/1.9.8-intel-2019b
@@ -448,22 +449,24 @@ setenv RUNDIR /$HOME/lnd_diag/run/
 setenv regrid_file_type CLIMO
  
 setenv regrid_1   0
-setenv method_1   conserve
-setenv old_res_1  SE_NE30
-setenv new_res_1  FV_192x288
-setenv wgt_dir_1  /glade/p/cesm/lmwg/diag/lnd_diag4.2/regriddingFiles/ne30/
-setenv wgt_file_1 $old_res_1"_to_"$new_res_1"."$method_1".nc"
-setenv area_dir_1  /glade/p/cesm/lmwg/diag/lnd_diag4.2/regriddingFiles/
-setenv area_file_1 $new_res_1"_area.nc"
+setenv method_1   bilinear
+setenv old_res_1  SE_NE30NP3
+setenv new_res_1  0.5x0.5
+setenv wgt_dir_1  /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/ne30pg3/
+#setenv wgt_file_1 $old_res_1"_to_"$new_res_1"."$method_1".nc"
+setenv wgt_file_1 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+#setenv area_dir_1 /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles
+#setenv area_file_1 $new_res_1"_area.nc"
 
 setenv regrid_2   0
-setenv method_2   conserve
-setenv old_res_2  SE_NE30
-setenv new_res_2  FV_192x288
-setenv wgt_dir_2  /glade/p/cesm/lmwg/diag/lnd_diag4.2/regriddingFiles/ne30/
-setenv wgt_file_2 $old_res_2"_to_"$new_res_2"."$method_2".nc"
-setenv area_dir_2  /glade/p/cesm/lmwg/diag/lnd_diag4.2/regriddingFiles/
-setenv area_file_2 $new_res_2"_area.nc"
+setenv method_2   bilinear
+setenv old_res_2  SE_NE30NP3
+setenv new_res_2  0.5x0.5
+setenv wgt_dir_2  /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/ne30pg3/
+#setenv wgt_file_2 $old_res_2"_to_"$new_res_2"."$method_2".nc"
+setenv wgt_file_2 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+#setenv area_dir_2 /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/
+#setenv area_file_2 $new_res_2"_area.nc"
 
 #*****************************************************************
 #   END:  GENERAL USER MODIFICATION SECTION  (Sections 1-20)

@@ -45,11 +45,14 @@ let "iyr = $first_yr"
 while [ $iyr -le $last_yr ]
 do
     #fullpath_filename=$pathdat/$casename.${model}.h0.`printf "%04d" ${iyr}`-01.nc
-    fullpath_filename=$(ls $pathdat/$casename.${model}.h0.`printf "%04d" ${iyr}`-*.nc |head -1)
-    if [ ! -f $fullpath_filename ]; then
-	echo "$fullpath_filename does not exist."
-	check_vars=0
-	break
+    fullpath_filename=$(ls $pathdat/$casename.${model}.h0.`printf "%04d" ${iyr}`-*.nc  2>/dev/null |head -1)
+    if [ -z $fullpath_filename ]; then
+    fullpath_filename=$(ls $pathdat/$casename.${model}.h0a.`printf "%04d" ${iyr}`-*.nc 2>/dev/null |head -1)
+    fi
+    if [ -z $fullpath_filename ]; then
+    echo "$fullpath_filename does not exist."
+    check_vars=0
+    break
     fi
     let iyr++
 done
@@ -60,16 +63,19 @@ if [ $check_vars -eq 1 ]; then
     # Check december flag
     let "iyr = $first_yr - 1"
     fullpath_filename=$pathdat/$casename.${model}.h0.`printf "%04d" ${iyr}`-12.nc
+    if [ ! -f $fullpath_filename ]; then
+    fullpath_filename=$pathdat/$casename.${model}.h0a.`printf "%04d" ${iyr}`-12.nc
+    fi
     if [ -f $fullpath_filename ] && [ $mode == climo ]; then
-	dec_flag=scd
-	echo $dec_flag > $procdir/dec_flag
+    dec_flag=scd
+    echo $dec_flag > $procdir/dec_flag
     else
-	dec_flag=sdd
-	echo $dec_flag > $procdir/dec_flag
+    dec_flag=sdd
+    echo $dec_flag > $procdir/dec_flag
     fi
     echo "FOUND ALL $model history files (dec_flag: ${dec_flag})"
     req_varsc=`cat $procdir/required_vars`
-    echo "Searching for ${model}.h0 variables: $req_varsc"
+    echo "Searching for ${model}.h0/${model}.h0a variables: $req_varsc"
     req_vars=`echo $req_varsc | sed 's/,/ /g'`
     first_find=1
     find_any=0
@@ -78,6 +84,10 @@ if [ $check_vars -eq 1 ]; then
     var_list=" "
     var_list_remaining=" "
     fullpath_filename=$(ls $pathdat/$casename.${model}.h0.$(printf "%04d" ${first_yr})-*.nc 2>/dev/null |head -1)
+    #echo $fullpath_filename
+    if [ -z $fullpath_filename ];then
+    fullpath_filename=$(ls $pathdat/$casename.${model}.h0a.$(printf "%04d" ${first_yr})-*.nc 2>/dev/null |head -1)
+    fi
     if [ ! -z $fullpath_filename ];then
         var_in_file=$(cdo -s showname $fullpath_filename)
     else
@@ -95,28 +105,28 @@ if [ $check_vars -eq 1 ]; then
         #else
             #$ncksbin/ncks --quiet -d lat,0 -d lon,0 -d lev,0 -v $var $fullpath_filename >/dev/null 2>&1
         #fi
-	if [ $? -eq 0 ]; then
-	    find_any=1
-	    if [ $first_find -eq 1 ]; then
-		var_list=$var
-		first_find=0
-	    else
-		var_list=${var_list},$var
-	    fi
-	else
-	    remaining_any=1
-	    if [ $first_find_remaining -eq 1 ]; then
-		var_list_remaining=$var
-		first_find_remaining=0
-	    else
-		var_list_remaining=${var_list_remaining},$var
-	    fi
-	fi
+    if [ $? -eq 0 ]; then
+        find_any=1
+        if [ $first_find -eq 1 ]; then
+        var_list=$var
+        first_find=0
+        else
+        var_list=${var_list},$var
+        fi
+    else
+        remaining_any=1
+        if [ $first_find_remaining -eq 1 ]; then
+        var_list_remaining=$var
+        first_find_remaining=0
+        else
+        var_list_remaining=${var_list_remaining},$var
+        fi
+    fi
     done
-    echo "Variables in ${model}.h0 history files: $var_list"
+    echo "Variables in ${model}.h0/${model}.h0 history files: $var_list"
     if [ $find_any -eq 1 ]; then
-	var_flag=1
-	echo ${var_list} > $procdir/vars_${mode}_${model}
+    var_flag=1
+    echo ${var_list} > $procdir/vars_${mode}_${model}
     fi
     echo "Variables not found: $var_list_remaining"
 fi
