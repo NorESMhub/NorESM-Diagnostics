@@ -240,6 +240,10 @@ end
 
 function get_CHI_200 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    chi_200 = -999.0
+    return(chi_200)
+  end if
   if (isfilevar(outptr,"CHI_200")) then
     chi_200 = outptr->CHI_200
   else
@@ -466,6 +470,10 @@ end
 
 function get_EKE_850 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    eke_850 = -999.0
+    return(eke_850)
+  end if
   if (isfilevar(outptr,"EKE_850")) then
     eke_850 = outptr->EKE_850
   else
@@ -1814,6 +1822,10 @@ end
 
 function get_PSI_200 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    psi_200 = -999.0
+    return(psi_200)
+  end if
   if (isfilevar(outptr,"PSI_200")) then
     psi_200 = outptr->PSI_200
   else
@@ -2286,6 +2298,10 @@ end
 
 function get_T_200 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    t_200 = -999.0
+    return(t_200)
+  end if
   if (isfilevar(outptr,"T_200")) then
     t_200 = outptr->T_200
   else
@@ -2316,6 +2332,10 @@ end
 
 function get_T_850 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    t_850 = -999.0
+    return(t_850)
+  end if
   if (isfilevar(outptr,"T_850")) then
     t_850 = outptr->T_850
   else
@@ -2346,6 +2366,10 @@ end
 
 function get_T_900 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    t_900 = -999.0
+    return(t_900)
+  end if
   if (isfilevar(outptr,"T_900")) then
     t_900 = outptr->T_900
   else
@@ -2369,6 +2393,10 @@ end
 
 function get_T_950 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    t_950 = -999.0
+    return(t_950)
+  end if
   if (isfilevar(outptr,"T_950")) then
     t_950 = outptr->T_950
   else
@@ -2844,6 +2872,10 @@ end
 
 function get_U_200 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    u_200 = -999.0
+    return(u_200)
+  end if
   if (isfilevar(outptr,"U_200")) then
     u_200 = outptr->U_200
   else
@@ -2926,10 +2958,14 @@ end
 
 function get_VT_850 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    vt_850 = -999.0
+    return(vt_850)
+  end if
   if (isfilevar(outptr,"VT_850")) then
     vt_850 = outptr->VT_850
   else
-    if (isfilevar(inptr,"VT")) then   ; in ccm3.6
+    if (isfilevar(inptr,"VT").and.isfilevar(inptr,"hyam")) then   ; in ccm3.6
       vt = inptr->VT(0,:,:,:)        ; (lev,lat,lon)
       ps = inptr->PS(0,:,:)           ; Pa 
       hyam = inptr->hyam
@@ -2989,6 +3025,10 @@ end
 
 function get_Z3_300 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    z3_300 = -999.0
+    return(z3_300)
+  end if
   if (isfilevar(outptr,"Z3_300")) then
     z3_300 = outptr->Z3_300
   else
@@ -3025,6 +3065,10 @@ end
 
 function get_Z3_500 (inptr:file,outptr:file)
 begin
+  if (.not.isfilevar(inptr,"hyam")) then
+    z3_500 = -999.0
+    return(z3_500)
+  end if
   if (isfilevar(outptr,"Z3_500")) then
     z3_500 = outptr->Z3_500
   else

@@ -248,7 +248,7 @@ else
                     USER_MODEL=$1
                 else
                     echo "ERROR: no model specified (-m, --model)"
-                         echo "Valid options: cam, blom/micom, clm, cice, cism, all"
+                         echo "Valid options: cam, blom/micom, clm/clm2/ctsm, cice, cism, all"
                     echo "*** EXITING THE SCRIPT"
                     exit 1
                 fi
@@ -414,8 +414,9 @@ else
     do
         if [ "$model" == "cam" ] || [ "$model" == "cam2" ]; then
             let RUN_MODELS[0]=${RUN_MODELS[0]}+1
-        elif [ "$model" == "clm" ] || [ "$model" == "clm2" ]; then
+        elif [ "$model" == "clm" ] || [ "$model" == "clm2" ] || [ "$model" == "ctsm" ]; then
             let RUN_MODELS[1]=${RUN_MODELS[1]}+1
+            [ $model == "ctsm" ] && CSTM_FLAG=true && RUN_ATM_CLM=0
         elif [ "$model" == "cice" ]; then
             let RUN_MODELS[2]=${RUN_MODELS[2]}+1
         elif [ "$model" == "blom" ] || [ "$model" == "micom" ]; then
@@ -1039,6 +1040,26 @@ do
 
         # CHANGE ATMOSPHERIC DIAGNOSTICS IN CLM
         if [ $MODEL == clm ]; then
+            # switch on interpolation for clm se
+            if [ $CSTM_FLAG ]; then
+                if /usr/bin/grep -q 'regrid_1   0' $DIAG_FILE
+                then
+                        /usr/bin/sed -i "s/regrid_1   0/regrid_1   1/g" $DIAG_FILE
+                else
+                    echo "ERROR: modifying $DIAG_PATH/$MODEL_DIAG_CAPS/$DIAG_FILE for regrid_1 failed"
+                    echo "*** EXITING THE SCRIPT"
+                    exit 1
+                fi
+                if /usr/bin/grep -q 'regrid_2   0' $DIAG_FILE
+                then
+                        /usr/bin/sed -i "s/regrid_2   0/regrid_2   1/g" $DIAG_FILE
+                else
+                    echo "ERROR: modifying $DIAG_PATH/$MODEL_DIAG_CAPS/$DIAG_FILE for regrid_2 failed"
+                    echo "*** EXITING THE SCRIPT"
+                    exit 1
+                fi
+            fi
+            # change RUN_ATM_CLM
             if [ $RUN_ATM_CLM -eq 0 ]; then
                 echo "-REMOVING ATM DIAGNOSTICS FROM CLM"
                 if /usr/bin/grep -q ATM_DIAG $DIAG_FILE

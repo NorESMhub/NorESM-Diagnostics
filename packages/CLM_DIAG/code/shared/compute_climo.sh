@@ -50,6 +50,10 @@ dec_flag=`cat $procdir/dec_flag`
 # Compute climatology
 $ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model -a $dec_flag -v $var_list --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir
 if [ $? -ne 0 ]; then
+    echo "${casename}.${model}.h0.*.nc are not found, try *.$model.h0a.*.nc..."
+    $ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model --hst_nm=h0a -a $dec_flag -v $var_list --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir
+fi
+if [ $? -ne 0 ]; then
     echo "ERROR in computing climatology: $ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model -a $dec_flag --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir"
     exit 1
 fi

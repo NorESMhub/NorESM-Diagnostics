@@ -136,7 +136,7 @@ begin
         nlev  = getfilevardimsizes(in1,"levsoi")
      end if
      if (isfilevar(in1,"levgrnd")) then
-        levsoi = in1->levgrnd
+        levgrnd = in1->levgrnd
         nlev  = getfilevardimsizes(in1,"levgrnd")
      end if
      if (nlev .eq. 0)
@@ -161,6 +161,11 @@ begin
 ;      extract landfrac if paleo file
      if (paleo .eq. 1) then 
         landfrac = in1->landfrac
+        if (min(landfrac&lon) .lt. 0) then
+          landfrac = lonFlip(landfrac)
+          lon1  = landfrac&lon
+        end if
+
         oro = new((/nlat1,nlon1/),integer)
         oro = 1
         oro@_FillValue = 0
@@ -221,6 +226,10 @@ begin
               plot_check  = False
               continue
            end if
+        end if
+        if (min(x1&lon) .lt. 0) then
+          x1 = lonFlip(x1)
+          lon1  = x1&lon
         end if
 ;         catch NaNs
         x1 = catchNaN(x1)

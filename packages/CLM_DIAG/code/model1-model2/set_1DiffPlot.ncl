@@ -108,10 +108,11 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
   if(isfilevar(in1,"levsoi")) then
         nlev1       = getfilevardimsizes(in1,"levsoi")
         levsoi1     = in1->levsoi
-  end if
-  if(isfilevar(in1,"levgrnd")) then
-        nlev1       = getfilevardimsizes(in1,"levgrnd")
-        levsoi1     = in1->levgrnd
+  else
+    if(isfilevar(in1,"levgrnd")) then
+          nlev1       = getfilevardimsizes(in1,"levgrnd")
+          levsoi1     = in1->levgrnd
+    end if
   end if
   if (nlev1 .eq. 0)
      print("FATAL ERROR:  nlev1 = 0")
@@ -126,10 +127,11 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
   if(isfilevar(in2,"levsoi")) then
         nlev2       = getfilevardimsizes(in2,"levsoi")
         levsoi2     = in2->levsoi
-  end if
-  if(isfilevar(in2,"levgrnd")) then
-        nlev2       = getfilevardimsizes(in2,"levgrnd")
-        levsoi2     = in2->levgrnd
+  else
+    if(isfilevar(in2,"levgrnd")) then
+          nlev2       = getfilevardimsizes(in2,"levgrnd")
+          levsoi2     = in2->levgrnd
+    end if
   end if
   if (nlev2 .eq. 0)
      print("FATAL ERROR:  nlev2 = 0")
@@ -427,9 +429,10 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
 	      res@vpWidthF               = 0.8
   	      if(isfilevar(in,"levsoi")) then
 	      	lev = in->levsoi
-  	      end if
-  	      if(isfilevar(in,"levgrnd")) then
-	      	lev = in->levgrnd
+          else
+  	        if(isfilevar(in,"levgrnd")) then
+	        	lev = in->levgrnd
+  	        end if
   	      end if
 	      do k=0,nlev-1
         	 res@tiXAxisOn              = False

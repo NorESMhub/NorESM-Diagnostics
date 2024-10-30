@@ -470,12 +470,12 @@ if(plot_check.eq.True)then
           res@vpHeightF              = 0.4
           res@vpWidthF               = 0.8
           res@tiXAxisOn              = False
-          if(isfilevar(in1,"levsoi")) then
-          	lev = in1->levsoi
-          end if
-          if(isfilevar(in1,"levgrnd")) then
-          	lev = in1->levgrnd
-          end if
+;         if(isfilevar(in1,"levsoi")) then
+;           lev = in1->levsoi
+;         end if
+;         if(isfilevar(in1,"levgrnd")) then
+;           lev = in1->levgrnd
+;         end if
           res@tiYAxisString          = array1_3@units
           do k=0,nlevLimit-1
                         

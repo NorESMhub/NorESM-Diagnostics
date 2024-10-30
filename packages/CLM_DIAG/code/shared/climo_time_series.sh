@@ -97,23 +97,23 @@ if [ $c_climo_clm -eq 1 ]; then
     file_exist=1
     for seas in ANN DJF MAM JJA SON MON
     do
-	TEST_FILE=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
-	if [ ! -f $TEST_FILE ]; then
-	    file_exist=0
-	fi
+    TEST_FILE=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
+    if [ ! -f $TEST_FILE ]; then
+        file_exist=0
+    fi
     done
     if [ $file_exist -eq 0 ]; then
-	echo $required_vars_climo_clm > $procdir/required_vars
-	$diag_shared/check_history_vars.sh $casename $fyr_climo $lyr_climo $pathdat $model $procdir climo
-	if [ -f $procdir/vars_climo_${model} ]; then
+    echo $required_vars_climo_clm > $procdir/required_vars
+    $diag_shared/check_history_vars.sh $casename $fyr_climo $lyr_climo $pathdat $model $procdir climo
+    if [ -f $procdir/vars_climo_${model} ]; then
             $diag_shared/compute_climo.sh $casename $fyr_climo $lyr_climo $pathdat $climo_ts_dir $procdir $model
-	else
-	    echo "ERROR: no clm climo variables found."
-	    echo "***EXITING THE SCRIPT***"
-	    exit 1
+    else
+        echo "ERROR: no clm climo variables found."
+        echo "***EXITING THE SCRIPT***"
+        exit 1
         fi
     else
-	echo "CLIMATOLOGY FILES ALREADY EXIST: SKIPPING $model CLIMATOLOGY COMPUTATION."
+    echo "CLIMATOLOGY FILES ALREADY EXIST: SKIPPING $model CLIMATOLOGY COMPUTATION."
     fi
     ## Create symbolic links
     if [ -L $climo_ts_dir/${casename}_MONS_climo.nc ]; then
@@ -123,11 +123,11 @@ if [ $c_climo_clm -eq 1 ]; then
     ln -s $climo_ts_dir/${casename}_MON_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc $climo_ts_dir/${casename}_MONS_climo.nc
     for seas in ANN DJF MAM JJA SON
     do
-	outfile=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
+    outfile=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
         if [ -L $climo_ts_dir/${casename}_${seas}_climo.nc ]; then
-	    rm $climo_ts_dir/${casename}_${seas}_climo.nc
+        rm $climo_ts_dir/${casename}_${seas}_climo.nc
         fi
-	ln -s $outfile $climo_ts_dir/${casename}_${seas}_climo.nc
+    ln -s $outfile $climo_ts_dir/${casename}_${seas}_climo.nc
     done
 fi
 
@@ -139,35 +139,39 @@ if [ $c_climo_cam -eq 1 ]; then
     procdir=$procdir_atm
     filename_atm=${pathdat}/${casename}.${model}.h0.${fyr_prnt_climo}-07.nc
     if [ ! -f $filename_atm ]; then
-	model=cam2
-	filename_atm=${pathdat}/${casename}.${model}.h0.${fyr_prnt_climo}-07.nc
-	if [ ! -f $filename_atm ]; then
-	    echo "ERROR: test file $filename_atm does not exist."
-	    echo "***EXITING THE SCRIPT***"
-	    exit 1
-	fi
+    model=cam
+    filename_atm=${pathdat}/${casename}.${model}.h0a.${fyr_prnt_climo}-07.nc
+    fi
+    if [ ! -f $filename_atm ]; then
+    model=cam2
+    filename_atm=${pathdat}/${casename}.${model}.h0.${fyr_prnt_climo}-07.nc
+    if [ ! -f $filename_atm ]; then
+        echo "ERROR:  $filename_atm does not exist."
+        echo "***EXITING THE SCRIPT***"
+        exit 1
+    fi
     fi
     # Check if climo files already exist
     file_exist=1
     for seas in ANN DJF MAM JJA SON MON
     do
-	TEST_FILE=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
-	if [ ! -f $TEST_FILE ]; then
-	    file_exist=0
-	fi
+    TEST_FILE=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
+    if [ ! -f $TEST_FILE ]; then
+        file_exist=0
+    fi
     done
     if [ $file_exist -eq 0 ]; then
-	echo $required_vars_climo_cam > $procdir/required_vars
-	$diag_shared/check_history_vars.sh $casename $fyr_climo $lyr_climo $pathdat $model $procdir climo
-	if [ -f $procdir/vars_climo_${model} ]; then
+    echo $required_vars_climo_cam > $procdir/required_vars
+    $diag_shared/check_history_vars.sh $casename $fyr_climo $lyr_climo $pathdat $model $procdir climo
+    if [ -f $procdir/vars_climo_${model} ]; then
             $diag_shared/compute_climo.sh $casename $fyr_climo $lyr_climo $pathdat $climo_ts_dir $procdir $model
-	else
-	    echo "ERROR: no cam climo variables found."
-	    echo "***EXITING THE SCRIPT***"
-	    exit 1
+    else
+        echo "ERROR: no cam climo variables found."
+        echo "***EXITING THE SCRIPT***"
+        exit 1
         fi
     else
-	echo "CLIMATOLOGY FILES ALREADY EXIST: SKIPPING $model CLIMATOLOGY COMPUTATION."
+    echo "CLIMATOLOGY FILES ALREADY EXIST: SKIPPING $model CLIMATOLOGY COMPUTATION."
     fi
     # Create symbolic links
     if [ -L $climo_ts_dir/${casename}_MONS_climo_atm.nc ]; then
@@ -177,11 +181,11 @@ if [ $c_climo_cam -eq 1 ]; then
     ln -s $climo_ts_dir/${casename}_MON_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc $climo_ts_dir/${casename}_MONS_climo_atm.nc
     for seas in ANN DJF MAM JJA SON
     do
-	outfile=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
-	if [ -L $climo_ts_dir/${casename}_${seas}_climo_atm.nc ]; then
-	    rm $climo_ts_dir/${casename}_${seas}_climo_atm.nc
-	fi
-	ln -s $outfile $climo_ts_dir/${casename}_${seas}_climo_atm.nc
+    outfile=$climo_ts_dir/${casename}_${seas}_${fyr_prnt_climo}-${lyr_prnt_climo}_climo.nc
+    if [ -L $climo_ts_dir/${casename}_${seas}_climo_atm.nc ]; then
+        rm $climo_ts_dir/${casename}_${seas}_climo_atm.nc
+    fi
+    ln -s $outfile $climo_ts_dir/${casename}_${seas}_climo_atm.nc
     done
 fi
 
@@ -191,45 +195,45 @@ if [ $c_ts -eq 1 ]; then
     model=clm2
     procdir=$procdir_lnd
     if [ $trends_all -eq 1 ]; then
-	echo "trends_all=1: computing time series over entire simulation."
-	echo "Searching for monthly history files..."
-	file_head=$casename.clm2.h0.
-	file_prefix=$pathdat/$file_head
-	first_file=`ls ${file_prefix}????-??.nc | head -n 1`
-	last_file=`ls ${file_prefix}????-??.nc | tail -n 1`
-	if [ -z $first_file ]; then
+    echo "trends_all=1: computing time series over entire simulation."
+    echo "Searching for monthly history files..."
+    file_head=$casename.clm2.h0.
+    file_prefix=$pathdat/$file_head
+    first_file=`ls ${file_prefix}????-??.nc | head -n 1`
+    last_file=`ls ${file_prefix}????-??.nc | tail -n 1`
+    if [ -z $first_file ]; then
             echo "ERROR: found no monthly history files in $pathdat"
             echo "*** EXITING THE SCRIPT ***"
             exit 1
-	else
+    else
             fyr_prnt_ts=$(basename $first_file |awk -F"." '{print $(NF-1)}' |cut -d'-' -f1)
             fyr_ts=`echo $fyr_prnt_ts | sed 's/^0*//'`
             lyr_prnt_ts=$(basename $last_file |awk -F"." '{print $(NF-1)}' |cut -d'-' -f1)
             lyr_ts=`echo $lyr_prnt_ts | sed 's/^0*//'`
             # Check that last file is a december file (for a full year)
             if [ "$last_file" != "$pathdat/${file_head}${lyr_prnt_ts}-12.nc" ]; then
-		let "lyr_ts = $lyr_ts - 1"
+        let "lyr_ts = $lyr_ts - 1"
             fi
             if [ $fyr_ts -eq $lyr_ts ]; then
                 echo "ERROR: first and last year in $casename are identical: cannot compute trends"
                 echo "*** EXITING THE SCRIPT ***"
                 exit 1
             fi
-	fi
-	echo "fyr_ts = $fyr_ts"
-	echo "lyr_ts = $lyr_ts"
+    fi
+    echo "fyr_ts = $fyr_ts"
+    echo "lyr_ts = $lyr_ts"
     fi
     fyr_prnt_ts=`printf "%04d" ${fyr_ts}`
     lyr_prnt_ts=`printf "%04d" ${lyr_ts}`    
     TEST_FILE=$climo_ts_dir/${casename}_ANN_${fyr_prnt_ts}-${lyr_prnt_ts}_ts.nc
     if [ ! -f $TEST_FILE ]; then
-	echo $required_vars_ts > $procdir/required_vars
-	$diag_shared/check_history_vars.sh $casename $fyr_ts $lyr_ts $pathdat $model $procdir ts
-	if [ -f $procdir/vars_ts_${model} ]; then
-	    $diag_shared/compute_ann_time_series.sh $casename $fyr_ts $lyr_ts $pathdat $climo_ts_dir $procdir
-	fi
+    echo $required_vars_ts > $procdir/required_vars
+    $diag_shared/check_history_vars.sh $casename $fyr_ts $lyr_ts $pathdat $model $procdir ts
+    if [ -f $procdir/vars_ts_${model} ]; then
+        $diag_shared/compute_ann_time_series.sh $casename $fyr_ts $lyr_ts $pathdat $climo_ts_dir $procdir
+    fi
     else
-	echo "TIME-SERIES FILE ALREADY EXISTS: SKIPPING $model TIME-SERIES COMPUTATION."
+    echo "TIME-SERIES FILE ALREADY EXISTS: SKIPPING $model TIME-SERIES COMPUTATION."
     fi
     let "nyrs_ts = $lyr_ts - fyr_ts + 1"
     echo $fyr_ts > $procdir/fyr_ts
