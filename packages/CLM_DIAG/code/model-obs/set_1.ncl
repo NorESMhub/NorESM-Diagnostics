@@ -79,8 +79,8 @@ begin
   landfrac   = in->landfrac
   time       = in->time
   area       = in->area
-  lat        = in->lat 
-  lon        = in->lon 
+; lat        = in->lat 
+; lon        = in->lon 
   if(nyrs .ne. dimsizes(time)) then
 	print("   ")
 	print("   ")
@@ -247,12 +247,12 @@ begin
         res@pmLegendDisplayMode    = "Never"
         res@vpHeightF              = 0.4
         res@vpWidthF               = 0.8
-        if(isfilevar(in,"levsoi")) then
-        	lev = in->levsoi
-        end if
-        if(isfilevar(in,"levgrnd")) then
-        	lev = in->levgrnd
-        end if
+;       if(isfilevar(in,"levsoi")) then
+;           lev = in->levsoi
+;       end if
+;       if(isfilevar(in,"levgrnd")) then
+;           lev = in->levgrnd
+;       end if
         do k=0,nlev-1
           res@tiXAxisOn              = False
           res@gsnCenterString          = "Layer " + (k+1)

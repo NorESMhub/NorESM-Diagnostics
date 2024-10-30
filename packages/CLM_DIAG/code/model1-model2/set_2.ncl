@@ -187,6 +187,10 @@ begin
      if (paleo .eq. 1) then
         flandmask = 0
         landfrac = in1->landfrac(:,:)
+        if (landfrac&lon .lt.0 ) then
+          landfrac  = lonFlip(landfrac)
+          lon1  = landfrac&lon
+        end if
         oro = new((/nlat1,nlon1/),integer)
         oro = 1
         oro@_FillValue = 0
@@ -245,11 +249,11 @@ begin
            if (c13Flag(i) .eq. "C13_") then
               x1  = derive_del13C(vars(i),in1, scale_type(i),0,2)
               x11 = new((/dof_1,nlat1,nlon1/),float) ; derive_del13C(vars(i),in11,scale_type(i),0,2)
-	      x11(:,:,:) = 0.0
+              x11(:,:,:) = 0.0
            else
-              x1  = in1 ->$filevar$
+              x1  = in1->$filevar$
               x11 = new((/dof_1,nlat1,nlon1/),float) ; in11->$filevar$
-     	      x11(:,:,:) = 0.0
+              x11(:,:,:) = 0.0
               plot_check_1  = True
               plot_check_11 = True
               delete(filevar)
@@ -258,13 +262,17 @@ begin
            if (info@derivedVariable .eq. True) then
               x1  = derive_land(vars(i),in1)
               x11 = new((/dof_1,nlat1,nlon1/),float) ; derive_land(vars(i),in11)
-      	      x11(:,:,:) = 0.0
+              x11(:,:,:) = 0.0
            else
               print("variable "+ vars(i)+ " is not a defined variable.")
               plot_check_1  = False
               plot_check_11 = False
               continue
            end if
+        end if
+        if (min(x1&lon) .lt. 0 ) then
+          x1    = lonFlip(x1)
+          lon1  = x1&lon
         end if
 
         info    = var_init(vars(i))   ; read in case 2 variable
@@ -284,11 +292,11 @@ begin
            if (c13Flag(i) .eq. "C13_") then
               x2  = derive_del13C(vars(i),in2, scale_type(i),0,2)
               x22 = new((/dof_2,nlat2,nlon2/),float) ; derive_del13C(vars(i),in22,scale_type(i),0,2)
-	      x22(:,:,:) = 0.0
+              x22(:,:,:) = 0.0
            else
-              x2  = in2 ->$filevar$
+              x2  = in2->$filevar$
               x22 = new((/dof_2,nlat2,nlon2/),float) ; in22->$filevar$
-	      x22(:,:,:) = 0.0
+              x22(:,:,:) = 0.0
               plot_check_2  = True
               plot_check_22 = True
               delete(filevar)
@@ -297,13 +305,17 @@ begin
            if (info@derivedVariable .eq. True) then
               x2  = derive_land(vars(i),in2)
               x22 = new((/dof_2,nlat2,nlon2/),float) ; derive_land(vars(i),in22)
-	      x22(:,:,:) = 0.0
+              x22(:,:,:) = 0.0
            else
               print("variable "+ vars(i)+ " is not a defined variable.")
               plot_check_2  = False
               plot_check_22 = False
               continue
            end if
+        end if
+        if (min(x2&lon) .lt. 0 ) then
+          x2    = lonFlip(x2)
+          lon2  = x2&lon
         end if
 
         obsFlag = 0                                  ; read in observations (if present) (1 = on; 0 = off)
@@ -510,18 +522,18 @@ begin
            x11      = scale_var(x11,scale_type(i),info)
            x2       = scale_var(x2, scale_type(i),info)
            x22      = scale_var(x22,scale_type(i),info)
-  	   if (typeof(x1).eq."double") then
-	      tmp2345 = x1
-	      delete(x1)
-	      x1 = dble2flt(tmp2345)
-	      delete(tmp2345)
-	   end if
-	   if (typeof(x2).eq."double") then
-	      tmp2345 = x2
-	      delete(x2)
-	      x2 = dble2flt(tmp2345)
-     	      delete(tmp2345)
-	   end if
+           if (typeof(x1).eq."double") then
+             tmp2345 = x1
+             delete(x1)
+             x1 = dble2flt(tmp2345)
+             delete(tmp2345)
+           end if
+           if (typeof(x2).eq."double") then
+             tmp2345 = x2
+             delete(x2)
+             x2 = dble2flt(tmp2345)
+             delete(tmp2345)
+           end if
 ; flip longitudes to -180 to 180 if needed 
            if (min(x2&lon) .ge. 0 .and. min(x1&lon) .lt. 0) then
               x2  = lonFlip(x2)
@@ -665,7 +677,7 @@ begin
               end if
 
               if (vars(i).eq."SNOWDP") then
-	         expFlag = True
+                expFlag = True
               end if
 
               res  = True
@@ -879,9 +891,9 @@ begin
                  diff = var_avg_1_intp ; trick to maintain meta data
                  if (typeof(var_avg_3_intp).eq."double") then
                    diff = var_avg_2_intp - doubletofloat(var_avg_3_intp)
-		 else
+                 else
                    diff = var_avg_2_intp - var_avg_3_intp
-		 end if
+                 end if
                  res@tiMainString     = cases(1)
                  res@gsnCenterString = "- Observations"
                  mindiff = min(diff)
@@ -1020,10 +1032,10 @@ begin
                  if (typeof(var_avg_3_intp).eq."double") then
                    diff13 = abs(var_avg_1_intp - doubletofloat(var_avg_3_intp))
                    diff23 = abs(var_avg_2_intp - doubletofloat(var_avg_3_intp))
-		 else
+                 else
                    diff13 = abs(var_avg_1_intp - var_avg_3_intp)
                    diff23 = abs(var_avg_2_intp - var_avg_3_intp)
-		 end if
+                 end if
                  delete(var_avg_3_intp)
                  copy_VarCoords(prob,diff13)
                  copy_VarCoords(prob,diff23)
