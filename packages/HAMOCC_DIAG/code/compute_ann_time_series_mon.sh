@@ -4,8 +4,6 @@ script_start=`date +%s`
 #
 # HAMOCC DIAGNOSTICS package: compute_ann_time_series_mon.sh
 # PURPOSE: computes annual from monthly history files
-# Johan Liakka, NERSC, johan.liakka@nersc.no
-# Last update Mar 2018
 
 # Input arguments:
 #  $casename  name of experiment
@@ -40,8 +38,12 @@ ann_ts_file_others=${casename}_ANN_${first_yr_prnt}-${last_yr_prnt}_ts_mon_other
 ann_ts_file_pp=${casename}_ANN_${first_yr_prnt}-${last_yr_prnt}_ts_mon_pp.nc
 
 # Determine file tag
-filetag=$(find $pathdat \( -name "${casename}.blom.*" -or -name "${casename}.micom.*" \) -print -quit | \
-                head -1 |awk -F/ '{print $NF}' |cut -d. -f2)
+for ocn in blom micom
+do
+    ls $pathdat/${casename}.${ocn}.*.${first_yr_prnt}*.nc >/dev/null 2>&1
+    [ $? -eq 0 ] && filetag=$ocn && break
+done
+[ -z $filetag ] && echo "** NO ocean data found, EXIT ... **" && exit 1
 
 if [ -z $PGRIDPATH ]; then
     grid_file=$DIAG_GRID/$(cat $WKDIR/attributes/grid_${casename})/grid.nc

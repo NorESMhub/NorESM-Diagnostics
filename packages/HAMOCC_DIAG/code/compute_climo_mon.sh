@@ -4,8 +4,6 @@ script_start=$(date +%s)
 #
 # HAMOCC DIAGNOSTICS package: compute_climo_mon.sh
 # PURPOSE: computes climatology from annual or monthly history files
-# Johan Liakka, NERSC, johan.liakka@nersc.no
-# Last update Mar 2018
 
 # Input arguments:
 #  $casename  name of experiment
@@ -38,8 +36,12 @@ last_yr_prnt=$(printf "%04d" ${last_yr})
 mon_avg_file=${climodir}/${casename}_MON_${first_yr_prnt}-${last_yr_prnt}_climo.nc
 
 # Determine file tag
-filetag=$(find $pathdat \( -name "${casename}.blom.*" -or -name "${casename}.micom.*" \) -print -quit | \
-                head -1 |awk -F/ '{print $NF}' |cut -d. -f2)
+for ocn in blom micom
+do
+    ls $pathdat/${casename}.${ocn}.*.${first_yr_prnt}*.nc >/dev/null 2>&1
+    [ $? -eq 0 ] && filetag=$ocn && break
+done
+[ -z $filetag ] && echo "** NO ocean data found, EXIT ... **" && exit 1
 
 pid=()
 mon_avg_files=()
