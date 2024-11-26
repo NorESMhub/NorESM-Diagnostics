@@ -213,9 +213,13 @@ do i = 0, nvars-1
             print("Warning: first yr in case2 time series is different from case1.")
             print("Shifting case2 time axis to that of case1.")
          end if
+
+         YMinF                          = min(data(0:1,:))
+         YMaxF                          = max(data(0:1,:))
+         res@trYMinF                    = YMinF
+         res@trYMaxF                    = YMaxF
          res@trXMinF                    = fyr1
          res@trXMaxF                    = eyr1_tot
-
          res@tmXBMajorLineColor         = "blue"
          res@tmXBMinorLineColor         = "blue"
          res@tmXBLabelFontColor         = "blue"
