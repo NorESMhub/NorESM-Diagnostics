@@ -620,21 +620,21 @@ do nr=0,nregions-1
 
           res@trYMinF = min((/min(y1),min(y1b)/))
           res@trYMaxF = max((/max(y1),max(y1b)/))
-          resb@trYMinF = min((/min(y1),min(y1b)/))
-          resb@trYMaxF = max((/max(y1),max(y1b)/))
+          resb@trYMinF = res@trYMinF
+          resb@trYMaxF = res@trYMaxF
 
           plot1 = gsn_csm_x2y2(wks1,x1,x2,y1,y1b,res,resb)
           res@gsnRightString = " "
           res@gsnLeftString = " "
           res@trYMinF = min((/min(y2),min(y2b)/))
           res@trYMaxF = max((/max(y2),max(y2b)/))
-          resb@trYMinF = min((/min(y2),min(y2b)/))
-          resb@trYMaxF = max((/max(y2),max(y2b)/))
+          resb@trYMinF = res@trYMinF
+          resb@trYMaxF = res@trYMaxF
           plot2 = gsn_csm_x2y2(wks1,x1,x2,y2,y2b,res,resb)
           res@trYMinF = min((/min(y3),min(y3b)/))
           res@trYMaxF = max((/max(y3),max(y3b)/))
-          resb@trYMinF = min((/min(y3),min(y3b)/))
-          resb@trYMaxF = max((/max(y3),max(y3b)/))
+          resb@trYMinF = res@trYMinF
+          resb@trYMaxF = res@trYMaxF
           plot3 = gsn_csm_x2y2(wks1,x1,x2,y3,y3b,res,resb)
       else
           res@trXMinF   = min((/min(x1),min(x1)/))
@@ -643,23 +643,23 @@ do nr=0,nregions-1
           resb@trXMaxF  = max((/max(x2),max(x2)/))
           res@trYMinF   = min((/min(y1),min(y1b)/))
           res@trYMaxF   = max((/max(y1),max(y1b)/))
-          resb@trYMinF  = min((/min(y1),min(y1b)/))
-          resb@trYMaxF  = max((/max(y1),max(y1b)/))
+          resb@trYMinF  = res@trYMinF
+          resb@trYMaxF  = res@trYMaxF
           plot1 = gsn_csm_xy(wks1,x1,y1,res)
           plot1b = gsn_csm_xy(wks1,x2,y1b,resb)
           overlay(plot1,plot1b)
   
           res@trYMinF   = min((/min(y2),min(y2b)/))
           res@trYMaxF   = max((/max(y2),max(y2b)/))
-          resb@trYMinF  = min((/min(y2),min(y2b)/))
-          resb@trYMaxF  = max((/max(y2),max(y2b)/))
+          resb@trYMinF  = res@trYMinF
+          resb@trYMaxF  = res@trYMaxF
           plot2 = gsn_csm_xy(wks1,x1, y2,res)
           plot2b = gsn_csm_xy(wks1,x2, y2b,resb)
           overlay(plot2,plot2b)
           res@trYMinF   = min((/min(y3),min(y3b)/))
           res@trYMaxF   = max((/max(y3),max(y3b)/))
-          resb@trYMinF  = min((/min(y3),min(y3b)/))
-          resb@trYMaxF  = max((/max(y3),max(y3b)/))
+          resb@trYMinF  = res@trYMinF
+          resb@trYMaxF  = res@trYMaxF
           plot3 = gsn_csm_xy(wks1,x1,y3 ,res)
           plot3b = gsn_csm_xy(wks1,x2,y3b,resb)
           overlay(plot3,plot3b)
