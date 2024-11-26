@@ -4,38 +4,56 @@
 ## default values
 DIAG_PATH=/cluster/work/users/$USER/diagnostics/out
 LOG_PATH=/cluster/work/users/$USER/diagnostics/logs
-WEB_PATH=/nird/projects/NS2345K/www/diagnostics/noresm/$USER
+WEB_PATH=/nird/datalake/NS9560K/www/diagnostics/noresm/$USER
 
 if [ $# -eq 0 ] || [ $1 == "-h" ]; then
-    echo " "
-    echo "Short description:"
-    echo "A wrapper script for submitting a preproc job on Betzy for the NorESM diagnostic packages."
-    echo " "
-    echo "Extra command-line options (see additional options with diag_run -h):"
-    echo "  --account=nsxxxxk                             : (OPTIONAL) Project account for CPU hours (default ns2345k)."
-    echo "  --time=DD-HH:MM:SS                            : (OPTIONAL) CPU walltime (default value will be automatically calculated based on the length of years and active components)."
-    echo "  --remove-source-files-flag=true|false         : (OPTIONAL) Flag if the source file will be removed after the webpage is moved from Betzy /cluster to NIRD /project* (default as false)."
-    echo " "
-    echo "Examples:"
-    echo " "
-    echo "1. Use default settings"
-    echo "\$ ./diag_srun -m blom -c test_case_name -s 1 -e 10"
-    echo " "
-    echo "2. Set CPU account and hours"
-    echo "\$ ./diag_srun -m blom -c test_case_name -s 1 -e 10 --account=nn2345k --time=0-00:59:00"
-    echo " "
-    echo "3. Set input data, output data, and webpage path to /cluster on Betzy (the same as default values)"
-    echo "\$ ./diag_srun -m blom -c NOICPLHISTOC_f09_tn14_cpldiags -s 1 -e 20 -i /cluster/work/users/$USER/archive -o /cluster/work/users/$USER/diagnostics/out -w /cluster/work/users/$USER/diagnostics/www"
-    echo " "
-    echo "4. Set input data, output data on Betzy, and webpage path on NIRD"
-    echo "\$ ./diag_srun -m blom -c NOICPLHISTOC_f09_tn14_cpldiags -s 1 -e 20 -w /nird/projects/NS2345K/www/diagnostics/noresm/$USER/ --account=nn2345k --time=0-00:59:00"
-    echo " "
-    echo "5. Remove source webpage files from Betzy after transferred to NIRD"
-    echo "\$ ./diag_srun -m blom -c NOICPLHISTOC_f09_tn14_cpldiags -s 1 -e 20 -w /nird/projects/NS2345K/www/diagnostics/noresm/$USER/ --remove-source-files-flag=true"
-    echo " "
-    echo "See more help:"
-    echo "/cluster/shared/noresm/diagnostics/noresm/bin/diag_run -h "
-    echo "                      "
+    echo -e 
+    echo -e "\e[1;32m*** Help information for 'diag_srun' ***\e[0m"
+    echo -e 
+    echo -e "\e[1mShort Description:\e[0m"
+    echo -e "  A wrapper script for submitting a preprocessing job on Betzy for the NorESM diagnostic packages."
+    echo -e ""
+    echo -e "\e[1mCommand-Line Options (in addition to options as shown with diag_run -h):\e[0m"
+    echo -e "  \e[1;33m--account=<project_account>\e[0m (OPTIONAL)"
+    echo -e "      Specify the project account for CPU hours."
+    echo -e "      \e[1;34mDefault:\e[0m ns9560k"
+    echo -e ""
+    echo -e "  \e[1;33m--time=<DD-HH:MM:SS>\e[0m (OPTIONAL)"
+    echo -e "      Specify CPU walltime."
+    echo -e "      \e[1;34mDefault:\e[0m Automatically calculated based on the length of years and active components."
+    echo -e ""
+    echo -e "  \e[1;33m--remove-source-files-flag=true|false\e[0m (OPTIONAL)"
+    echo -e "      Set whether source files should be removed after transferring the webpage from Betzy (/cluster) to NIRD (/nird)."
+    echo -e "      \e[1;34mDefault:\e[0m false"
+    echo -e ""
+    echo -e "\e[1mExamples:\e[0m"
+    echo -e ""
+    echo -e "  1. \e[1mUse Default Settings:\e[0m"
+    echo -e "     \e[1;36m$ ./diag_srun -m blom -c test_case_name -s 1 -e 10\e[0m"
+    echo -e ""
+    echo -e "  2. \e[1mSet CPU Account and Walltime:\e[0m"
+    echo -e "     \e[1;36m$ ./diag_srun -m blom -c test_case_name -s 1 -e 10 --account=nn9560k --time=0-00:59:00\e[0m"
+    echo -e ""
+    echo -e "  3. \e[1mSpecify Input, Output, and Webpage Paths (Default Values):\e[0m"
+    echo -e "     \e[1;36m$ ./diag_srun -m blom -c test_case_name -s 1 -e 20 \e[0m"
+    echo -e "     \e[1;36m    -i /cluster/work/users/$USER/archive \ \e[0m"
+    echo -e "     \e[1;36m    -o /cluster/work/users/$USER/diagnostics/out \ \e[0m"
+    echo -e "     \e[1;36m    -w /cluster/work/users/$USER/diagnostics/www\e[0m"
+    echo -e ""
+    echo -e "  4. \e[1mSet Output Data on Betzy and Webpage Path on NIRD:\e[0m"
+    echo -e "     \e[1;36m$ ./diag_srun -m blom -c test_case_name -s 1 -e 20 \ \e[0m"
+    echo -e "     \e[1;36m    -w /nird/datalake/NS9560K/www/diagnostics/noresm/$USER/ \ \e[0m"
+    echo -e "     \e[1;36m    --account=nn9560k --time=0-00:59:00\e[0m"
+    echo -e ""
+    echo -e "  5. \e[1mRemove Source Files After Transfer to NIRD:\e[0m"
+    echo -e "     \e[1;36m$ ./diag_srun -m blom -c test_case_name -s 1 -e 20 \ \e[0m"
+    echo -e "     \e[1;36m    -w /nird/datalake/NS9560K/www/diagnostics/noresm/$USER/ \ \e[0m"
+    echo -e "     \e[1;36m    --remove-source-files-flag=true\e[0m"
+    echo -e ""
+    echo -e "\e[1mAdditional Help:\e[0m"
+    echo -e "  For more command options, run:"
+    echo -e "  \e[1;36m/cluster/shared/noresm/diagnostics/noresm/bin/diag_run -h\e[0m"
+    echo -e 
     exit 1
 else
     ARG=$@
@@ -257,7 +275,7 @@ if [ ! $(echo $DIAG_PATH |grep '\/cluster\/') ]; then
 else
     [ ! -d $DIAG_PATH ] && mkdir -p $DIAG_PATH
 fi
-if [ $(echo $WEB_PATH |grep -P '\/nird\/projects\/') ]; then
+if [ $(echo $WEB_PATH |grep -P '\/nird\/projects\/|\/nird\/datalake\/') ]; then
     echo " "
     echo "**  **  **"
     echo "WARNING: WEB_PATH is set to nird: $WEB_PATH"
@@ -273,10 +291,10 @@ fi
 if [ -z $ACCOUNT ]; then
     echo "**  **  **"
     echo "WARNING: CPU account is not specificed"
-    echo "Set default to #SBATCH --account=nn2345k"
+    echo "Set default to #SBATCH --account=nn9560k"
     echo "**  **  **"
     echo " "
-    ACCOUNT='nn2345k'
+    ACCOUNT='nn9560k'
 fi
 if [ -z $TIME ]; then
     TIME=$(getwt)
@@ -291,7 +309,7 @@ if [ ! -d $LOG_PATH ]; then
 fi
 
 ## Remove and restore arguments passing to diag_run
-ARG=$(echo $ARG |sed 's/--time=\S*//g' |sed 's/--account=\S*//g')
+ARG=$(echo $ARG |sed 's/--time=\S*//g' |sed 's/--account=\S*//g'|sed 's/--remove-source-files-flag=\S*//g')
 [ ! -z $WEB_PATH0 ] && ARG=$(echo $ARG |sed "s% *-w \S.* *% -w $WEB_PATH %" |sed "s% *--web-dir=\S.* *% --web-dir=$WEB_PATH %")
 
 YMD=$(date +%y%m%d)
@@ -352,10 +370,10 @@ done
 echo "Done!"
 echo ""
 
-if [ $(echo $WEB_PATH0 |grep -P '\/nird\/projects\/') ]; then
+if [ $(echo $WEB_PATH0 |grep -P '\/nird\/projects\/|\/nird\/datalake\/') ]; then
     PROJECT=$(echo $WEB_PATH0 |cut -d"/" -f4 |tr [:upper:] [:lower:])
     if [ ! $(echo $PROJECT |grep -P -i '^ns\d{4}.*k$') ];then
-        echo "** ERROR: \$WEB_PATH: $WEB_PATH0 must start with /nird/projects/NSxxxxK/ **"
+        echo "** ERROR: \$WEB_PATH: $WEB_PATH0 must start with /nird/projects/NSxxxxK/ or /nird/datalake/NSxxxxK/ **"
         echo "*** EXITING THE SCRIPT ***"
         exit 1
     fi
@@ -368,7 +386,9 @@ if [ $(echo $WEB_PATH0 |grep -P '\/nird\/projects\/') ]; then
         #echo "(NB, the source files: $WEB_PATH/$CASE1)"
         #echo "(will be removed after they are synchronized)"
         #echo "(** BE CAUTIOUS WITH THE RISK ** )"
-        rsync -vazu --chown=$USER:$PROJECT --remove-source-files $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
+        # ! change ownership and permission is not working
+        #rsync -vazu --chown=$USER:$PROJECT --remove-source-files $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
+        rsync -vazu --remove-source-files $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
         wait
         if [ $? -eq 0 ]
         then
@@ -382,7 +402,8 @@ if [ $(echo $WEB_PATH0 |grep -P '\/nird\/projects\/') ]; then
         fi
     else
         echo " "
-        rsync -vazu --chown=$USER:$PROJECT $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
+        #rsync -vazu --chown=$USER:$PROJECT $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
+        rsync -vazu $WEB_PATH/$CASE1/ $WEB_PATH0/$CASE1/ &>${LOG_PATH}/rsync-${YMD}-${HMS}.log &
         wait
         if [ $? -ne 0 ]
         then
