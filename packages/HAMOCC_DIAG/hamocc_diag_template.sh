@@ -19,12 +19,14 @@ elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
     export NCARG_ROOT=$EBROOTNCL
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
 elif [ "$(echo $HOST |grep 'betzy')" ]; then
-     module -q purge
-     module -q load NCO/4.9.3-intel-2019b
-     module -q load CDO/1.9.8-intel-2019b
-     module -q load NCL/6.6.2-intel-2019b
-     module unload HDF/4.2.14-GCCcore-8.3.0
-     module -q load ImageMagick/7.1.0-4-GCCcore-11.2.0
+    module use /cluster/shared/noresm/ncl_mods/modules/all
+    module use /cluster/shared/noresm/diagnostics/easybuild/modules/all
+    module -q purge
+    module -q load NCO/5.1.3-foss-2022a
+    module -q load CDO/2.0.6-gompi-2022a
+    module -q load NCL/6.6.2-foss-2022a
+    module unload HDF/4.2.15-GCCcore-11.3.0
+    module -q load ImageMagick/7.1.0-37-GCCcore-11.3.0
 else
     echo "** UNKNOWN HOST $HOST **"
     echo "** EXIT                   **"
