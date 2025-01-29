@@ -319,7 +319,7 @@ if ($use_swift == 0) then
     set PROCDIR_ATM = $PROCDIR_ATM_vec[$m]
     $DIAG_SHARED/climo_time_series.sh $caseid $clim_first_yr $clim_last_yr $trends_first_yr $trends_last_yr $trends_all_flag \
                                       $SOURCE $compute_climo_clm $compute_climo_cam $compute_ts $prefix_dir $prefix_atm_dir \
-                                      $PROCDIR $PROCDIR_ATM $DIAG_SHARED
+                                      $PROCDIR $PROCDIR_ATM $DIAG_SHARED $m
     @ m++
   end
   # update time-series years

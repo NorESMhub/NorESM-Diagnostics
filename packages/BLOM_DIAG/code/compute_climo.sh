@@ -212,7 +212,7 @@ if [ $filetype == hm ]; then
             exit 1
         fi
     done
-    rm $climodir/var_tmp.nc
+    [ -f $climodir/var_tmp.nc ] && rm $climodir/var_tmp.nc
 fi
 
 script_end=`date +%s`

@@ -22,6 +22,7 @@
 #  $procdir_lnd       work directory (clm)
 #  $procdir_atm       work directory (cam)
 #  $diag_shared       script directory
+#  $m                 the number of case, 1 or 2
 
 casename=$1
 fyr_climo=$2
@@ -38,6 +39,7 @@ climo_dir_atm=${12}
 procdir_lnd=${13}
 procdir_atm=${14}
 diag_shared=${15}
+m=${16}
 
 echo " "
 echo "-----------------------"
@@ -238,9 +240,9 @@ if [ $c_ts -eq 1 ]; then
     let "nyrs_ts = $lyr_ts - fyr_ts + 1"
     echo $fyr_ts > $procdir/fyr_ts
     echo $nyrs_ts > $procdir/nyrs_ts
-    if [ -L $climo_ts_dir/${casename}_ANN_ALL.nc ]; then
-        rm $climo_ts_dir/${casename}_ANN_ALL.nc
+    if [ -L $climo_ts_dir/${casename}_ANN_ALL${m}.nc ]; then
+        rm $climo_ts_dir/${casename}_ANN_ALL${m}.nc
     fi
-    ln -s $climo_ts_dir/${casename}_ANN_${fyr_prnt_ts}-${lyr_prnt_ts}_ts.nc $climo_ts_dir/${casename}_ANN_ALL.nc
+    ln -s $climo_ts_dir/${casename}_ANN_${fyr_prnt_ts}-${lyr_prnt_ts}_ts.nc $climo_ts_dir/${casename}_ANN_ALL${m}.nc
 fi
 

@@ -336,8 +336,8 @@ nplots = 12
   cases(1)  = "  "+getenv(name2)
   prefix(0)  = getenv(name11)
   prefix(1)  = getenv(name22)
-  in1       = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL.nc","r")
-  in2       = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL.nc","r")
+  in1       = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL1.nc","r")
+  in2       = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL2.nc","r")
   nlev1 = 0
   nlev2 = 0
   if(isfilevar(in1,"levsoi")) then

@@ -241,7 +241,6 @@ begin
 
 
     do nv=0,nvar_in-1
-       print(var_in(nv))
        if (.not.any(var_in(nv).eq.var_in_exclude)) then
               if (any(var_in(nv).eq.var_in_copy)) then
                rgrd_nc->$var_in(nv)$ = sfile->$var_in(nv)$
