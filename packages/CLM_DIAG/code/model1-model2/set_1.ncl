@@ -81,14 +81,14 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
   name2      = "prefix_"+2
   prefix1  = getenv(name1)
   prefix2  = getenv(name2)
-  filo1  = ptmpdir +"/"+prefix1+"/"+prefix1+"_ANN_globalClimo.nc"
-  filo2  = ptmpdir +"/"+prefix2+"/"+prefix2+"_ANN_globalClimo.nc"
+  filo1  = ptmpdir +"/"+prefix1+"/"+prefix1+"_ANN_globalClimo1.nc"
+  filo2  = ptmpdir +"/"+prefix2+"/"+prefix2+"_ANN_globalClimo2.nc"
   system("/bin/rm -f " + filo1)
   system("/bin/rm -f " + filo2)
-  delete(filo1)
-  delete(filo2)
-  fout1 = addfile(ptmpdir+"/"+prefix1+"/"+prefix1+"_ANN_globalClimo.nc","c")
-  fout2 = addfile(ptmpdir+"/"+prefix2+"/"+prefix2+"_ANN_globalClimo.nc","c")
+  ;delete(filo1)
+  ;delete(filo2)
+  fout1 = addfile(filo1,"c")
+  fout2 = addfile(filo2,"c")
 
   fileAtt               = True
   fileAtt@history       = "global climatology calculated by set_1.ncl:global_values():lnd_func.ncl"
@@ -110,8 +110,8 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
     name2      = "prefix_"+(m+1)
     prefix(m)  = getenv(name2)
   end do
-  in1    = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL.nc","r")
-  in2    = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL.nc","r")
+  in1    = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL1.nc","r")
+  in2    = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL2.nc","r")
   landfrac1 = in1->landfrac
   area1     = in1->area
   time1     = in1->time

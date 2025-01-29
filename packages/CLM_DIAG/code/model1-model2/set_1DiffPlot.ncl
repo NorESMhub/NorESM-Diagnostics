@@ -96,8 +96,8 @@ trendsFlag = stringtointeger(getenv("trends_match_Flag"))
     name2      = "prefix_"+(m+1)
     prefix(m)  = getenv(name2)
   end do
-  in1    = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL.nc","r")
-  in2    = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL.nc","r")
+  in1    = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_ANN_ALL1.nc","r")
+  in2    = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_ANN_ALL2.nc","r")
   landfrac1 = in1->landfrac
   area1     = in1->area
   time1     = in1->time

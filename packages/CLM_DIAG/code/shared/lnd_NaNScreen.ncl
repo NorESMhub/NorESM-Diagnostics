@@ -16,7 +16,7 @@ begin
 
   name1      = "prefix_1"
   prefix1    = getenv(name1)
-  in         = addfile(ptmpdir+"/"+prefix1+"/"+prefix1+"_ANN_ALL.nc","r")
+  in         = addfile(ptmpdir+"/"+prefix1+"/"+prefix1+"_ANN_ALL1.nc","r")
   vars       = getfilevarnames (in)
   nvars      = dimsizes(vars)
   do i=0,nvars-1
@@ -63,7 +63,7 @@ begin
   if (runtype .eq. "model1-model2") then
   	name2    = "prefix_2"
   	prefix2  = getenv(name2)
-  	in       = addfile(ptmpdir+"/"+prefix2+"/"+prefix2+"_ANN_ALL.nc","r")
+  	in       = addfile(ptmpdir+"/"+prefix2+"/"+prefix2+"_ANN_ALL2.nc","r")
   	vars     = getfilevarnames (in)
   	nvars    = dimsizes(vars)
   	do i=0,nvars-1

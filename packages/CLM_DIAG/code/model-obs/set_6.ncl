@@ -268,7 +268,7 @@ print("Now printing plot #" + p)
   cases(0)  = getenv(name1)
   cases(1)  = "No Obs"
   prefix1   = getenv(name11)
-  in1       = addfile(ptmpdir + "/" + prefix1 + "/" + prefix1 +"_ANN_ALL.nc","r")
+  in1       = addfile(ptmpdir + "/" + prefix1 + "/" + prefix1 +"_ANN_ALL1.nc","r")
   nlev1 = 0
   if(isfilevar(in1,"levsoi")) then
   	nlev1  = getfilevardimsizes(in1,"levsoi")

@@ -59,7 +59,7 @@ begin
   filedimdef(fout1,dimNames,dimSizes,dimUnlim)
   name11     = "prefix_1"
   prefix     = getenv(name11)
-  in         = addfile(ptmpdir+ "/" +prefix+"/"+prefix+"_ANN_ALL.nc","r")
+  in         = addfile(ptmpdir+ "/" +prefix+"/"+prefix+"_ANN_ALL1.nc","r")
   nlev = 0
   if(isfilevar(in,"levsoi")) then
   	nlev  = getfilevardimsizes(in,"levsoi")
