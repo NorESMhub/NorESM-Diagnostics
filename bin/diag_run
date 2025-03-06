@@ -81,6 +81,7 @@ if [ $# -eq 0 ] || [ $1 == "-h" ]; then
     echo "                                               Valid arguments:"
     echo "                                                 cam    : atmospheric package (AMWG)"
     echo "                                                 clm    : land package (LMWG)"
+    echo "                                                 ctsm   : land package (for NorESM2.5 with CTSM/Fates)"
     echo "                                                 cice   : sea-ice package"
     echo "                                                 cism   : land-ice package"
     echo "                                                 blom   : ocean package"

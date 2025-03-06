@@ -23,8 +23,8 @@ echo "Searching for annual history files..."
 # Determine file tag
 for ocn in blom micom
 do
-    ls $pathdat/${casename}.${ocn}.*.${first_yr_prnt}*.nc >/dev/null 2>&1
-    [ $? -eq 0 ] && filetag=$ocn && break
+    nmatch=$(find $pathdat -name "${casename}.${ocn}.*.nc" -print -quit 2>/dev/null |wc -l)
+    [ $nmatch -ge 1 ] && filetag=$ocn && break
 done
 [ -z $filetag ] && echo "** NO ocean data found, EXIT ... **" && exit 1
 

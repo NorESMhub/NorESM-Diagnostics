@@ -15,6 +15,7 @@ if [ $COMPARE == USER ]; then
     cinfo=2models
 fi
 #
+echo $NCDUMP
 nreg=$($NCDUMP -v region $INFILE1 |grep 'region = ' |sed 's/[^0-9]//g')
 #nreg=${nreg:0:1}
 
