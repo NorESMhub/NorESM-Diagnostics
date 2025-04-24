@@ -15,12 +15,12 @@ if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
     setenv UDUNITS2_XML_PATH /diagnostics/toolkit/share/udunits/udunits2.xml
 else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
     module purge
-    module load CDO/1.9.8-intel-2019b
-    module load NCL/6.6.2-intel-2019b
-    module load NCO/4.9.3-intel-2019b
-    module load UDUNITS/2.2.26-GCCcore-8.3.0
+    module load CDO/2.0.6-gompi-2022a
+    #module load NCL/6.6.2-intel-2019b
+    module load NCO/5.1.3-foss-2022a
+    module load UDUNITS/2.2.28-GCCcore-11.3.0
     #module load ImageMagick/7.0.9-5-GCCcore-8.3.0
-    export NCARG_ROOT=$EBROOTNCL
+    export NCARG_ROOT=/usr
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`

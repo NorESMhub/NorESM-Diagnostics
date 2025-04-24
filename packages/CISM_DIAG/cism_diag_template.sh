@@ -12,11 +12,11 @@ if [ "$(echo $HOST |grep 'ipcc.nird')" ];then
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
     export PATH=/diagnostics/miniforge3/bin:/diagnostics/toolkit/bin:/usr/bin
 elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
-    module load CDO/1.9.8-intel-2019b
-    module load NCL/6.6.2-intel-2019b
-    module load NCO/4.9.3-intel-2019b
+    module load CDO/2.0.6-gompi-2022a
+    #module load NCL/6.6.2-intel-2019b
+    module load NCO/NCO/5.1.3-foss-2022a
     #module load ImageMagick/7.0.9-5-GCCcore-8.3.0
-    export NCARG_ROOT=$EBROOTNCL
+    export NCARG_ROOT=/usr
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
 elif [ "$(echo $HOST |grep 'betzy')" ]; then
     module use /cluster/shared/noresm/ncl_mods/modules/all
