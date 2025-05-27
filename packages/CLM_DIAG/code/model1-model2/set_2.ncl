@@ -28,8 +28,15 @@ begin
 
   flandmask = stringtofloat(land_mask)
 
+  fyr1  = stringtointeger(getenv("clim_first_yr_1"))
+  fyr2  = stringtointeger(getenv("clim_first_yr_2"))
   nyrs1 = stringtointeger(getenv("clim_num_yrs_1"))
   nyrs2 = stringtointeger(getenv("clim_num_yrs_2"))
+
+  fyr1s  = sprinti("%04d", fyr1)
+  fyr2s  = sprinti("%04d", fyr2)
+  lyr1s  = sprinti("%0.4d", fyr1 + nyrs1 -1)
+  lyr2s  = sprinti("%0.4d", fyr2 + nyrs2 -1)
 
 ;**************************************************************************
 ; Cut off top and bottom percent to tighten contour intervals.  12/06 nanr
@@ -94,8 +101,8 @@ begin
 
   do n = 0,dimsizes(seasons)-1
      print("Processing season " + seasons(n))
-     in1  = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_"+seasons(n)+"_climo.nc","r")        ; used for first 3 plots
-     in2  = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_"+seasons(n)+"_climo.nc","r")        ; used for first 3 plots
+     in1  = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_"+seasons(n)+"_"+fyr1s+"-"+lyr1s+"_climo.nc","r")        ; used for first 3 plots
+     in2  = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_"+seasons(n)+"_"+fyr2s+"-"+lyr2s+"_climo.nc","r")        ; used for first 3 plots
 ;     in11 = addfile(ptmpdir+"/"+prefix(0)+"/"+prefix(0)+"_"+seasons(n)+"_means.nc","r")
 ;     in22 = addfile(ptmpdir+"/"+prefix(1)+"/"+prefix(1)+"_"+seasons(n)+"_means.nc","r")
     ; get degrees of freedom for t test
