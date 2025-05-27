@@ -30,15 +30,15 @@ done
 
 file_head=${casename}.${filetag}.hbgcy.
 file_prefix=$pathdat/$file_head
-first_file=$(ls ${file_prefix}* | head -n 1)
-last_file=$(ls ${file_prefix}* | tail -n 1)
+first_file=$(ls ${file_prefix}[0-9]* | head -n 1)
+last_file=$(ls ${file_prefix}[0-9]* | tail -n 1)
 if [ -z $first_file ]; then
     echo "Found no annual history files in $pathdat"
     echo "Searching for monthly history files"
     file_head=${casename}.${filetag}.hbgcm.
     file_prefix=$pathdat/$file_head
-    first_file=$(ls ${file_prefix}* | head -n 1)
-    last_file=$(ls ${file_prefix}* | tail -n 1)
+    first_file=$(ls ${file_prefix}[0-9]* | head -n 1)
+    last_file=$(ls ${file_prefix}[0-9]* | tail -n 1)
     if [ -z $first_file ]; then
         echo "ERROR: found no monthly history files in $pathdat"
         echo "*** EXITING THE SCRIPT ***"
