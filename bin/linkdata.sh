@@ -14,6 +14,8 @@ cd $ROOT_DIR
 
 if [ ! -z $1 ]; then
     DATA_ROOT=$1
+elif [ -d /nird/datalake/NS16000B/noresm-diagnostics-data ]; then
+    DATA_ROOT=/nird/datalake/NS16000B/noresm-diagnostics-data
 elif [ -d /projects/NS9560K/www/diagnostics/inputdata ]; then
     DATA_ROOT=/projects/NS9560K/www/diagnostics/inputdata
 elif [ -d /projects/NS9560K-datalake/www/diagnostics/inputdata ]; then

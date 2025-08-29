@@ -65,7 +65,7 @@ if ($regrid_2 == 1) then
     setenv newfn $old_res_2"_"$file
 
     if ( -f $new_res_2"_"$file ) then
-      echo "${new_res_2}_${file} exists, skipp regriding"
+      echo "${new_res_2}_${file} exists, skip regriding"
       continue
     else
       echo "REGRIDDING" $file

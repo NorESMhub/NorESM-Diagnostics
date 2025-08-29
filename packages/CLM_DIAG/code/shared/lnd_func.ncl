@@ -322,6 +322,7 @@ begin
     if(isfilevar(ptr,"PCO2") .and. isfilevar(ptr,"PBOT"))then
     	pco2 = ptr ->PCO2
     	pbot = ptr ->PBOT
+        pbot = where(pbot.lt.1000,1000,pbot); add a limiter for dividing by zero problem at certain occasions
     	var =  pco2                ; trick to retain meta data
     	var =  (pco2/pbot) * 1e6
     end if

@@ -420,7 +420,7 @@ else
             let RUN_MODELS[0]=${RUN_MODELS[0]}+1
         elif [ "$model" == "clm" ] || [ "$model" == "clm2" ] || [ "$model" == "ctsm" ]; then
             let RUN_MODELS[1]=${RUN_MODELS[1]}+1
-            [ $model == "ctsm" ] && CSTM_FLAG=true && RUN_ATM_CLM=0
+            [ $model == "ctsm" ] && CTSM_FLAG=true && RUN_ATM_CLM=0
         elif [ "$model" == "cice" ]; then
             let RUN_MODELS[2]=${RUN_MODELS[2]}+1
         elif [ "$model" == "blom" ] || [ "$model" == "micom" ]; then
@@ -1045,7 +1045,7 @@ do
         # CHANGE ATMOSPHERIC DIAGNOSTICS IN CLM
         if [ $MODEL == clm ]; then
             # switch on interpolation for clm se
-            if [ $CSTM_FLAG ]; then
+            if [ $CTSM_FLAG ]; then
                 if /usr/bin/grep -q 'regrid_1   0' $DIAG_FILE
                 then
                         /usr/bin/sed -i "s/regrid_1   0/regrid_1   1/g" $DIAG_FILE
@@ -1056,7 +1056,9 @@ do
                 fi
                 if /usr/bin/grep -q 'regrid_2   0' $DIAG_FILE
                 then
+                  if [ $CNTL == USER ]; then
                         /usr/bin/sed -i "s/regrid_2   0/regrid_2   1/g" $DIAG_FILE
+                  fi
                 else
                     echo "ERROR: modifying $DIAG_PATH/$MODEL_DIAG_CAPS/$DIAG_FILE for regrid_2 failed"
                     echo "*** EXITING THE SCRIPT"

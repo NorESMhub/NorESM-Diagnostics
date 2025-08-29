@@ -453,20 +453,24 @@ setenv regrid_file_type CLIMO
 setenv regrid_1   0
 setenv method_1   bilinear
 setenv old_res_1  SE_NE30NP3
-setenv new_res_1  0.5x0.5
-setenv wgt_dir_1  /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/ne30pg3/
+#setenv new_res_1  0.5x0.5
+setenv new_res_1  fv1deg
+setenv wgt_dir_1  /nird/datalake/NS16000B/noresm-diagnostics-src/packages/CLM_DIAG/regriddingFiles/ne30pg3/
 #setenv wgt_file_1 $old_res_1"_to_"$new_res_1"."$method_1".nc"
-setenv wgt_file_1 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+#setenv wgt_file_1 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+setenv wgt_file_1 "map_ne30pg3_TO_fv0.9x1.25_blin.240826.nc"
 #setenv area_dir_1 /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles
 #setenv area_file_1 $new_res_1"_area.nc"
 
 setenv regrid_2   0
 setenv method_2   bilinear
 setenv old_res_2  SE_NE30NP3
-setenv new_res_2  0.5x0.5
-setenv wgt_dir_2  /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/ne30pg3/
+#setenv new_res_2  0.5x0.5
+setenv new_res_2  fv1deg
+setenv wgt_dir_2  /nird/datalake/NS16000B/noresm-diagnostics-src/packages/CLM_DIAG/regriddingFiles/ne30pg3/
 #setenv wgt_file_2 $old_res_2"_to_"$new_res_2"."$method_2".nc"
-setenv wgt_file_2 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+#setenv wgt_file_2 "map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+setenv wgt_file_2 "map_ne30pg3_TO_fv0.9x1.25_blin.240826.nc"
 #setenv area_dir_2 /diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/
 #setenv area_file_2 $new_res_2"_area.nc"
 

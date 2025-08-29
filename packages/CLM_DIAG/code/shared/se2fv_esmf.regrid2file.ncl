@@ -48,7 +48,7 @@ begin
 
 ;---Specify the weights, source and destination file names
 ;    WgtFileName  = "weights_file_"+SE_file
-    WgtFileName  = "/diagnostics/noresm/packages/CLM_DIAG/regriddingFiles/ne30pg3/map_ne30pg3_to_0.5x0.5_nomask_aave_da_c180515.nc"
+    WgtFileName  = LL_path
 ;    SrcSCRIP = LL_dir+"SCRIPgrid_ne30np4_nomask_c101123.nc"
 ;    SrcSCRIPFileName = RGRD_dir+"SCRIPgrid_ne30np4_nomask_c101123_"+RGRD_file
 ;    system("/bin/cp -f "+SrcSCRIP+" "+SrcSCRIPFileName)
