@@ -335,10 +335,14 @@ else
 fi
 
 # remove the leading zeros
-SYR1=$((10#$SYR1))
-EYR1=$((10#$EYR1))
-SYR2=$((10#$SYR2))
-EYR2=$((10#$EYR2))
+if [ $SYR1 -ge 0 ] && [ $EYR1 -ge 0 ]; then
+    SYR1=$((10#$SYR1))
+    EYR1=$((10#$EYR1))
+fi
+if [ $SYR2 -ge 0 ] && [ $EYR2 -ge 0 ]; then
+    SYR2=$((10#$SYR2))
+    EYR2=$((10#$EYR2))
+fi
 
 # SECURITY CHECKS
 if [[ ${DIAG_PATH:0:1} != "/" ]]; then
