@@ -10,7 +10,9 @@ HOST="$(uname -n) $(hostname -f)"
 if [ "$(echo $HOST |grep 'ipcc.nird')" ];then
     export NCARG_ROOT=/diagnostics/toolkit
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
-    export PATH=/diagnostics/miniforge3/bin:/diagnostics/toolkit/bin:/usr/bin
+    module -q purge
+    module load CDO/2.0.6-gompi-2022a
+    module load NCO/5.1.3-foss-2022a
 elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
     module load CDO/2.0.6-gompi-2022a
     #module load NCL/6.6.2-intel-2019b

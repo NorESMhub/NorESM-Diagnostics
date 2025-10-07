@@ -5,34 +5,36 @@
 # Johan Liakka, NERSC
 # Yanchun He, NERSC, yanchun.he@nersc.no
 # built upon previous work by Detelina Ivanova
-# Last update Aug. 2019
 
 ## LOAD MODULES AND SET ENVIRONMENTS
 HOST="$(uname -n) $(hostname -f)"
 if [ "$(echo $HOST |grep 'ipcc.nird')" ];then
+    module -q purge
+    module load NCO/5.1.3-foss-2022a
+    module load CDO/2.0.6-gompi-2022a
     export NCARG_ROOT=/diagnostics/toolkit
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
-    export PATH=/diagnostics/miniforge3/bin:/diagnostics/toolkit/bin:/usr/bin
 elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
+    module -q purge
     module load NCO/5.1.3-foss-2022a
     module load CDO/2.0.6-gompi-2022a
     export NCARG_ROOT=/usr
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
 elif [ "$(echo $HOST |grep 'betzy')" ]; then
-     module -q purge
-     module use  /cluster/shared/noresm/ncl_mods/modules/all
-     module use /cluster/shared/noresm/diagnostics/easybuild/modules/all
-     module -q load NCO/5.1.3-foss-2022a
-     #module -q load CDO/2.2.2-gompi-2023b
-     module -q load CDO/2.0.6-gompi-2022a
-     ## old modules before Betzy upgrde
-     #module -q load NCL/6.6.2-intel-2019b
-     #module unload HDF/4.2.14-GCCcore-8.3.0
-     #module -q load ImageMagick/7.1.0-4-GCCcore-11.2.0
-     ## locally installed newl modules, 18 Nov. 2024
-     module -q load NCL/6.6.2-foss-2022a
-     module unload HDF/4.2.15-GCCcore-11.3.0
-     module -q load ImageMagick/7.1.0-37-GCCcore-11.3.0
+    module -q purge
+    module use  /cluster/shared/noresm/ncl_mods/modules/all
+    module use /cluster/shared/noresm/diagnostics/easybuild/modules/all
+    module -q load NCO/5.1.3-foss-2022a
+    #module -q load CDO/2.2.2-gompi-2023b
+    module -q load CDO/2.0.6-gompi-2022a
+    ## old modules before Betzy upgrde
+    #module -q load NCL/6.6.2-intel-2019b
+    #module unload HDF/4.2.14-GCCcore-8.3.0
+    #module -q load ImageMagick/7.1.0-4-GCCcore-11.2.0
+    ## locally installed newl modules, 18 Nov. 2024
+    module -q load NCL/6.6.2-foss-2022a
+    module unload HDF/4.2.15-GCCcore-11.3.0
+    module -q load ImageMagick/7.1.0-37-GCCcore-11.3.0
 else
     echo "** UNKNOWN HOST $HOST **"
     echo "** EXIT                   **"

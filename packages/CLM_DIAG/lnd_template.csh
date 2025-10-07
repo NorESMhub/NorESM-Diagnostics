@@ -8,11 +8,14 @@ if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
     set MACHINE = 'ipcc.nird'
     setenv NCARG_ROOT /diagnostics/toolkit
     setenv NCARG_COLORMAPS $NCARG_ROOT/lib/ncarg/colormaps
-    setenv PATH /diagnostics/miniforge3/bin:/diagnostics/toolkit/bin:/usr/bin
+    module purge
+    module load CDO/2.0.6-gompi-2022a
+    module load NCO/5.1.3-foss-2022a
+    module load UDUNITS/2.2.28-GCCcore-11.3.0
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`
     setenv ncksbin $ncclimo_dir
-    setenv UDUNITS2_XML_PATH /diagnostics/toolkit/share/udunits/udunits2.xml
+    setenv UDUNITS2_XML_PATH ${EBROOTUDUNITS}/share/udunits/udunits2.xml
 else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
     module purge
     module load CDO/2.0.6-gompi-2022a
