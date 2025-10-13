@@ -148,3 +148,8 @@ else
  if [ -f $WKDIR/sst_tmp.nc ]; then
      rm -f $WKDIR/sst_tmp.nc
  fi
+
+# Determine if layer dimension is 'sigma2' with time-invariant density or 'layer' with evolving density classes
+$NCKS --cdl -m ${fullpath_filename} | cut -d ':' -f 1 | cut -d '=' -s -f 1 | grep  'layer' >/dev/null 2>&1 \
+  && zlevel='layer' || zlevel='sigma'
+echo "zlevel:$zlevel" >> $WKDIR/attributes/grid_${casename}

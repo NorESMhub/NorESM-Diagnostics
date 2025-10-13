@@ -49,10 +49,8 @@ do
 done
 [ -z $filetag ] && echo "** NO ocean data found, EXIT ... **" && exit 1
 
-if [ ! -f $WKDIR/attributes/grid_${casename} ] && [ -z $PGRIDPATH ]; then
-    $DIAG_CODE/determine_grid_type.sh $casename
-fi
 gp=$(awk 'NR==2' $WKDIR/attributes/grid_${casename} |cut -d':' -f2)
+zlevel=$(awk 'NR==4' $WKDIR/attributes/grid_${casename}|cut -d':' -f2)
 
 # COMPUTE CLIMATOLOGY FROM ANNUAL FILES
 if [ $filetype == hy ]; then
@@ -77,7 +75,7 @@ if [ $filetype == hy ]; then
                 eval $NCRA -h -O --no_tmp_fl --hdr_pad=10000 -v $var -p $pathdat ${filenames[*]} $climodir/var_tmp.nc &
                 wait $!
                 $NCATTED -h -a eulaVlliF_,depth,d,, -a eulaVlliF_,lat,d,, \
-                         -a eulaVlliF_,sigma,d,, -a eulaVlliF_,$var,d,, \
+                         -a eulaVlliF_,${zlevel},d,, -a eulaVlliF_,$var,d,, \
                          $climodir/var_tmp.nc
                 $NCKS -h -A -v $var $climodir/var_tmp.nc $ann_avg_file
                 wait $!

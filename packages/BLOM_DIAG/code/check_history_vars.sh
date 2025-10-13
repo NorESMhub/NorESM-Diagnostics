@@ -67,6 +67,12 @@ if [ ! -f $WKDIR/attributes/sst_file_${casename} ]; then
     exit 1
 fi
 
+# Get grid information
+if [ ! -f $WKDIR/attributes/grid_${casename} ] && [ -z $PGRIDPATH ]; then
+    $DIAG_CODE/determine_grid_type.sh $casename
+fi
+zlevel=$(awk 'NR==4' $WKDIR/attributes/grid_${casename}|cut -d':' -f2)
+
 for filetype in $filetypes
 do
     check_vars=1
@@ -114,7 +120,7 @@ do
         var_list_remaining=" "
         for var in $req_vars
         do
-            $NCKS --quiet -d y,0 -d x,0 -d sigma,0 -d depth,0 -v $var $fullpath_filename >/dev/null 2>&1
+            $NCKS --quiet -d y,0 -d x,0 -d ${zlevel},0 -d depth,0 -v $var $fullpath_filename >/dev/null 2>&1
             if [ $? -eq 0 ]; then
                 find_any=1
                 if [ $first_find -eq 1 ]; then
