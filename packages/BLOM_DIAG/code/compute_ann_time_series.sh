@@ -61,11 +61,9 @@ done
 [ -z $filetag ] && echo "** NO ocean data found, EXIT ... **" && exit 1
 
 # Get grid information
-if [ ! -f $WKDIR/attributes/grid_${casename} ] && [ -z $PGRIDPATH ]; then
-    $DIAG_CODE/determine_grid_type.sh $casename
-fi
 grid_type=$(awk 'NR==1' $WKDIR/attributes/grid_${casename})
 gp=$(awk 'NR==2' $WKDIR/attributes/grid_${casename}|cut -d':' -f2)
+zlevel=$(awk 'NR==4' $WKDIR/attributes/grid_${casename}|cut -d':' -f2)
 # Calculate number of chunks and the residual
 if [ $gp -gt 1000000 ]
 then
@@ -206,29 +204,29 @@ do
     # Append parea if necessary
     iproc=1
     echo "Appending parea to annual files (yrs ${YR_start}-${YR_end}):"
-    while [ $iproc -le $nyrs ]
+    while [ $fflag -eq 0 ] && [ $iproc -le $nyrs ]
     do
         let "YR = ($ichunk - 1) * $nproc + $iproc + $first_yr - 1"
         yr_prnt=$(printf "%04d" ${YR})
         filename=${casename}_ANN_${yr_prnt}.nc
         if [ -f $WKDIR/$filename ]; then
             echo $WKDIR/$filename
-            $NCKS --quiet -d depth,0 -d x,0 -d y,0 -v parea,dmass $WKDIR/$filename >/dev/null 2>&1
+            $NCKS --quiet -d x,0 -d y,0 -v parea $WKDIR/$filename >/dev/null 2>&1
             if [ $? -ne 0 ]; then
                 $NCKS --quiet -A -v parea -o $WKDIR/$filename $grid_file
                 if [ $? -ne 0 ]; then
                     echo "ERROR: $NCKS --quiet -A -v parea -o $WKDIR/$filename $grid_file"
-                    exit
+                    exit 1
                 fi
-                $NCKS --quiet -d depth,0 -d x,0 -d y,0 -v dp,parea $WKDIR/$filename >/dev/null 2>&1
+                $NCKS --quiet -d ${zlevel},0 -d x,0 -d y,0 -v dp,parea $WKDIR/$filename >/dev/null 2>&1
                 if [ $? -eq 0 ]; then
                     $NCAP2 -O -s 'dmass=dp*parea' $WKDIR/$filename  $WKDIR/$filename >/dev/null 2>&1
                     if [ $? -ne 0 ]; then
                         echo "ERROR: $NCAP2 -O -s 'dmass=dp*parea' $WKDIR/$filename  $WKDIR/$filename >/dev/null 2>&1"
-                        exit
+                        exit 1
                     fi
                 else
-                    echo "ERROR: dp and/or parea are missing in $WKDIR/$filename"
+                    echo "WARNING: dp and/or parea are missing in $WKDIR/$filename"
                 fi
             fi
         fi
@@ -250,7 +248,7 @@ do
                 infile=${casename}_ANN_${yr_prnt}.nc
                 outfile=${var}_${casename}_ANN_${filetype}_${yr_prnt}.nc
                 if [ ! -f $tsdir/ann_ts/$outfile ]; then
-                    eval $NCWA --no_tmp_fl -O -v $var -w dmass -a sigma,y,x $WKDIR/$infile $WKDIR/$outfile &
+                    eval $NCWA --no_tmp_fl -O -v $var -w dmass -a ${zlevel},y,x $WKDIR/$infile $WKDIR/$outfile &
                     pid+=($!)
                 fi
                 let iproc++
@@ -261,7 +259,7 @@ do
                 if [ $? -ne 0 ]; then
                     let "YR = ($ichunk - 1) * $nproc + $m + $first_yr"
                     yr_prnt=$(printf "%04d" ${YR})
-                    echo "ERROR in calculating mass weighted global average: $NCWA --no_tmp_fl -O -v $var -w dmass -a sigma,y,x $WKDIR/$infile $WKDIR/$outfile"
+                    echo "ERROR in calculating mass weighted global average: $NCWA --no_tmp_fl -O -v $var -w dmass -a ${zlevel},y,x $WKDIR/$infile $WKDIR/$outfile"
                     echo "*** EXITING THE SCRIPT ***"
                     exit 1
                 fi
@@ -300,7 +298,9 @@ do
             for (( yr= ${YR_start}; yr<=${YR_end}; yr++ )); do
                 yr_prnt=$(printf "%04d" $yr)
                 outfile=${var}_${casename}_ANN_${filetype}_${yr_prnt}.nc
-                ncks -O -C -x -v parea $WKDIR/$outfile $WKDIR/$outfile
+                if [ -f $WKDIR/$outfile ];then
+                  $NCKS -O -C -x -v parea $WKDIR/$outfile $WKDIR/$outfile
+                fi
             done
         fi
         # Max AMOC between 20-60N
@@ -314,14 +314,14 @@ do
                 infile=${casename}_ANN_${yr_prnt}.nc
                 outfile_tmp=${var}_${casename}_ANN_${filetype}_${yr_prnt}_tmp.nc
                 outfile=${var}_${casename}_ANN_${filetype}_${yr_prnt}.nc
-                $NCDUMP -v region $WKDIR/$infile |grep 'atlantic_arctic_extended_ocean' >/dev/null 2>&1
-                if [ $? == 0 ]
-                then
-                    reglist="1,2"
-                else
-                    reglist="1"
-                fi
                 if [ ! -f $tsdir/ann_ts/$outfile ]; then
+                    $NCDUMP -v region $WKDIR/$infile |grep 'atlantic_arctic_extended_ocean' >/dev/null 2>&1
+                    if [ $? == 0 ]
+                    then
+                        reglist="1,2"
+                    else
+                        reglist="1"
+                    fi
                     # Max AMOC 20-60N
                     $NCKS -F --no_tmp_fl -O -v $var -d lat,20.0,60.0 -d region,$reglist $WKDIR/$infile $WKDIR/$outfile_tmp
                     $NCAP2 -O -s 'mmflxd_max=mmflxd.max($lat,$depth)' $WKDIR/$outfile_tmp $WKDIR/$outfile_tmp
@@ -411,7 +411,7 @@ do
         fi
     fi
 done
-ncks -O -C -x -v parea $tsdir/$ann_ts_file $tsdir/$ann_ts_file
+$NCKS -O -C -x -v parea $tsdir/$ann_ts_file $tsdir/$ann_ts_file
 
 script_end=$(date +%s)
 runtime_s=$(expr ${script_end} - ${script_start})

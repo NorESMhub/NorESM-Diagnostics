@@ -443,6 +443,10 @@ do
             $DIAG_CODE/check_history_vars.sh $CASENAME $FIRST_YR_CLIMO $LAST_YR_CLIMO $PATHDAT climo_ann
             echo $required_vars_climo_mon > $WKDIR/attributes/required_vars
             $DIAG_CODE/check_history_vars.sh $CASENAME $FIRST_YR_CLIMO $LAST_YR_CLIMO $PATHDAT climo_mon
+            # Determine grid type from an individual file
+            if [ ! -f $WKDIR/attributes/grid_${CASENAME} ] && [ -z $PGRIDPATH ]; then
+                $DIAG_CODE/determine_grid_type.sh $CASENAME
+            fi
             if [ -f $WKDIR/attributes/vars_climo_ann_${CASENAME}_hy ]; then
                 $DIAG_CODE/compute_climo.sh hy $CASENAME $FIRST_YR_CLIMO $LAST_YR_CLIMO $PATHDAT $CLIMO_TS_DIR
             fi
