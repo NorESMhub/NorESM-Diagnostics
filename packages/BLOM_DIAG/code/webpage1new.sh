@@ -126,26 +126,7 @@ cat << 'EOF' >> $WEBDIR/indexnew.html
 <h3 id="Global-averages">Global averages </h3>
 EOF
 
-if ls $WEBDIR/set1/set1_ann_temp_${cinfo}.png >/dev/null 2>&1
-then
-cat << 'EOF' >> $WEBDIR/indexnew.html
-<TABLE width='80%'>
-<TR>
-    <TH>Temperature
-    <TH>Salinity
-    <TH>SST
-    <TH>SSS
-</TR>
-<TR>
-    <TD><a target="_self" href='set1/set1_ann_temp_CINFO.png'><img src="set1/set1_ann_temp_CINFO.png" alt="Temperature"></a>
-    <TD><a target="_self" href='set1/set1_ann_saln_CINFO.png'><img src="set1/set1_ann_saln_CINFO.png" alt="Salinity"></a>
-    <TD><a target="_self" href='set1/set1_ann_sst_CINFO.png'><img src="set1/set1_ann_sst_CINFO.png" alt="SST"></a>
-    <TD><a target="_self" href='set1/set1_ann_sss_CINFO.png'><img src="set1/set1_ann_sss_CINFO.png" alt="SSS"></a>
-</TR>
-</TABLE>
-<br>
-EOF
-elif ls $WEBDIR/set1/set1_ann_tempga_${cinfo}.png >/dev/null 2>&1
+if ls $WEBDIR/set1/set1_ann_tempga_${cinfo}.png >/dev/null 2>&1
 then
 cat << 'EOF' >> $WEBDIR/indexnew.html
 <TABLE width='80%'>
@@ -160,6 +141,25 @@ cat << 'EOF' >> $WEBDIR/indexnew.html
     <TD><a target="_self" href='set1/set1_ann_salnga_CINFO.png'><img src="set1/set1_ann_salnga_CINFO.png" alt="Salinity"></a>
     <TD><a target="_self" href='set1/set1_ann_sstga_CINFO.png'><img src="set1/set1_ann_sstga_CINFO.png" alt="SST"></a>
     <TD><a target="_self" href='set1/set1_ann_sssga_CINFO.png'><img src="set1/set1_ann_sssga_CINFO.png" alt="SSS"></a>
+</TR>
+</TABLE>
+<br>
+EOF
+elif ls $WEBDIR/set1/set1_ann_temp_${cinfo}.png >/dev/null 2>&1
+then
+cat << 'EOF' >> $WEBDIR/indexnew.html
+<TABLE width='80%'>
+<TR>
+    <TH>Temperature
+    <TH>Salinity
+    <TH>SST
+    <TH>SSS
+</TR>
+<TR>
+    <TD><a target="_self" href='set1/set1_ann_temp_CINFO.png'><img src="set1/set1_ann_temp_CINFO.png" alt="Temperature"></a>
+    <TD><a target="_self" href='set1/set1_ann_saln_CINFO.png'><img src="set1/set1_ann_saln_CINFO.png" alt="Salinity"></a>
+    <TD><a target="_self" href='set1/set1_ann_sst_CINFO.png'><img src="set1/set1_ann_sst_CINFO.png" alt="SST"></a>
+    <TD><a target="_self" href='set1/set1_ann_sss_CINFO.png'><img src="set1/set1_ann_sss_CINFO.png" alt="SSS"></a>
 </TR>
 </TABLE>
 <br>

@@ -203,7 +203,7 @@ do
     fi
     # Append parea if necessary
     iproc=1
-    echo "Appending parea to annual files (yrs ${YR_start}-${YR_end}):"
+    echo "Calculating layer mass as weight to annual files (yrs ${YR_start}-${YR_end}):"
     while [ $fflag -eq 0 ] && [ $iproc -le $nyrs ]
     do
         let "YR = ($ichunk - 1) * $nproc + $iproc + $first_yr - 1"
@@ -356,7 +356,7 @@ do
             done
         fi
         # Global average: tempga,salnga,sstga,sssga
-        if [ "${var_list_ga/$var}" != "${var_list_ga}" ];then
+        if [ "${var_list_ga/${var} }" != "${var_list_ga}" ];then
             echo "Global average (yrs ${YR_start}-${YR_end})"
             iproc=1
             while [ $iproc -le $nyrs ]
