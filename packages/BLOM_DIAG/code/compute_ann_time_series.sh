@@ -356,8 +356,9 @@ do
             done
         fi
         # Global average: tempga,salnga,sstga,sssga
-        if [ "${var_list_ga/${var} }" != "${var_list_ga}" ];then
-            echo "Global average (yrs ${YR_start}-${YR_end})"
+        for varga in ${var_list_ga}; do
+          if [ $varga == $var ];then
+            echo "Model-diagnosed global average of $var (yrs ${YR_start}-${YR_end})"
             iproc=1
             while [ $iproc -le $nyrs ]
             do
@@ -370,7 +371,8 @@ do
                 fi
                 let iproc++
             done
-        fi
+          fi
+        done
     done
     # clean up
     iproc=1

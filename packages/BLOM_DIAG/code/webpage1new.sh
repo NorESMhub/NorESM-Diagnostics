@@ -126,44 +126,56 @@ cat << 'EOF' >> $WEBDIR/indexnew.html
 <h3 id="Global-averages">Global averages </h3>
 EOF
 
-if ls $WEBDIR/set1/set1_ann_tempga_${cinfo}.png >/dev/null 2>&1
-then
-cat << 'EOF' >> $WEBDIR/indexnew.html
-<TABLE width='80%'>
-<TR>
-    <TH>Temperature <br> (tempga)
-    <TH>Salinity <br> (salnga)
-    <TH>SST <br> (sstga)
-    <TH>SSS <br> (sssga)
-</TR>
-<TR>
-    <TD><a target="_self" href='set1/set1_ann_tempga_CINFO.png'><img src="set1/set1_ann_tempga_CINFO.png" alt="Temperature"></a>
-    <TD><a target="_self" href='set1/set1_ann_salnga_CINFO.png'><img src="set1/set1_ann_salnga_CINFO.png" alt="Salinity"></a>
-    <TD><a target="_self" href='set1/set1_ann_sstga_CINFO.png'><img src="set1/set1_ann_sstga_CINFO.png" alt="SST"></a>
-    <TD><a target="_self" href='set1/set1_ann_sssga_CINFO.png'><img src="set1/set1_ann_sssga_CINFO.png" alt="SSS"></a>
-</TR>
-</TABLE>
-<br>
-EOF
-elif ls $WEBDIR/set1/set1_ann_temp_${cinfo}.png >/dev/null 2>&1
-then
-cat << 'EOF' >> $WEBDIR/indexnew.html
-<TABLE width='80%'>
-<TR>
-    <TH>Temperature
-    <TH>Salinity
-    <TH>SST
-    <TH>SSS
-</TR>
-<TR>
-    <TD><a target="_self" href='set1/set1_ann_temp_CINFO.png'><img src="set1/set1_ann_temp_CINFO.png" alt="Temperature"></a>
-    <TD><a target="_self" href='set1/set1_ann_saln_CINFO.png'><img src="set1/set1_ann_saln_CINFO.png" alt="Salinity"></a>
-    <TD><a target="_self" href='set1/set1_ann_sst_CINFO.png'><img src="set1/set1_ann_sst_CINFO.png" alt="SST"></a>
-    <TD><a target="_self" href='set1/set1_ann_sss_CINFO.png'><img src="set1/set1_ann_sss_CINFO.png" alt="SSS"></a>
-</TR>
-</TABLE>
-<br>
-EOF
+nl=0
+nl=$(ls $WEBDIR/set1/{set1_ann_temp*_*.png,set1_ann_saln*_*.png,set1_ann_sst*_*.png,set1_ann_sss*_*.png} 2>/dev/null |wc -l)
+
+if [ $nl -ge 1 ]; then
+  echo "<TABLE width='80%'>" >> $WEBDIR/indexnew.html
+  echo "<TR>" >> $WEBDIR/indexnew.html
+  if [ -f $WEBDIR/set1/set1_ann_tempga_${cinfo}.png ];then
+    echo "    <TH>Temperature <br> (tempga)" >> $WEBDIR/indexnew.html
+  else
+    echo "    <TH>Temperature" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_salnga_${cinfo}.png ];then
+      echo "<TH>Salinity <br> (salnga)" >> $WEBDIR/indexnew.html
+  else
+    echo "    <TH>Salnity" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_sstga_${cinfo}.png ];then
+      echo "<TH>SST <br> (sstga)" >> $WEBDIR/indexnew.html
+  else
+    echo "    <TH>SST" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_sssga_${cinfo}.png ];then
+      echo "<TH>SSS <br> (sssga)" >> $WEBDIR/indexnew.html
+  else
+    echo "    <TH>SSS" >> $WEBDIR/indexnew.html
+  fi
+  echo "</TR>" >> $WEBDIR/indexnew.html
+  if [ -f $WEBDIR/set1/set1_ann_tempga_${cinfo}.png ];then
+      echo "<TD><a target="_self" href='set1/set1_ann_tempga_CINFO.png'><img src="set1/set1_ann_tempga_CINFO.png" alt="Temperature"></a>" >> $WEBDIR/indexnew.html
+    else
+      echo "<TD><a target="_self" href='set1/set1_ann_temp_CINFO.png'><img src="set1/set1_ann_temp_CINFO.png" alt="Temperature"></a>" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_salnga_${cinfo}.png ];then
+      echo "<TD><a target="_self" href='set1/set1_ann_salnga_CINFO.png'><img src="set1/set1_ann_salnga_CINFO.png" alt="Salinity"></a>" >> $WEBDIR/indexnew.html
+  else
+      echo "<TD><a target="_self" href='set1/set1_ann_saln_CINFO.png'><img src="set1/set1_ann_saln_CINFO.png" alt="Salinity"></a>" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_sstga_${cinfo}.png ];then
+      echo "<TD><a target="_self" href='set1/set1_ann_sstga_CINFO.png'><img src="set1/set1_ann_sstga_CINFO.png" alt="SST"></a>" >> $WEBDIR/indexnew.html
+  else
+      echo "<TD><a target="_self" href='set1/set1_ann_sst_CINFO.png'><img src="set1/set1_ann_sst_CINFO.png" alt="SST"></a>" >> $WEBDIR/indexnew.html
+  fi
+  if [ -f $WEBDIR/set1/set1_ann_sssga_${cinfo}.png ];then
+      echo "<TD><a target="_self" href='set1/set1_ann_sssga_CINFO.png'><img src="set1/set1_ann_sssga_CINFO.png" alt="SSS"></a>" >> $WEBDIR/indexnew.html
+  else
+      echo "<TD><a target="_self" href='set1/set1_ann_sss_CINFO.png'><img src="set1/set1_ann_sss_CINFO.png" alt="SSS"></a>" >> $WEBDIR/indexnew.html
+  fi
+  echo "</TR>" >> $WEBDIR/indexnew.html
+  echo "</TABLE>" >> $WEBDIR/indexnew.html
+  echo "<br>" >> $WEBDIR/indexnew.html
 else
     echo "WARNING: global averages do not exist, SKIP..."
 fi
