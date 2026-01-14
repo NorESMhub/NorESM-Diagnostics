@@ -1,5 +1,5 @@
 #fork_me_ribbon_url: https://github.com/NordicESMhub/noresmdiagnostics
-baseurl: "/noresmdiagnostics"
+baseurl: "/NorESM-Diagnostics"
 title: "NorESM output and post-processing"
 
 author:
