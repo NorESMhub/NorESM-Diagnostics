@@ -743,34 +743,21 @@ if [ $CNTL == USER ]; then
     export cinfo=2models
 fi
 
-cp $DIAG_HTML/index.html $WEBDIR/index.html
+
+# index page
+cp -r $DIAG_HTML/images/ $WEBDIR/
+chmod g+w $WEBDIR/images
+cp $DIAG_HTML/index1.html $WEBDIR/index.html
 cdate=`date`
 sed -i "s/test_run/$CASENAME1/g" $WEBDIR/index.html
 sed -i "s/FY1/$FIRST_YR_CLIMO1/g" $WEBDIR/index.html
 sed -i "s/LY1/$LAST_YR_CLIMO1/g" $WEBDIR/index.html
 sed -i "s/date_and_time/$cdate/g" $WEBDIR/index.html
 if [ $CNTL == USER ]; then
-    sed -i "17i<br><b>and $CASENAME2 yrs${FIRST_YR_CLIMO2}to${LAST_YR_CLIMO2}</b>" $WEBDIR/index.html
+    sed -i "12i<br><b>and $CASENAME2 yrs${FIRST_YR_CLIMO2}to${LAST_YR_CLIMO2}<b><br>" $WEBDIR/index.html
 fi
 if [ $set_1 -eq 1 ] || [ $set_2 -eq 1 ]; then
-    echo "<font color=maroon size=+1><b><u>Time series plots</u></b></font><br>" >> $WEBDIR/index.html
-    echo "<br>" >> $WEBDIR/index.html
-fi
-
-# new index page
-cp -r $DIAG_HTML/images/ $WEBDIR/
-chmod g+w $WEBDIR/images
-cp $DIAG_HTML/index1.html $WEBDIR/indexnew.html
-cdate=`date`
-sed -i "s/test_run/$CASENAME1/g" $WEBDIR/indexnew.html
-sed -i "s/FY1/$FIRST_YR_CLIMO1/g" $WEBDIR/indexnew.html
-sed -i "s/LY1/$LAST_YR_CLIMO1/g" $WEBDIR/indexnew.html
-sed -i "s/date_and_time/$cdate/g" $WEBDIR/indexnew.html
-if [ $CNTL == USER ]; then
-    sed -i "12i<br><b>and $CASENAME2 yrs${FIRST_YR_CLIMO2}to${LAST_YR_CLIMO2}<b><br>" $WEBDIR/indexnew.html
-fi
-if [ $set_1 -eq 1 ] || [ $set_2 -eq 1 ]; then
-    echo '<h2 id="Time-series-plots">Time series plots</h2>' >> $WEBDIR/indexnew.html
+    echo '<h2 id="Time-series-plots">Time series plots</h2>' >> $WEBDIR/index.html
 fi
 
 cd $WKDIR
@@ -805,16 +792,15 @@ if [ $set_1 -eq 1 ]; then
         #"*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage1.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set1 plots"
     echo "-----------------------"
     echo " "
-    $DIAG_CODE/webpage1new.sh
-    sed -i "s/CINFO.png/${cinfo}.png/g" $WEBDIR/indexnew.html
+    $DIAG_CODE/webpage1.sh
+    sed -i "s/CINFO.png/${cinfo}.png/g" $WEBDIR/index.html
 fi
 # ---------------------------------
 # set 2: nino index
@@ -858,15 +844,14 @@ if [ $set_2 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage2.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set2 plots"
     echo "-----------------------"
     echo " "
-    cat $DIAG_HTML/webpage2.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+    cat $DIAG_HTML/webpage2.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
 
 fi
 
@@ -875,9 +860,9 @@ if [ $set_3 -eq 1 ] || [ $set_4 -eq 1 ] || [ $set_5 -eq 1 ] || [ $set_6 -eq 1 ];
         echo "<br>" >> $WEBDIR/index.html
     fi
     echo "<font color=maroon size=+1><b><u>Climatology plots</u></b></font><br>" >> $WEBDIR/index.html
-# new index page
-    echo '<hr noshade size=2 width="62.8%"><br>' >> $WEBDIR/indexnew.html
-    echo '<h2 id="Climatology-plots">Climatology plots</h2>' >> $WEBDIR/indexnew.html
+# index page
+    echo '<hr noshade size=2 width="62.8%"><br>' >> $WEBDIR/index.html
+    echo '<h2 id="Climatology-plots">Climatology plots</h2>' >> $WEBDIR/index.html
 fi
 # ---------------------------------
 # set 3: lat/lon plots
@@ -1023,9 +1008,8 @@ if [ $set_3 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage3.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set3 plots"
@@ -1034,9 +1018,9 @@ if [ $set_3 -eq 1 ]; then
     if ls $WEBDIR/set3/set3_*_mlts_${cinfo}.png >/dev/null 2>&1
     then
         cat $DIAG_HTML/webpage3.html | sed "s/_mld_CINFO/_mlts_CINFO/g" | sed "s/MLD <br> (TS-derived)/MLTS <br> (online-diagnosed)/g" \
-                                     | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+                                     | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
     else
-        cat $DIAG_HTML/webpage3.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+        cat $DIAG_HTML/webpage3.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
     fi
 
 fi
@@ -1068,15 +1052,14 @@ if [ $set_4 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage4.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set4 plots"
     echo "-----------------------"
     echo " "
-    $DIAG_CODE/webpage4new.sh
+    $DIAG_CODE/webpage4.sh
 fi
 # ---------------------------------
 # set 5: Zonal means
@@ -1113,15 +1096,14 @@ if [ $set_5 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage5.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set5 plots"
     echo "-----------------------"
     echo " "
-    cat $DIAG_HTML/webpage5.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+    cat $DIAG_HTML/webpage5.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
 fi
 # ---------------------------------
 # set 6: Equatorial plots
@@ -1152,15 +1134,14 @@ if [ $set_6 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage6.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set6 plots"
     echo "-----------------------"
     echo " "
-    cat $DIAG_HTML/webpage6.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+    cat $DIAG_HTML/webpage6.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
 fi
 # ---------------------------------
 # set 7: Meridional fluxes
@@ -1190,23 +1171,22 @@ if [ $set_7 -eq 1 ]; then
         #echo "*** EXITING THE SCRIPT ***"
         #exit 1
     fi
-    $DIAG_CODE/webpage7.sh
 
-    # new index page
+    # index page
     echo " "
     echo "-----------------------"
     echo "Generating html for set7 plots"
     echo "-----------------------"
     echo " "
-    cat $DIAG_HTML/webpage7.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/indexnew.html
+    cat $DIAG_HTML/webpage7.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
 fi
 # Closing the webpage
 echo "</BODY>" >> $WEBDIR/index.html
 echo "</HTML>" >> $WEBDIR/index.html
 # new index page
-cat $DIAG_HTML/index2.html >> $WEBDIR/indexnew.html
+cat $DIAG_HTML/index2.html >> $WEBDIR/index.html
 # cleanup orphan links
-$DIAG_CODE/webpage_rmorphan.sh $WEBDIR/indexnew.html
+$DIAG_CODE/webpage_rmorphan.sh $WEBDIR/index.html
 # Making tar file
 echo " "
 echo "****************************************************"
@@ -1233,8 +1213,8 @@ if [ $? -eq 0 ] && [ $publish_html -eq 1 ]; then
     tar -xf $TARFILE -C $publish_html_path
     if [ $? -eq 0 ]; then
         if [ $path_pref == $web_server_path ]; then
-            full_url=${web_server}/${path_suff}/${WEBFOLDER}/indexnew.html
-            $DIAG_CODE/redirect_html.sh $WEBFOLDER $publish_html_path ${WEBFOLDER}/indexnew.html
+            full_url=${web_server}/${path_suff}/${WEBFOLDER}/index.html
+            $DIAG_CODE/redirect_html.sh $WEBFOLDER $publish_html_path ${WEBFOLDER}/index.html
             echo " "
             echo "URL:"
             echo "***********************************************************************************"

@@ -2,7 +2,7 @@
 
 # BLOM DIAGNOSTICS package: webpage4.sh
 # PURPOSE: modifies the html for set 4 depending on existing plots
-# Johan Liakka, NERSC; Dec 2017
+# Yanchun He, NERSC
 
 echo " "
 echo "-----------------------"
@@ -14,19 +14,52 @@ cinfo=1model
 if [ $COMPARE == USER ]; then
     cinfo=2models
 fi
+#
+echo $NCDUMP
+nreg=$($NCDUMP -v region $INFILE1 |grep 'region = ' |sed 's/[^0-9]//g')
+#nreg=${nreg:0:1}
 
-echo "<br>" >> $WEBDIR/index.html
-echo "<TABLE width='300'>" >> $WEBDIR/index.html
-echo "<TH colspan='3'>Overturning circulation" >> $WEBDIR/index.html
-echo "<TR>" >> $WEBDIR/index.html
-if ls $WEBDIR/set4/set4_ann_mmflxd*_${cinfo}.png >/dev/null 2>&1
-then
-    echo "<TD><a href='set4/set4_ann_mmflxd0_${cinfo}.png'>Atlantic</a>" >> $WEBDIR/index.html
-    echo "<TD><a href='set4/set4_ann_mmflxd1_${cinfo}.png'>Indian-Pacific</a>" >> $WEBDIR/index.html
-    echo "<TD><a href='set4/set4_ann_mmflxd2_${cinfo}.png'>Global</a>" >> $WEBDIR/index.html
+if [ $nreg -eq 3 ]; then
+    cat <<EOF >>$WEBDIR/index.html
+<h2 id='Overturning-circulation'>Overturning circulation</h2>
+<TABLE width='100%'>
+<TR>
+    <TH> Atlantic
+    <TH> Indian-Pacific
+    <TH> Global
+</TR>
+<TR>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd0_${cinfo}.png'><img src='set4/set4_ann_mmflxd0_${cinfo}.png' atl='Atlantic' class='img_wider'></a>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd1_${cinfo}.png'><img src='set4/set4_ann_mmflxd1_${cinfo}.png' atl='Indian-Pacific' class='img_wider'></a>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd2_${cinfo}.png'><img src='set4/set4_ann_mmflxd2_${cinfo}.png' atl='Glboal' class='img_wider'></a>
+</TR>
+</TABLE>
+<br>
+EOF
+elif [ $nreg -eq 4 ]; then
+    cat <<EOF >>$WEBDIR/index.html
+<h2 id='Overturning-circulation'>Overturning circulation</h2>
+<TABLE width='100%'>
+<TR>
+    <TH> Atlantic
+    <TH> Atlantic extended
+</TR>
+<TR>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd0_${cinfo}.png'><img src='set4/set4_ann_mmflxd0_${cinfo}.png' atl='Atlantic' class='img_wider'></a>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd1_${cinfo}.png'><img src='set4/set4_ann_mmflxd1_${cinfo}.png' atl='Atlantic (extended)' class='img_wider'></a>
+</TR>
+<TR>
+    <TH> Indian-Pacific
+    <TH> Global
+</TR>
+<TR>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd2_${cinfo}.png'><img src='set4/set4_ann_mmflxd2_${cinfo}.png' atl='Indian-Pacific' class='img_wider'></a>
+    <TD><a target='_self' href='set4/set4_ann_mmflxd3_${cinfo}.png'><img src='set4/set4_ann_mmflxd3_${cinfo}.png' atl='Glboal' class='img_wider'></a>
+</TR>
+</TABLE>
+<br>
+EOF
 else
-    echo "<TD><I>Atlantic</I>" >> $WEBDIR/index.html
-    echo "<TD><I>Indian-Pacific</I>" >> $WEBDIR/index.html
-    echo "<TD><I>Global</I>" >> $WEBDIR/index.html
+    echo "ERROR: Unkown number of regions"
 fi
-echo '</TABLE>' >> $WEBDIR/index.html
+
