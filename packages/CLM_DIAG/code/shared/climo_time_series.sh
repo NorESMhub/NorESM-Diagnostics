@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -x
 
 # CLM DIAGNOSTICS package: climo_time_series.sh
 # PURPOSE: compute climatology and time-series of a case
@@ -201,8 +200,18 @@ if [ $c_ts -eq 1 ]; then
     echo "Searching for monthly history files..."
     file_head=$casename.clm2.h0.
     file_prefix=$pathdat/$file_head
-    first_file=`ls ${file_prefix}????-??.nc | head -n 1`
-    last_file=`ls ${file_prefix}????-??.nc | tail -n 1`
+    first_file=$(ls ${file_prefix}????-??.nc 2>/dev/null | head -n 1)
+    last_file=$(ls ${file_prefix}????-??.nc 2>/dev/null | tail -n 1)
+    #fullpath_filename=$(ls $pathdat/$casename.${model}.h0.`printf "%04d" ${iyr}`-*.nc  2>/dev/null |head -1)
+    if [ -z $first_file ]; then
+        file_head=$casename.clm2.h0.
+        echo "${file_head}.*.nc are not found"
+        file_head=$casename.clm2.h0a.
+        echo "try ${file_head}.*.nc"
+        file_prefix=$pathdat/$file_head
+        first_file=$(ls ${file_prefix}????-??.nc 2>/dev/null | head -n 1)
+        last_file=$(ls ${file_prefix}????-??.nc 2>/dev/null | tail -n 1)
+    fi
     if [ -z $first_file ]; then
             echo "ERROR: found no monthly history files in $pathdat"
             echo "*** EXITING THE SCRIPT ***"

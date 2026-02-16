@@ -43,6 +43,19 @@ first_yr_prnt=`printf "%04d" ${first_yr}`
 last_yr_prnt=`printf "%04d" ${last_yr}`
 ann_ts_file=${casename}_ANN_${first_yr_prnt}-${last_yr_prnt}_ts.nc
 
+# test file tag for monthly files
+file_head="clm2.h0"
+file_test=$(ls ${pathdat}/${casename}.${file_head}.${first_yr_prnt}-*.nc 2>/dev/null |head -1)
+if [ -z $file_test ];then
+    file_head="clm2.h0a"
+    file_test=$(ls ${pathdat}/${casename}.${file_head}.${first_yr_prnt}-*.nc 2>/dev/null |head -1)
+    if [ -z $file_test ];then
+        echo "ERROR: found no monthly history files in $pathdat"
+        echo "*** EXITING THE SCRIPT ***"
+        exit 1
+    fi
+fi
+
 # Calculate number of chunks and the residual
 nproc=10
 let "nyrs = $last_yr - $first_yr + 1"
@@ -82,7 +95,7 @@ do
 	filenames=()
 	for mon in 01 02 03 04 05 06 07 08 09 10 11 12
 	do
-	    filename=${casename}.clm2.h0.${yr_prnt}-${mon}.nc
+	    filename=${casename}.${file_head}.${yr_prnt}-${mon}.nc
 	    filenames+=($filename)
 	done
 	eval $ncksbin/ncra -O --no_tmp_fl --hdr_pad=10000 -w 31,28,31,30,31,30,31,31,30,31,30,31 -v $var_list -p $pathdat ${filenames[*]} $tsdir/${casename}_ANN_${yr_prnt}_tmp.nc &

@@ -48,7 +48,7 @@ var_list=`cat $procdir/vars_climo_${model}`
 dec_flag=`cat $procdir/dec_flag`
 
 # Compute climatology
-$ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model -a $dec_flag -v $var_list --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir
+$ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model -a $dec_flag -v $var_list --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir 2>/dev/null
 if [ $? -ne 0 ]; then
     echo "${casename}.${model}.h0.*.nc are not found, try *.$model.h0a.*.nc..."
     $ncclimo_dir/ncclimo --no_stdin --clm_md=mth -m $model --hst_nm=h0a -a $dec_flag -v $var_list --no_amwg_links -c $casename -s $first_yr -e $last_yr -i $pathdat -o $climodir
