@@ -137,18 +137,21 @@ dcntrs_sealv=(/-0.9,-0.8,-0.7,-0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0.1,0.2,0.3,0.4,0.5,
 vars = (/"templvl0","templvl50","templvl100","templvl250","templvl500",\
          "templvl1000","templvl2000","templvl3000","templvl4000",\
          "salnlvl0","salnlvl50","salnlvl100","salnlvl250","salnlvl500",\
-         "salnlvl1000","salnlvl2000","salnlvl3000","salnlvl4000","mlts","sealv"/)
+         "salnlvl1000","salnlvl2000","salnlvl3000","salnlvl4000","sealv",\
+         "mld","bld","mlts","mldl82","mldb04"/)
 
 ; define contour intervals
 cntrs = (/cntrs_dummy,cntrs_dummy,cntrs_dummy,cntrs_dummy,cntrs_dummy,\
           cntrs_dummy,cntrs_templvl_bot,cntrs_templvl_bot,cntrs_templvl_bot,\
           cntrs_salnlvl_top,cntrs_salnlvl_top,cntrs_salnlvl_top,cntrs_salnlvl_top,cntrs_salnlvl_top,\
-          cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_mlts,cntrs_sealv/)
+          cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_salnlvl_bot,cntrs_sealv,\
+          cntrs_mlts,cntrs_mlts,cntrs_mlts,cntrs_mlts,cntrs_mlts/)
 
 dcntrs = (/dcntrs_templvl_top,dcntrs_templvl_top,dcntrs_templvl_top,dcntrs_templvl_top,dcntrs_templvl_top,\
            dcntrs_templvl_top,dcntrs_templvl_bot,dcntrs_templvl_bot,dcntrs_templvl_bot,\
            dcntrs_salnlvl_top,dcntrs_salnlvl_top,dcntrs_salnlvl_top,dcntrs_salnlvl_top,dcntrs_salnlvl_top,\
-           dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_mlts,dcntrs_sealv/)
+           dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_salnlvl_bot,dcntrs_sealv,\
+           dcntrs_mlts,dcntrs_mlts,dcntrs_mlts,dcntrs_mlts,dcntrs_mlts/)
 
 nvars = dimsizes(vars)
 
@@ -165,7 +168,8 @@ if (compare .eq. "OBS") then
   obsvars = (/"t_an0","t_an50","t_an100","t_an250","t_an500",\
               "t_an1000","t_an2000","t_an3000","t_an4000",\
               "s_an0","s_an50","s_an100","s_an250","s_an500",\
-              "s_an1000","s_an2000","s_an3000","s_an4000","mld","mdot"/) 
+              "s_an1000","s_an2000","s_an3000","s_an4000","mdot",\
+              "mld","mld","mld","mld","mld"/) 
 end if
 ;-------------------------------------------------------------
 ; common resources for global contour plots 
@@ -213,14 +217,30 @@ pan@gsnPanelYWhiteSpacePercent = 2
 ;--------------------------------------------------------------
 
 do i = 0, nvars-1
-  ;print("==================")
-  ;print("====="+ vars(i))
+;  print("==================")
+;  print("====="+ vars(i))
 ;----------------------------
 ; Test case: CASE 1 MODEL
 ;----------------------------
 
+  if (vars(i) .eq. "mld") then
+    A = get_mld (inptr1)
+  end if
+
+  if (vars(i) .eq. "bld") then
+    A = get_bld (inptr1)
+  end if
+
   if (vars(i) .eq. "mlts") then
     A = get_mlts (inptr1)
+  end if
+
+  if (vars(i) .eq. "mldl82") then
+    A = get_mldl82 (inptr1)
+  end if
+
+  if (vars(i) .eq. "mldb04") then
+    A = get_mldb04 (inptr1)
   end if
 
   if (vars(i) .eq. "templvl0") then
@@ -324,7 +344,7 @@ do i = 0, nvars-1
   end if
 
   if (all(A.eq.-999.)) then
-    print (vars(i)+" not present in case1 input file.")
+    print ("'"+vars(i)+"' not present in case1 input file.")
     delete(A)
     continue       ; procede to next variable in do loop
   end if
@@ -538,7 +558,9 @@ do i = 0, nvars-1
       B@units = "g/kg"      
     end if
 
-    if (vars(i).eq."mld" .or. vars(i).eq."mlts") then
+    if (vars(i).eq."mld" .or. vars(i).eq."bld" \
+    .or. vars(i) .eq. "mlts" .or. vars(i) .eq. "mldl82" \
+    .or. vars(i) .eq. "mldb04" ) then
       delete(B)    
       B = inptr2->mld(0,:,:)
       B@long_name = "Mixed layer depth"
@@ -561,9 +583,24 @@ do i = 0, nvars-1
  ;-------------
 
   else                               ; CASE 2 IS MODEL
+    if (vars(i) .eq. "mld") then
+      B = get_mld (inptr2)
+    end if
+
+    if (vars(i) .eq. "bld") then
+      B = get_bld (inptr2)
+    end if
 
     if (vars(i) .eq. "mlts") then
       B = get_mlts (inptr2)
+    end if
+
+    if (vars(i) .eq. "mldl82") then
+      B = get_mldl82 (inptr2)
+    end if
+
+    if (vars(i) .eq. "mldb04") then
+      B = get_mldb04 (inptr2)
     end if
 
     if (vars(i) .eq. "templvl0") then

@@ -57,7 +57,7 @@ if (cmonth.eq."12") then
   smonth="Dec"
 end if
 
-print("Computing mld from density profiles ("+smonth+")...")
+print("Computing mldb04 from density profiles ("+smonth+")...")
 
 ; CASE 1 Model
 inptr1 = addfile(infile1,"r")
@@ -144,16 +144,16 @@ end if
 ; define variables to plot
 ;************************************************
 ; contours definition (global)
-cntrs_mld=(/10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 750/)
-dcntrs_mld=(/-250,-200,-150,-100,-75,-50,-25,-10,-5,5,10,25,50,75,100,150,200,250/)
+cntrs_mldb04=(/10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 750/)
+dcntrs_mldb04=(/-250,-200,-150,-100,-75,-50,-25,-10,-5,5,10,25,50,75,100,150,200,250/)
 
 ; model variables
-vars = (/"mld"/)
+vars = (/"mldb04"/)
 
 ; define contour intervals
-cntrs = (/cntrs_mld/)
+cntrs = (/cntrs_mldb04/)
 
-dcntrs = (/dcntrs_mld/)
+dcntrs = (/dcntrs_mldb04/)
 
 nvars = dimsizes(vars)
 
@@ -217,8 +217,8 @@ do i = 0, nvars-1
 ; Test case: CASE 1 MODEL
 ;----------------------------
 
-  if (vars(i) .eq. "mld") then
-    A = get_mld (inptr1)
+  if (vars(i) .eq. "mldb04") then
+    A = cal_mldb04 (inptr1)
   end if
 
   if (all(A.eq.-999.)) then
@@ -253,7 +253,7 @@ do i = 0, nvars-1
 ; get the variable
 
     B = -999.
-    if (vars(i).eq."mld") then
+    if (vars(i).eq."mldb04") then
       delete(B)    
       B = inptr2->mld(0,:,:)
       B@long_name = "Mixed layer depth"
@@ -270,8 +270,8 @@ do i = 0, nvars-1
 
   else                               ; CASE 2 IS MODEL
 
-    if (vars(i) .eq. "mld") then
-      B = get_mld (inptr2)
+    if (vars(i) .eq. "mldb04") then
+      B = cal_mldb04 (inptr2)
     end if
 
     if (all(B.eq.-999.)) then
@@ -368,8 +368,8 @@ do i = 0, nvars-1
   filevardef(fout, "time" ,typeof(time1),getvardims(time1))
   filevardef(fout, "lat"  ,typeof(lat1),getvardims(lat1))
   filevardef(fout, "lon"  ,typeof(lon1),getvardims(lon1))
-  filevardef(fout, "mld"  ,typeof(Anew)  ,getvardims(Anew))
-  filevarattdef(fout,"mld",Anew)
+  filevardef(fout, "mldb04"  ,typeof(Anew)  ,getvardims(Anew))
+  filevarattdef(fout,"mldb04",Anew)
   filevarattdef(fout,"time" ,time1)
   filevarattdef(fout,"lat"  ,lat1)
   filevarattdef(fout,"lon"  ,lon1)
@@ -377,7 +377,7 @@ do i = 0, nvars-1
   fout->time   = (/time1/)
   fout->lat    = (/lat1/)
   fout->lon    = (/lon1/)
-  fout->mld    = (/Anew/)
+  fout->mldb04 = (/Anew/)
 
   if (compare.eq."USER") then
     Bnew = new((/1,nlat2,nlon2/),float)
@@ -395,8 +395,8 @@ do i = 0, nvars-1
     filevardef(fout, "time" ,typeof(time2),getvardims(time2))
     filevardef(fout, "lat"  ,typeof(lat2),getvardims(lat2))
     filevardef(fout, "lon"  ,typeof(lon2),getvardims(lon2))
-    filevardef(fout, "mld"  ,typeof(Bnew)  ,getvardims(Bnew))
-    filevarattdef(fout,"mld",Bnew)
+    filevardef(fout, "mldb04"  ,typeof(Bnew)  ,getvardims(Bnew))
+    filevarattdef(fout,"mldb04",Bnew)
     filevarattdef(fout,"time" ,time2)
     filevarattdef(fout,"lat"  ,lat2)
     filevarattdef(fout,"lon"  ,lon2)
@@ -404,7 +404,7 @@ do i = 0, nvars-1
     fout->time   = (/time2/)
     fout->lat    = (/lat2/)
     fout->lon    = (/lon2/)
-    fout->mld    = (/Bnew/)
+    fout->mldb04    = (/Bnew/)
   end if
 
 ;--------------------- Open files for plots ------------------------------

@@ -23,7 +23,7 @@ begin
       xvar@units = "degC"
       assignFillValue(xvar,xvar)
    else
-      print("get_templvl: no templvl variable present")
+;      print("get_templvl: no templvl variable present")
       xvar = -999.0
    end if
    return (xvar)
@@ -45,13 +45,13 @@ begin
       xvar@units = "g/kg"
       assignFillValue(xvar,xvar)
    else
-      print("get_salnlvl: no salnlvl variable present")
+;      print("get_salnlvl: no salnlvl variable present")
       xvar = -999.0
    end if
    return (xvar)
 end
 
-function get_mld (inptr:file)
+function cal_mldb04 (inptr:file)
 ;--------------------------------------------------------
 ; Compute mld by density changes in the uppermost layers
 ; (de Boyer Montegut et al. 2004)
@@ -162,7 +162,7 @@ begin
       delete(nlat)
       delete(nz)
    else
-      print("get_mld: no temp and/or saln and/or dz present: cannot compute mld.")
+      print("cal_mldb04: no temp and/or saln and/or dz present: cannot compute mld.")
       xvar = -999.0
    end if
    return (xvar)
@@ -182,7 +182,7 @@ begin
       xvar@units = "m"
       assignFillValue(xvar,xvar)
    else
-      print("get_sealv: no sealv variable present")
+;      print("get_sealv: no sealv variable present")
       xvar = -999.0
    end if
    return (xvar)
@@ -201,7 +201,7 @@ begin
       xvar@units = "degC"
       assignFillValue(xvar,xvar)
    else
-      print("get_sst: no sst variable present")
+;      print("get_sst: no sst variable present")
       xvar = -999.0
    end if
    return (xvar)
@@ -220,7 +220,47 @@ begin
       xvar@units = "g/kg"
       assignFillValue(xvar,xvar)
    else
-      print("get_sss: no sss variable present")
+;      print("get_sss: no sss variable present")
+      xvar = -999.0
+   end if
+   return (xvar)
+end
+
+function get_mld (inptr:file)
+begin
+   if (isfilevar(inptr,"mld" )) then
+     tmp = inptr->mld
+     if (typeof(tmp).eq."double") then
+        xvar = dble2flt(tmp(0,:,:))
+     else
+        xvar = tmp(0,:,:)
+     end if
+     xvar@long_name = "Mixed layer depth (mld)"
+     xvar@units = "m"
+     assignFillValue(xvar,xvar)
+     print(xvar@long_name)
+   else
+;      print("get_mld: no 'mld' variable present")
+      xvar = -999.0
+   end if
+   return (xvar)
+end
+
+function get_bld (inptr:file)
+begin
+   if (isfilevar(inptr,"bld" )) then
+     tmp = inptr->bld
+     if (typeof(tmp).eq."double") then
+        xvar = dble2flt(tmp(0,:,:))
+     else
+        xvar = tmp(0,:,:)
+     end if
+     xvar@long_name = "Mixed layer depth (bld)"
+     xvar@units = "m"
+     assignFillValue(xvar,xvar)
+     print(xvar@long_name)
+   else
+;      print("get_bld: no 'bld' variable present")
       xvar = -999.0
    end if
    return (xvar)
@@ -235,11 +275,52 @@ begin
       else
          xvar = tmp(0,:,:)
       end if
-      xvar@long_name = "Mixed layer depth"
+      xvar@long_name = "Mixed layer depth (mlts)"
       xvar@units = "m"
       assignFillValue(xvar,xvar)
+      print(xvar@long_name)
    else
-      print("get_mlts: no mlts variable present")
+;      print("get_mlts: no mlts variable present")
+      xvar = -999.0
+   end if
+   return (xvar)
+end
+
+function get_mldl82 (inptr:file)
+begin
+   if (isfilevar(inptr,"mldl82")) then
+      tmp = inptr->mldl82
+      if (typeof(tmp).eq."double") then
+         xvar = dble2flt(tmp(0,:,:))
+      else
+         xvar = tmp(0,:,:)
+      end if
+      xvar@long_name = "Mixed layer depth (mldl82)"
+      xvar@units = "m"
+      assignFillValue(xvar,xvar)
+      print(xvar@long_name)
+   else
+;      print("get_mldl82: no 'mldl82' variable present")
+      xvar = -999.0
+   end if
+   return (xvar)
+end
+
+function get_mldb04 (inptr:file)
+begin
+   if (isfilevar(inptr,"mldb04")) then
+      tmp = inptr->mldb04
+      if (typeof(tmp).eq."double") then
+         xvar = dble2flt(tmp(0,:,:))
+      else
+         xvar = tmp(0,:,:)
+      end if
+      xvar@long_name = "Mixed layer depth (mldb04)"
+      xvar@units = "m"
+      assignFillValue(xvar,xvar)
+      print(xvar@long_name)
+   else
+;      print("get_mldb04: no mldb04 variable present")
       xvar = -999.0
    end if
    return (xvar)
