@@ -8,8 +8,13 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 
 function get_voltr (inptr:file) 
 begin
-   if (isfilevar(inptr,"voltr")) then
-      tmp = inptr->voltr
+   if (isfilevar(inptr,"voltr") .or. isfilevar(inptr,"masstr")) then
+      if (isfilevar(inptr,"voltr")) then
+        tmp = inptr->voltr
+      else
+        tmp = inptr->masstr
+      end if
+
       if (typeof(tmp).eq."double") then
          xvar = dble2flt(tmp)
       else

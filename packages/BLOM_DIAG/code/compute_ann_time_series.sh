@@ -50,7 +50,7 @@ done
 first_yr_prnt=$(printf "%04d" ${first_yr})
 last_yr_prnt=$(printf "%04d" ${last_yr})
 ann_ts_file=${casename}_ANN_${first_yr_prnt}-${last_yr_prnt}_ts_${filetype}.nc
-ann_ts_var_list="mmflxd voltr temp saln templvl salnlvl sst sss tempga salnga sstga sssga"
+ann_ts_var_list="mmflxd voltr masstr temp saln templvl salnlvl sst sss tempga salnga sstga sssga"
 
 # Determine file tag
 for ocn in blom micom
@@ -340,7 +340,7 @@ do
             done
         fi
         # Section transports
-        if [ $var == voltr ]; then
+        if [ $var == voltr ] || [ $var == masstr ]; then
             echo "Section transports (yrs ${YR_start}-${YR_end})"
             iproc=1
             while [ $iproc -le $nyrs ]
@@ -350,7 +350,7 @@ do
                 infile=${casename}_ANN_${yr_prnt}.nc
                 outfile=${var}_${casename}_ANN_${filetype}_${yr_prnt}.nc
                 if [ ! -f $tsdir/ann_ts/$outfile ]; then
-                    $NCKS --no_tmp_fl -O -v voltr,section $WKDIR/$infile $WKDIR/$outfile
+                    $NCKS --no_tmp_fl -O -v ${var},section $WKDIR/$infile $WKDIR/$outfile
                 fi
                 let iproc++
             done

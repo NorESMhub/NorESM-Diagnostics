@@ -288,10 +288,13 @@ if [ $CNTL == USER ]; then
 fi
 
 # Set required variables for climatology and time series
-required_vars_climo="sealv,templvl,salnlvl,mmflxd,temp,saln,dz,sst,sss,mlts,mhflx,msflx"
-required_vars_climo_ann="sealv,templvl,salnlvl,mmflxd,mhflx,msflx,mlts"
-required_vars_climo_mon="temp,saln,dz,sst,sss,mlts"
-required_vars_ts_ann="mmflxd,voltr,temp,saln,templvl,salnlvl,dp,sst,sss,tempga,salnga,sstga,sssga"
+required_vars_climo="sealv,templvl,salnlvl,mmflxd,temp,saln,dz,sst,sss,mhflx,msflx"
+required_vars_climo+=",mld,bld,mlts,mldl82,mldb04"
+required_vars_climo_ann="sealv,templvl,salnlvl,mmflxd,mhflx,msflx"
+required_vars_climo_ann+=",mld,bld,mlts,mldl82,mldb04"
+required_vars_climo_mon="temp,saln,dz,sst,sss"
+required_vars_climo_mon+=",mld,bld,mlts,mldl82,mldb04"
+required_vars_ts_ann="mmflxd,voltr,masstr,temp,saln,templvl,salnlvl,dp,sst,sss,tempga,salnga,sstga,sssga"
 
 # Check which sets should be plotted based on CLIMO_TIME_SERIES_SWITCH
 if [ $CLIMO_TIME_SERIES_SWITCH == ONLY_CLIMO ]; then
@@ -917,11 +920,11 @@ if [ $set_3 -eq 1 ]; then
 
     # Compute and plot monthly MLD if 'mlts' is not presented on model output
     TEST_FILE=$CLIMO_TS_DIR1/${CASENAME1}_01_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_climo_remap.nc
-    $NCKS --quiet -d lon,0 -d lat,0 -d time,0 -v mlts $TEST_FILE >/dev/null 2>&1
-    IFMLTS=$?
-    $NCKS --quiet -d lon,0 -d lat,0 -d sigma,0 -v temp,saln,dz $TEST_FILE >/dev/null 2>&1
+    $NCKS --quiet -d lon,0 -d lat,0 -d time,0 -v mldb04 $TEST_FILE >/dev/null 2>&1
+    IFMLDB04=$?
+    $NCKS --quiet -d lon,0 -d lat,0 -v temp,saln,dz $TEST_FILE >/dev/null 2>&1
     IFTS=$?
-    if [ "$IFMLTS" != 0 ] && [ "$IFTS" == 0 ]; then
+    if [ "$IFMLDB04" != 0 ] && [ "$IFTS" == 0 ]; then
         echo "2D monthly MLD plots (plot_mld_monthly.ncl)..."
         MLD_CLIM_DIR1=$CLIMO_TS_DIR1/MLD
         if [ -d $MLD_CLIM_DIR1 ]; then
@@ -941,10 +944,10 @@ if [ $set_3 -eq 1 ]; then
             export INFILE1=$CLIMO_TS_DIR1/${CASENAME1}_${month}_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_climo_remap.nc
             export INFILE2=$DIAG_OBS/MLD/mld_clim_WOCE_${month}.nc
             export CMONTH=$month
-            export NCOUTPATH1=$MLD_CLIM_DIR1/mld_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc
+            export NCOUTPATH1=$MLD_CLIM_DIR1/mldb04_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc
             if [ $CNTL == USER ]; then
                 export INFILE2=$CLIMO_TS_DIR2/${CASENAME2}_${month}_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_climo_remap.nc
-                export NCOUTPATH2=$MLD_CLIM_DIR2/mld_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc
+                export NCOUTPATH2=$MLD_CLIM_DIR2/mldb04_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc
             fi
             eval $NCL -Q < $DIAG_CODE/plot_mld_monthly.ncl &
             pid+=($!)
@@ -964,31 +967,31 @@ if [ $set_3 -eq 1 ]; then
         mld_files2=()
         for month in 01 02 03 04 05 06 07 08 09 10 11 12
         do
-            mld_file1=mld_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc
+            mld_file1=mldb04_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc
             if [ -f $MLD_CLIM_DIR1/$mld_file1 ]; then
                 mld_files1+=($mld_file1)
             else
-                echo "ERROR: cannot find $MLD_CLIM_DIR1/mld_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc"
+                echo "ERROR: cannot find $MLD_CLIM_DIR1/mldb04_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_${month}.nc"
                 #echo "*** EXITING THE SCRIPT ***"
                 #exit 1
             fi
             if [ $CNTL == USER ]; then
-                mld_file2=mld_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc
+                mld_file2=mldb04_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc
                 if [ -f $MLD_CLIM_DIR2/$mld_file2 ]; then
                     mld_files2+=($mld_file2)
                 else
-                    echo "ERROR: cannot find $MLD_CLIM_DIR2/mld_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc"
+                    echo "ERROR: cannot find $MLD_CLIM_DIR2/mldb04_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_${month}.nc"
                     #echo "*** EXITING THE SCRIPT ***"
                     #exit 1
                 fi
             fi
         done
         # Calculate annual mean MLD
-        mld_ann_file1=$MLD_CLIM_DIR1/mld_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_ANN.nc
-        $NCRA -O -w 31,28,31,30,31,30,31,31,30,31,30,31 --no_tmp_fl --hdr_pad=10000 -v mld -p $MLD_CLIM_DIR1 ${mld_files1[*]} $mld_ann_file1
+        mld_ann_file1=$MLD_CLIM_DIR1/mldb04_${FYR_PRNT_CLIMO1}-${LYR_PRNT_CLIMO1}_ANN.nc
+        $NCRA -O -w 31,28,31,30,31,30,31,31,30,31,30,31 --no_tmp_fl --hdr_pad=10000 -v mldb04 -p $MLD_CLIM_DIR1 ${mld_files1[*]} $mld_ann_file1
         if [ $CNTL == USER ]; then
-            mld_ann_file2=$MLD_CLIM_DIR2/mld_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_ANN.nc
-            $NCRA -O -w 31,28,31,30,31,30,31,31,30,31,30,31 --no_tmp_fl --hdr_pad=10000 -v mld -p $MLD_CLIM_DIR2 ${mld_files2[*]} $mld_ann_file2
+            mld_ann_file2=$MLD_CLIM_DIR2/mldb04_${FYR_PRNT_CLIMO2}-${LYR_PRNT_CLIMO2}_ANN.nc
+            $NCRA -O -w 31,28,31,30,31,30,31,31,30,31,30,31 --no_tmp_fl --hdr_pad=10000 -v mldb04 -p $MLD_CLIM_DIR2 ${mld_files2[*]} $mld_ann_file2
         fi
         echo "2D annual-mean MLD plot (plot_mld_annual.ncl)..."
         export INFILE1=$mld_ann_file1
@@ -1015,12 +1018,12 @@ if [ $set_3 -eq 1 ]; then
     echo "Generating html for set3 plots"
     echo "-----------------------"
     echo " "
-    if ls $WEBDIR/set3/set3_*_mlts_${cinfo}.png >/dev/null 2>&1
-    then
-        cat $DIAG_HTML/webpage3.html | sed "s/_mld_CINFO/_mlts_CINFO/g" | sed "s/MLD <br> (TS-derived)/MLTS <br> (online-diagnosed)/g" \
-                                     | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
-    else
-        cat $DIAG_HTML/webpage3.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
+    cat $DIAG_HTML/webpage3.html | sed "s/CINFO.png/${cinfo}.png/g" >> $WEBDIR/index.html
+    if $(ls $WEBDIR/set3/set3_*_bld_${cinfo}.png >/dev/null 2>&1); then
+        sed -i "s/_mld_${cinfo}/_bld_${cinfo}/g" $WEBDIR/index.html
+    fi
+    if $(ls $WEBDIR/set3/set3_*_mldl82_${cinfo}.png >/dev/null 2>&1); then
+        sed -i "s/_mlts_${cinfo}/_mldl82_${cinfo}/g" $WEBDIR/index.html
     fi
 
 fi

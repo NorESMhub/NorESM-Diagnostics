@@ -3,7 +3,7 @@
 ; Mark Stevens Sept 2001
 ; Rich Neale Jan 2008
 ; Johan Liakka Dec 2017
-; Yanchun He Jul 2019: Update for monthly mlts
+; Yanchun He Jul 2019: Update for monthly mixed layer depth by de Boyer Montegut 2004
 ;********************************************************
 load "$DIAG_CODE/functions_latlon.ncl"
 ;********************************************************
@@ -124,16 +124,16 @@ end if
 ; define variables to plot
 ;************************************************
 ; contours definition (global)
-cntrs_mlts=(/10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 750/)
-dcntrs_mlts=(/-250,-200,-150,-100,-75,-50,-25,-10,-5,5,10,25,50,75,100,150,200,250/)
+cntrs_mld=(/10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 400, 500, 750/)
+dcntrs_mld=(/-250,-200,-150,-100,-75,-50,-25,-10,-5,5,10,25,50,75,100,150,200,250/)
 
 ; model variables
-vars = (/"mlts"/)
+vars = (/"mldb04"/)
 
 ; define contour intervals
-cntrs = (/cntrs_mlts/)
+cntrs = (/cntrs_mld/)
 
-dcntrs = (/dcntrs_mlts/)
+dcntrs = (/dcntrs_mld/)
 
 nvars = dimsizes(vars)
 
@@ -196,9 +196,8 @@ do i = 0, nvars-1
 ;----------------------------
 ; Test case: CASE 1 MODEL
 ;----------------------------
-
-  if (vars(i) .eq. "mlts") then
-    A = get_mlts (inptr1)
+  if (vars(i) .eq. "mldb04") then
+    A = get_mldb04 (inptr1)
   end if
 
   if (all(A.eq.-999.)) then
@@ -233,7 +232,7 @@ do i = 0, nvars-1
 ; get the variable
 
     B = -999.
-    if (vars(i).eq."mlts") then
+    if (vars(i).eq."mldb04") then
       delete(B)    
       B = inptr2->mld(0,:,:)
       B@long_name = "Mixed layer depth"
@@ -250,8 +249,8 @@ do i = 0, nvars-1
 
   else                               ; CASE 2 IS MODEL
 
-    if (vars(i) .eq. "mlts") then
-      B = get_mlts (inptr2)
+    if (vars(i) .eq. "mldb04") then
+      B = get_mldb04 (inptr2)
     end if
 
     if (all(B.eq.-999.)) then
@@ -381,6 +380,8 @@ do i = 0, nvars-1
     else  
       res@tiMainString = case2
     end if
+    res@gsnLeftString = B@long_name
+    res@gsnRightString = B@units
     res@gsnCenterString = "mean = "+sprintf("%6.2f",gblmean_B)
     res@lbTitleString = "Min = "+sprintf("%6.2f",min2)+ \
                         " Max = "+sprintf("%6.2f",max2)

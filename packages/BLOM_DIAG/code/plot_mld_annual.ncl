@@ -28,7 +28,7 @@ rgb_filed = rgb_dir+"/bluered2.rgb"
 inptr1   = addfile(infile1,"r")
 lat1     = inptr1->lat
 lon1     = inptr1->lon
-A        = inptr1->mld(0,:,:)
+A        = inptr1->mldb04(0,:,:)
 nlat1    = dimsizes(lat1)
 nlon1    = dimsizes(lon1)
 yrs_ave1 = fyr1+"-"+lyr1
@@ -56,7 +56,7 @@ else
   inptr2   = addfile(infile2,"r")
   lat2     = inptr2->lat
   lon2     = inptr2->lon
-  B        = inptr2->mld(0,:,:)
+  B        = inptr2->mldb04(0,:,:)
   nlat2    = dimsizes(lat2)
   nlon2    = dimsizes(lon2)
   yrs_ave2 = fyr2+"-"+lyr2
