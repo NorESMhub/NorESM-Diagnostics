@@ -294,7 +294,7 @@ required_vars_climo_ann="sealv,templvl,salnlvl,mmflxd,mhflx,msflx"
 required_vars_climo_ann+=",mld,bld,mlts,mldl82,mldb04"
 required_vars_climo_mon="temp,saln,dz,sst,sss"
 required_vars_climo_mon+=",mld,bld,mlts,mldl82,mldb04"
-required_vars_ts_ann="mmflxd,voltr,temp,saln,templvl,salnlvl,dp,sst,sss,tempga,salnga,sstga,sssga"
+required_vars_ts_ann="mmflxd,voltr,masstr,temp,saln,templvl,salnlvl,dp,sst,sss,tempga,salnga,sstga,sssga"
 
 # Check which sets should be plotted based on CLIMO_TIME_SERIES_SWITCH
 if [ $CLIMO_TIME_SERIES_SWITCH == ONLY_CLIMO ]; then
