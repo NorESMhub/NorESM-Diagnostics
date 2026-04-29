@@ -897,7 +897,7 @@ tar -cf ${TAR_FILE}.tar $TAR_FILE
 rm -rf $TAR_FILE
 # Publish html data (JL Oct 2017)
 if ($web_pages == 1 && $publish_html == 1) then
-   set web_server_path = /projects/NS2345K/www
+   set web_server_path = /nird/datalake/NS2345K/www
    if ( "$publish_html_root" == "" ) then
       set publish_html_root = ${web_server_path}/noresm
    endif

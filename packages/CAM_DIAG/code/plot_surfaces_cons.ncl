@@ -1787,6 +1787,9 @@ do i = 0, nvars-1
   end if
   if (vars(i) .eq. "REFFCLIMODIS") then
     A = get_REFFCLIMODIS (inptr1,outptr1)
+    if (max(abs(A)).gt.100.) then
+      A = -999.
+    end if
     if (all(A.eq.-999.)) then
       print ("REFFCLIMODIS not present in test case input file.")
       delete (A)
@@ -1799,6 +1802,9 @@ do i = 0, nvars-1
   end if
   if (vars(i) .eq. "REFFCLWMODIS") then
     A = get_REFFCLWMODIS (inptr1,outptr1)
+    if (max(abs(A)).gt.100.) then
+      A = -999.
+    end if
     if (all(A.eq.-999.)) then
       print ("REFFCLWMODIS not present in test case input file.")
       delete (A)
@@ -2814,12 +2820,22 @@ do i = 0, nvars-1
     end if 
     if (vars(i) .eq. "REFFCLIMODIS") then
       B = get_REFFCLIMODIS (inptr2,outptr2)
+      if (max(abs(B)).gt.100.) then
+        delete (A)
+        delete (B)
+        continue
+      end if
       if (sig_plot .eq. "True") then
         B_var = get_VARIANCE (meansptr2,varptr2,"REFFCLIMODIS")
       end if
     end if 
     if (vars(i) .eq. "REFFCLWMODIS") then
       B = get_REFFCLWMODIS (inptr2,outptr2)
+      if (max(abs(B)).gt.100.) then
+        delete (A)
+        delete (B)
+        continue
+      end if
       if (sig_plot .eq. "True") then
         B_var = get_VARIANCE (meansptr2,varptr2,"REFFCLWMODIS")
       end if

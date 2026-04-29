@@ -3437,10 +3437,7 @@ if ($email == 0) then
 endif  
 # Publish html data
 if ($web_pages == 0 && $publish_html == 0) then
-   set web_server_path = /projects/NS9560K-datalake/www
-   if ( ! -d $web_server_path ) then
-      set web_server_path = /nird/datalake/NS9560K/www
-   endif
+   set web_server_path = /nird/datalake/NS2345K/www
    if ( "$publish_html_root" == "" ) then
       set publish_html_root = ${web_server_path}/noresm
    endif
@@ -3455,7 +3452,7 @@ if ($web_pages == 0 && $publish_html == 0) then
    if (-e ${publish_html_path} && `stat -c %a ${publish_html_path}` != 775 ) then
       chmod 775 ${publish_html_path}
    endif
-   set web_server      = http://ns9560k.web.sigma2.no/datalake
+   set web_server      = http://ns2345k.web.sigma2.no/datalake
    set path_pref       = `echo ${publish_html_path} | awk -F'www/' '{print $1 "www"}'`
    set path_suff       = `echo ${publish_html_path} | awk -F'www/' '{print $2 }'`
    echo ' '

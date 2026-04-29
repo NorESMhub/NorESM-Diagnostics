@@ -547,9 +547,15 @@ do i = 0, nvars-1
   end if 
   if (vars(i) .eq. "REFFCLIMODIS") then
     A = zonal_REFFCLIMODIS (inptr1,outptr1)
+    if (max(A).gt.100. .or. min(A).lt.0.) then
+      A = where(A.gt.100. .or. A.lt.0., -999., A)
+    end if
   end if 
   if (vars(i) .eq. "REFFCLWMODIS") then
     A = zonal_REFFCLWMODIS (inptr1,outptr1)
+    if (max(A).gt.100. .or. min(A).lt.0.) then
+      A = where(A.gt.100. .or. A.lt.0., -999., A)
+    end if
   end if 
   if (vars(i) .eq. "TAUTLOGMODIS") then
     A = zonal_TAUTLOGMODIS (inptr1,outptr1)
@@ -1087,9 +1093,15 @@ do i = 0, nvars-1
     end if 
     if (vars(i) .eq. "REFFCLIMODIS") then
       B = zonal_REFFCLIMODIS (inptr2,outptr2)
+      if (max(B).gt.1000. .or. min(B).lt.0.) then
+        B = where(B.gt.100. .or. B.lt.0., -999., B)
+      end if
     end if 
     if (vars(i) .eq. "REFFCLWMODIS") then
       B = zonal_REFFCLWMODIS (inptr2,outptr2)
+      if (max(B).gt.1000. .or. min(B).lt.0.) then
+        B = where(B.gt.100. .or. B.lt.0., -999., B)
+      end if
     end if 
     if (vars(i) .eq. "TAUTLOGMODIS") then
       B = zonal_TAUTLOGMODIS (inptr2,outptr2)

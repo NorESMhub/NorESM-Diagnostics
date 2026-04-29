@@ -593,9 +593,15 @@ do i = 0, nvars-1      ; loop over variables
     end if    
     if (vars(i) .eq. "REFFCLWMODIS") then
       A = get_REFFCLWMODIS (inptr1(m),outptr1(m))
+      if (max(abs(A)) .gt. 100.) then
+        A = -999.
+      end if
     end if    
     if (vars(i) .eq. "REFFCLIMODIS") then
       A = get_REFFCLIMODIS (inptr1(m),outptr1(m))
+      if (max(abs(A)) .gt. 100.) then
+        A = -999.
+      end if
     end if    
     if (vars(i) .eq. "TAUTLOGMODIS") then
       A = get_TAUTLOGMODIS (inptr1(m),outptr1(m))
@@ -1155,9 +1161,15 @@ do i = 0, nvars-1      ; loop over variables
     end if    
     if (vars(i) .eq. "REFFCLWMODIS") then
       B = get_REFFCLWMODIS (inptr2(m),outptr2(m))
+      if (max(abs(B)) .gt. 100.) then
+        B = -999.
+      end if
     end if    
     if (vars(i) .eq. "REFFCLIMODIS") then
       B = get_REFFCLIMODIS (inptr2(m),outptr2(m))
+      if (max(abs(B)) .gt. 100.) then
+        B = -999.
+      end if
     end if    
     if (vars(i) .eq. "TAUTLOGMODIS") then
       B = get_TAUTLOGMODIS (inptr2(m),outptr2(m))

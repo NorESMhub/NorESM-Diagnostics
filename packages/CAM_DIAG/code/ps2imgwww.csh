@@ -49,6 +49,9 @@ if ($2 != gif && $2 != jpg && $2 != png) then
   exit
 endif
 
+# remove empty files to avoid error with convert
+find $WKDIR -name '*.ps' -empty -delete
+
 if ($1 == set2 || $1 == all) then
   echo CONVERTING SET2 PS FILES TO $2 
   foreach file ({$WKDIR}/set2*.ps)

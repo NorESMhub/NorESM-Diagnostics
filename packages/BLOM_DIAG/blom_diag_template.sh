@@ -1198,7 +1198,7 @@ echo "****************************************************"
 echo "Making tar file of directory: $WEBFOLDER"
 tar -cf $TARFILE $WEBFOLDER
 if [ $? -eq 0 ] && [ $publish_html -eq 1 ]; then
-    web_server_path=/projects/NS2345K/www
+    web_server_path=/nird/datalake/NS2345K/www
     if [ -z $publish_html_root ]; then
         publish_html_root=${web_server_path}/diagnostics/noresm
     fi
