@@ -18,27 +18,17 @@ CASE2=none
 SYR2=-1
 EYR2=-1
 
-if [ -d /cluster/work/users ]; then                                                     # Betzy
+if [ -d /cluster/work/users ]; then                                                 # Betzy
     WEB_PATH=/cluster/work/users/$USER/diagnostics/www
     HISTORY_PATH1=/cluster/work/users/$USER/archive
     HISTORY_PATH2=/cluster/work/users/$USER/archive
     DIAG_PATH=/cluster/work/users/$USER/diagnostics/out
-elif [ -d /projects/NS9560K-datalake/www ] && [ -w /projects/NS9560K-datalake/www ]; then # IPCC
-    WEB_PATH=/projects/NS9560K-datalake/www/diagnostics/noresm/$USER
-    HISTORY_PATH1=/projects/NS9560K/noresm/cases
-    HISTORY_PATH2=$HISTORY_PATH1
-    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
-elif [ -d /nird/datalake/NS9560K ] && [ -w /nird/datalake/NS9560K/www ]; then             # NIRD
+elif [ -d /nird/datalake/NS9560K/www ] && [ -w /nird/datalake/NS9560K/www ]; then   # NIRD/NS9560K
     WEB_PATH=/nird/datalake/NS9560K/www/diagnostics/noresm/$USER
-    HISTORY_PATH1=/nird/datapeak/NS9560K/noresm/cases
+    HISTORY_PATH1=/nird/datalake/NS9560K/noresm3/cases
     HISTORY_PATH2=$HISTORY_PATH1
     DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
-elif [ -d /projects/NS2345K-datalake/www ] && [ -w /projects/NS2345K-datalake/www ]; then # IPCC
-    WEB_PATH=/projects/NS2345K-datalake/www/diagnostics/noresm/$USER
-    HISTORY_PATH1=/projects/NS2345K/noresm/cases
-    HISTORY_PATH2=$HISTORY_PATH1
-    DIAG_PATH=/scratch/$USER/diagnostics/noresm/out
-elif [ -d /nird/datalake/NS2345K ] && [ -w /nird/datalake/NS2345K/www ]; then             # NIRD
+elif [ -d /nird/datalake/NS2345K/www ] && [ -w /nird/datalake/NS2345K/www ]; then   # NIRD/NS2345K
     WEB_PATH=/nird/datalake/NS2345K/www/diagnostics/noresm/$USER
     HISTORY_PATH1=/nird/datapeak/NS2345K/noresm/cases
     HISTORY_PATH2=$HISTORY_PATH1

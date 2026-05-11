@@ -28,7 +28,7 @@ elif [ "$(echo $HOST |grep 'betzy')" ]; then
     #module -q load CDO/2.2.2-gompi-2023b
     module -q load CDO/2.0.6-gompi-2022a
     ## old modules before Betzy upgrde
-    #module -q load NCL/6.6.2-intel-2019b
+    #module -q load NCL/6.6.2-intel-2025b
     #module unload HDF/4.2.14-GCCcore-8.3.0
     #module -q load ImageMagick/7.1.0-4-GCCcore-11.2.0
     ## locally installed newl modules, 18 Nov. 2024
