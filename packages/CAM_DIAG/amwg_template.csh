@@ -31,8 +31,9 @@ else if ( `echo "$MACHINE" |grep 'login[0-9]-nird'` != '' ) then
     module load NCO/5.1.3-foss-2022a
     module load UDUNITS/2.2.28-GCCcore-11.3.0
     #module load ImageMagick/7.0.9-5-GCCcore-8.3.0
-    export NCARG_ROOT=/usr
-    export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
+    setenv LD_PRELOAD=/lib64/libproj.so.25      # temporary fix for the /lib64/libgdal.so.36 error
+    setenv NCARG_ROOT=/usr
+    setenv NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
     setenv ncksbin  `which ncks`
     setenv nco_dir  `dirname $ncksbin`
     setenv cdobin   `which cdo`

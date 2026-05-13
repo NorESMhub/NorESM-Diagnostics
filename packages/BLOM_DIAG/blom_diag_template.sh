@@ -18,6 +18,7 @@ elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
     module -q purge
     module load NCO/5.1.3-foss-2022a
     module load CDO/2.0.6-gompi-2022a
+    export LD_PRELOAD=/lib64/libproj.so.25      # temporary fix for the /lib64/libgdal.so.36 error
     export NCARG_ROOT=/usr
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
 elif [ "$(echo $HOST |grep 'betzy')" ]; then
