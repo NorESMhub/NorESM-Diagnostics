@@ -29,8 +29,9 @@ else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
     module load NCO/5.1.3-foss-2022a
     module load UDUNITS/2.2.28-GCCcore-11.3.0
     #module load ImageMagick/7.0.9-5-GCCcore-8.3.0
-    export NCARG_ROOT=/usr
-    export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
+    setevn LD_PRELOAD=/lib64/libproj.so.25      # temporary fix for the /lib64/libgdal.so.36 error
+    setevn NCARG_ROOT=/usr
+    setevn NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`
     setenv ncksbin $ncclimo_dir
@@ -897,7 +898,7 @@ tar -cf ${TAR_FILE}.tar $TAR_FILE
 rm -rf $TAR_FILE
 # Publish html data (JL Oct 2017)
 if ($web_pages == 1 && $publish_html == 1) then
-   set web_server_path = /projects/NS2345K/www
+   set web_server_path = /nird/datalake/NS2345K/www
    if ( "$publish_html_root" == "" ) then
       set publish_html_root = ${web_server_path}/noresm
    endif

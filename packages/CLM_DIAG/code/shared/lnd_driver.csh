@@ -846,7 +846,7 @@ if($web_pages == 1) then
    $DIAG_SHARED/lnd_createTarFile.csh
 #  Publish web pages on the Nird web server (JL, Oct 2017)
    if ($publish_html == 1) then
-      set web_server_path = /projects/NS2345K/www
+      set web_server_path = /nird/datalake/NS2345K/www
       if ( "$publish_html_root" == "" ) then
          set publish_html_root = ${web_server_path}/noresm
       endif

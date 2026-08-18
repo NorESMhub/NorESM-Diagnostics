@@ -19,6 +19,7 @@ elif [ "$(echo $HOST |grep 'login[0-9]-nird')" ];then
     #module load NCL/6.6.2-intel-2019b
     module load NCO/NCO/5.1.3-foss-2022a
     #module load ImageMagick/7.0.9-5-GCCcore-8.3.0
+    export LD_PRELOAD=/lib64/libproj.so.25      # temporary fix for the /lib64/libgdal.so.36 error
     export NCARG_ROOT=/usr
     export NCARG_COLORMAPS=$NCARG_ROOT/lib/ncarg/colormaps
 elif [ "$(echo $HOST |grep 'betzy')" ]; then
@@ -688,7 +689,7 @@ echo "****************************************************"
 echo "Making tar file of directory: $WEBFOLDER"
 tar -cf $TARFILE $WEBFOLDER
 if [ $? -eq 0 ] && [ $publish_html -eq 1 ]; then
-    web_server_path=/projects/NS2345K/www
+    web_server_path=/nird/datalake/NS2345K/www
     if [ -z $publish_html_root ]; then
         publish_html_root=${web_server_path}/diagnostics/noresm
     fi
