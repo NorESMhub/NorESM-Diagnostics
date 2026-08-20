@@ -22,7 +22,6 @@ p_case = getenv("CASE_TO_CONT")
 dir   = getenv("PATH_PLOT")          ; Input data here
 frst_avg_yr = getenv("YR_AVG_FRST")
 last_avg_yr = getenv("YR_AVG_LAST")
-var_name = getenv("VAR_NAMES")
 hires = getenv("HIRES")
 
 ;***************************************************

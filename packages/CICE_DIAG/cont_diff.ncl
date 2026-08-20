@@ -49,23 +49,10 @@ c_hemisphere = (/"NH", "SH"/)
 min_lat   = (/40., -90./) 
 max_lat   = (/90., -45./)
 
-if (var_name_new.eq."NEW".and.var_name_prev.eq."NEW")then
  var_to_plot = (/"aice","hi","hs","Tsfc",\
                  "frazil","snoice","meltb","meltt", \
                  "meltl","dvidtt","dvidtd","daidtt","daidtd", \
                  "congel", "flat_ai", "fsens_ai", "fsalt_ai", "albsni"/)
-else 
-if (var_name_new.eq."OLD".and.var_name_prev.eq."OLD")then
- var_to_plot = (/"aice","hi","hs","Tsfc", \
-                 "frazil","snoice","meltb","meltt", \
-                 "meltl","dvidtt","dvidtd","daidtt","daidtd", \
-                 "growb", "Flat_aice", "Fsens_aice", "Fsalt_aice", "albsni"/)
-else
- var_to_plot = (/"aice","hi","hs","Tsfc", \
-                 "frazil","snoice","meltb","meltt", \
-                 "meltl","dvidtt","dvidtd","daidtt","daidtd"/)
-end if
-end if
 
 nvar = dimsizes(var_to_plot)
 ;span =      (/1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1/)
@@ -413,13 +400,8 @@ end if
         print ("Skipping plot since fields are identical")
       else
 
-      if (var_name_new.eq."NEW".or.var_name_prev.eq."NEW")then
-         wks = gsn_open_wks("ps", wkdir + "diff_con_"+season(jj) + "_" + \
-                           var_to_plot(k) + "_cice_"+c_hemisphere(ihem))
-      else
-         wks = gsn_open_wks("ps", wkdir + "diff_con_"+season(jj) + "_" + \
-                           var_to_plot(k) + "_csim4_"+c_hemisphere(ihem))
-      end if
+      wks = gsn_open_wks("ps", wkdir + "diff_con_"+season(jj) + "_" + \
+                        var_to_plot(k) + "_cice_"+c_hemisphere(ihem))
 
 ; 2->102 is first colormap, 102->103 is second colormap
       n_colors_one = 16

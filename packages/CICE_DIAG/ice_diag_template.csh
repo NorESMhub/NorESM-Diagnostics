@@ -1,9 +1,9 @@
 #!/bin/env csh
 #set PATH = ($PATH ./ )
 
-unset echo verbose
+#set echo verbose
 # Modified by Johan Liakka, Oct 2017
-# Last Update, Yanchun He, Dec 2022
+# Last Update, Yanchun He, Aug 2026
 # Major updates include:
 # - Better performance climatology computation (ncclimo)
 # - Updated web interface for NIRD
@@ -11,7 +11,7 @@ unset echo verbose
 
 ## LOAD MODULES AND SET ENVIRONMENTS
 set MACHINE = "`uname -n` `hostname -f`"
-if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
+if (`echo "$MACHINE" |grep 'ipcc'` != '') then
     set MACHINE = 'ipcc.nird'
     setenv NCARG_ROOT /diagnostics/toolkit
     setenv NCARG_COLORMAPS $NCARG_ROOT/lib/ncarg/colormaps
@@ -21,7 +21,7 @@ if ( `echo "$MACHINE" |grep 'ipcc'` != '' ) then
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`
     setenv ncksbin $ncclimo_dir
-else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
+else if (`echo "$MACHINE" |grep 'login[0-9].nird'` != '') then
     set MACHINE = 'login.nird'
     module purge
     module load CDO/2.0.6-gompi-2022a
@@ -35,7 +35,7 @@ else if ( `echo "$MACHINE" |grep 'login[0-9].nird'` != '' ) then
     setenv ncksbin  `which ncks`
     setenv ncclimo_dir  `dirname $ncksbin`
     setenv ncksbin $ncclimo_dir
-else if ( `echo "$MACHINE" |grep 'betzy'` != '' )  then
+else if (`echo "$MACHINE" |grep 'betzy'` != '')  then
     set MACHINE = 'betzy'
     module use /cluster/shared/noresm/ncl_mods/modules/all
     module use /cluster/shared/noresm/diagnostics/easybuild/modules/all
@@ -163,15 +163,6 @@ set SSMI_PATH = ${DIAG_HOME}/data/SSMI.ifrac.1979-2000monthlymean.gx1v5.nc
 #--- ccsm/polar directory *and* filename for ASPeCt ice and snow thickness data:
 set ASPeCt_PATH = ${DIAG_HOME}/data/ASPeCt_monthly_1x1.nc
 
-# Move to new filenames for CICE
-# b31.020ws uses FILE_VAR_TYPE=OLD, VAR_NAME_TYPE=OLD, BEGYRS=1
-# b31.021   uses FILE_VAR_TYPE=NEW, VAR_NAME_TYPE=NEW, BEGYRS=1
-
-set FILE_VAR_TYPE = ( NEW NEW )   # OLD/NEW for ice/hist directories
-set VAR_NAME_TYPE = ( NEW NEW )   # OLD for $CASE csim netCDF filenames
-                                  # NEW for $CASE cice netCDF filenames
-                                  # OLD for u, v var names
-                                  # NEW for uvel, vvel var names
 set DATE_FORMAT = 'yyyy-mm'       # History filename date format
 
 # Select type of data to compare your simulation with (JL, Nov 2017).
@@ -241,7 +232,6 @@ endif
 # Set directory to ncclimo.
 # This is changed by diag_run when running with crontab
 #setenv ncclimo_dir  /opt/nco-4.7.6-intel/bin
-set NCRCAT = `which ncrcat`
 
 # set c-shell limits
 limit stacksize unlimited
@@ -390,11 +380,7 @@ endif
 set FILE_HEAD = ()
 @ m = 1
 foreach case ($CASES_TO_READ)
-  if ($VAR_NAME_TYPE[$m] == OLD) then
-    set JUNK = ${CASES_TO_READ[$m]}.csim.h.
-  else
-    set JUNK = ${CASES_TO_READ[$m]}.cice.h.
-  endif
+  set JUNK = ${CASES_TO_READ[$m]}.cice.h.
   set FILE_HEAD = ($FILE_HEAD $JUNK)
   @ m++
 end
@@ -470,6 +456,46 @@ foreach CASE_TO_READ ($CASES_TO_READ)
   if !(-d $PATHJLS) mkdir -p $PATHJLS
   if !(-d $PATHDAT) mkdir -p $PATHDAT
 
+  # Test CICE version
+  set YYYY1 = `printf "%04d" ${BEGYRS[$m]}`
+  set first_filename=`ls $PATHDAT/${CASE_TO_READ}.cice.h.${YYYY1}-*.nc |head -1`
+  $ncksbin/ncks --quiet -d time,0 -d nj,0 -d ni,0 -v sivol $first_filename >& /dev/null
+  if ($status == 0) then
+    setenv CICE_VERSION 'CICE6'
+    setenv PRE_PROC_HIST ${SCRIPT_HOME}/pre_hist
+    mkdir -p $PRE_PROC_HIST/${CASE_TO_READ}
+  
+  # Preproc the history files for CICE6
+    foreach yr (`seq ${BEGYRS[$m]} ${ENDYRS[$m]}`)
+      foreach mon (`seq 1 12`)
+         set YYYY = `printf "%04d" ${yr}`
+         set MM = `printf "%02d" ${mon}`
+         if (! -e $PRE_PROC_HIST/${CASE_TO_READ}/${CASE_TO_READ}.cice.h.${YYYY}-${MM}.nc) then
+            $ncksbin/ncap2 -v \
+                    -s 'hi=sivol;hs=sisnthick*aice' \
+                    -s 'Tsfc=float(sitemptop-273.15)' \
+                    -s 'congel=float(sidmassgrowthbot*(8.64e+06/917.))' \
+                    -s 'frazil=float(sidmassgrowthwat*(8.64e+06/917.))' \
+                    -s 'snoice=float(sidmassgrowthsi*(8.64e+06/917.))' \
+                    -s 'meltb=-float(sidmassmeltbot*(8.64e+06/917.))' \
+                    -s 'meltt=-float(sidmassmelttop*(8.64e+06/917.))' \
+                    -s 'meltl=-float(sidmassmeltlat*(8.64e+06/917.))' \
+                    -s 'dvidtt=float(sidmassth*(8.64e+06/917.))' \
+                    -s 'dvidtd=float(sidmassdyn*(8.64e+06/917.))' \
+                    -s 'daidtt=float(sidconcth*8.64e+06)' \
+                    -s 'daidtd=float(sidconcdyn*8.64e+06)' \
+                  ${PATHDAT}/${CASE_TO_READ}.cice.h.${YYYY}-${MM}.nc  \
+                  $PRE_PROC_HIST/${CASE_TO_READ}/${CASE_TO_READ}.cice.h.${YYYY}-${MM}.nc
+            $ncksbin/ncks -A -v 'aice,flat_ai,fsens_ai,fsalt_ai,albsni,siu,siv,ANGLE' \
+                  ${PATHDAT}/${CASE_TO_READ}.cice.h.${YYYY}-${MM}.nc \
+                  $PRE_PROC_HIST/${CASE_TO_READ}/${CASE_TO_READ}.cice.h.${YYYY}-${MM}.nc
+         endif
+      end
+    end
+    # Reset PATHDAT to processed files
+    setenv PATHDAT $PRE_PROC_HIST/$CASE_TO_READ
+  endif
+
   if ($PLOT_LINE == 1 || $PLOT_LINE_DIFF == 1) then  # Need data for line plots?
 
 #   Need to delete concatenated file if created previously.
@@ -513,11 +539,7 @@ foreach CASE_TO_READ ($CASES_TO_READ)
         echo " Calling NCL preprocessing"
         echo " Pre-processing years $BEG_READ to $END_READ for $CASES_TO_READ[$m]"
 
-        if ($FILE_VAR_TYPE[$m] == "NEW") then
-           $NCL ${DIAG_HOME}/pre_proc.ncl
-        else
-           $NCL ${DIAG_HOME}/pre_proc_csim.ncl
-        endif
+        $NCL ${DIAG_HOME}/pre_proc.ncl
 
       else
 
@@ -531,10 +553,10 @@ foreach CASE_TO_READ ($CASES_TO_READ)
       set PRE_PROC_CAT = ice_vol_${CASE_TO_READ}_$YR1-$YR2.nc
 
       if !(-e $PRE_PROC_DIR/${PRE_PROC_CAT}) then
-         $NCRCAT $PRE_PROC_DIR/$PRE_PROC_FILE $PRE_PROC_DIR/$PRE_PROC_CAT
+         $ncksbin/ncrcat $PRE_PROC_DIR/$PRE_PROC_FILE $PRE_PROC_DIR/$PRE_PROC_CAT
       else
          if ($NYRS_TOT > 10) then
-            $NCRCAT $PRE_PROC_DIR/$PRE_PROC_CAT $PRE_PROC_DIR/$PRE_PROC_FILE tmp_$YR1-$YR2.nc
+            $ncksbin/ncrcat $PRE_PROC_DIR/$PRE_PROC_CAT $PRE_PROC_DIR/$PRE_PROC_FILE tmp_$YR1-$YR2.nc
             mv -f tmp_$YR1-$YR2.nc $PRE_PROC_DIR/$PRE_PROC_CAT
          endif
 
@@ -572,6 +594,9 @@ foreach CASE_TO_READ ($CASES_TO_READ)
   setenv PATHDAT ${DATA_ROOT}/$CASE_TO_READ/ice/hist
   setenv CASE_READ ${CASE_TO_READ}
   setenv FILE_HEADER $FILE_HEAD[$m]
+  if ($CICE_VERSION == 'CICE6') then
+    setenv PATHDAT $PRE_PROC_HIST/$CASE_TO_READ
+  endif
   if ($NCLIMO == 1) then
     @ NYRS_TO_AVG = $NYRS_CLIMO[$m]
     @ FRST_YR_AVG = $FIRST_YR_CLIMO[$m]
@@ -624,7 +649,7 @@ foreach CASE_TO_READ ($CASES_TO_READ)
        echo " ========================================="
        echo " Computing climatology for cont/vect plots"
        echo " ========================================="
-       ${DIAG_HOME}/avg_netcdf.csh $FRST_YR_AVG $END_YR_AVG $VAR_NAME_TYPE[$m] $test_djf
+       ${DIAG_HOME}/avg_netcdf.csh $FRST_YR_AVG $END_YR_AVG $test_djf
     endif
   @ m++
   endif            # End of PLOT_CONT, PLOT_VECT, etc. for averaging
@@ -666,7 +691,6 @@ if ($TO_DIFF == 0) then
   #    @ FRST_YR_AVG = ($ENDYRS[$m] - $NYRS_TO_AVG) + 1
   setenv YR_AVG_FRST $FRST_YR_AVG
   setenv YR_AVG_LAST $END_YR_AVG
-  setenv VAR_NAMES $VAR_NAME_TYPE[$m]
   set TAR_FILE = yrs${FRST_YR_AVG}to${END_YR_AVG}
   if ($CLIMO_TIME_SERIES_SWITCH == ONLY_TIME_SERIES) then
      set TAR_FILE = ts${BEGYRS[1]}to${ENDYRS[1]}
@@ -764,8 +788,6 @@ if ($TO_DIFF == 1) then
 
   setenv CASE_PREV $CASES_TO_READ[2]      # getenv in ncl only
   setenv CASE_NEW  $CASES_TO_READ[1]      # takes scalar values
-  setenv VAR_NAME_PREV $VAR_NAME_TYPE[2]
-  setenv VAR_NAME_NEW  $VAR_NAME_TYPE[1]
   setenv PATH_PREV  $SCRATCH/diags/$CASES_TO_READ[2]
   setenv PATH_NEW   $SCRATCH/diags/$CASES_TO_READ[1]
 #  setenv PATH_PREV  $PATH_ROOT/$CASES_TO_READ[2]

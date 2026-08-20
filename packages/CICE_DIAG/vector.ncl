@@ -8,7 +8,6 @@ begin
 wkdir = getenv("WKDIR")
 case = getenv("CASE_TO_CONT")
 dir   = getenv("PATH_PLOT")
-var_names = getenv("VAR_NAMES")
 frst_avg_yr = getenv("YR_AVG_FRST")
 last_avg_yr = getenv("YR_AVG_LAST")
 hires = getenv("HIRES")
@@ -20,11 +19,7 @@ NH_min_lat   = 40
 NH_max_lat   = 90
 SH_min_lat   = -90
 SH_max_lat   = -45
-if (var_names.eq."NEW") then
-  var_to_read = (/"uvel","vvel"/)
-else
-  var_to_read = (/"u","v"/)
-end if
+var_to_read = (/"uvel","vvel"/)
 min_vector = 0.
 max_vector = 22.
 vec_spacing = 2.
@@ -99,13 +94,8 @@ do j = 0, nseasons-1
 ; create plots
 ;************************************************
 
-  if (var_names.eq."NEW") then
-     wks = gsn_open_wks("ps",wkdir + "vec_"+season(j)+ \   ; open ps file
-                 "_vel" + "_cice")
-  else
-     wks = gsn_open_wks("ps",wkdir + "vec_"+season(j)+ \   ; open ps file
-                 "_vel" + "_csim4")
-  end if
+   wks = gsn_open_wks("ps",wkdir + "vec_"+season(j)+ \   ; open ps file
+                     "_vel" + "_cice")
 ;  print (" Plotting " + season(j))
 
   gsn_define_colormap(wks,"gui_default")

@@ -331,13 +331,8 @@ do jj = 0, nseasons-1       ; Loop through seasonal means
     else
 
 
-      if (var_name_new.eq."NEW" .or. var_name_prev.eq."NEW")then
 	 wks = gsn_open_wks("ps",wkdir + "diff_vec_"+season(jj)+"_"  \
                          + "uvel" + "_cice_"+c_hemisphere(ihem))
-      else
-         wks = gsn_open_wks("ps",wkdir + "diff_vec_"+season(jj)+"_"  \
-                         + "uvel" + "_csim4_"+c_hemisphere(ihem))
-      end if
 
       gsn_define_colormap(wks,"gui_default")
 ; 0->23 is first colormap, 24->124 is second colormap

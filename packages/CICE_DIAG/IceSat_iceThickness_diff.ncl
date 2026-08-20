@@ -27,8 +27,6 @@ new_frst_avg_yr = getenv("NEW_YR_AVG_FRST")
 new_last_avg_yr = getenv("NEW_YR_AVG_LAST")
 prev_frst_avg_yr = getenv("PREV_YR_AVG_FRST")
 prev_last_avg_yr = getenv("PREV_YR_AVG_LAST")
-var_name_new = getenv("VAR_NAME_NEW")
-var_name_prev = getenv("VAR_NAME_PREV")
 dir   = getenv("PATH_PLOT")          ; Input data here
 hires = getenv("HIRES")
 
