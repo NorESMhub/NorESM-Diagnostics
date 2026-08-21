@@ -494,6 +494,8 @@ foreach CASE_TO_READ ($CASES_TO_READ)
     end
     # Reset PATHDAT to processed files
     setenv PATHDAT $PRE_PROC_HIST/$CASE_TO_READ
+  else
+    setenv CICE_VERSION 'CICE5'
   endif
 
   if ($PLOT_LINE == 1 || $PLOT_LINE_DIFF == 1) then  # Need data for line plots?
