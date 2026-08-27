@@ -14,8 +14,6 @@ case_new  = getenv("CASE_NEW")
 case_prev = getenv("CASE_PREV")
 path_new  = getenv("PATH_NEW")
 path_prev = getenv("PATH_PREV")
-var_name_new = getenv("VAR_NAME_NEW")
-var_name_prev = getenv("VAR_NAME_PREV")
 grid_new = getenv("GRID_CONT")
 grid_prev = getenv("GRID_DIFF")
 new_frst_avg_yr = getenv("NEW_YR_AVG_FRST")
@@ -29,16 +27,8 @@ c_hemisphere = (/"NH", "SH"/)
 season = (/"ann","jfm","amj","jas","ond"/)   ; These are for file names
 min_lat   = (/40., -90./) 
 max_lat   = (/90., -45./)
-if (var_name_new.eq."NEW")then
-  var_to_read_new = (/"uvel","vvel"/)
-else
-  var_to_read_new = (/"u","v"/)
-end if
-if (var_name_prev.eq."NEW")then
-  var_to_read_prev = (/"uvel","vvel"/)
-else
-  var_to_read_prev = (/"u","v"/)
-end if
+var_to_read_new = (/"uvel","vvel"/)
+var_to_read_prev = (/"uvel","vvel"/)
 title_for_plot = "Ice Velocity"
 units_for_plot = "(cm/s)"
 
@@ -331,13 +321,8 @@ do jj = 0, nseasons-1       ; Loop through seasonal means
     else
 
 
-      if (var_name_new.eq."NEW" .or. var_name_prev.eq."NEW")then
 	 wks = gsn_open_wks("ps",wkdir + "diff_vec_"+season(jj)+"_"  \
                          + "uvel" + "_cice_"+c_hemisphere(ihem))
-      else
-         wks = gsn_open_wks("ps",wkdir + "diff_vec_"+season(jj)+"_"  \
-                         + "uvel" + "_csim4_"+c_hemisphere(ihem))
-      end if
 
       gsn_define_colormap(wks,"gui_default")
 ; 0->23 is first colormap, 24->124 is second colormap

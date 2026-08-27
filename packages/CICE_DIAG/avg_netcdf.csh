@@ -1,5 +1,6 @@
 #!/bin/csh -f
 
+#set echo verbose
 # This file creates a list of netCDF files and averages these to get
 # seasonal and annual means.  Input data is:
 #
@@ -10,21 +11,16 @@
 # $last_year last year to be averaged
 # $SEAS_MEAN seasonal mean
 
-if ($#argv != 4) then
-  echo "usage: avg_netcdf.csh $FIRST_YEAR $LAST_YEAR $VAR_NAME_TYPE $djf"
+if ($#argv != 3) then
+  echo "usage: avg_netcdf.csh $FIRST_YEAR $LAST_YEAR $djf"
   exit
 endif
 
 @ first_yr = $1
 @ last_yr = $2
-set var_name_type = $3
-set djf = $4
+set djf = $3
 
-if ($var_name_type == OLD) then
-   set modelname = cism
-else
-   set modelname = cice
-endif
+set modelname = cice
 set djf_md = scd
 if ( $djf == SDD ) then
    set djf_md = sdd

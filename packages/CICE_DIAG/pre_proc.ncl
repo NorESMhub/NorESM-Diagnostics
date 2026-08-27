@@ -202,10 +202,10 @@ do nn = 0, nyears-1
       end if
    end if
 
-   time1 = addfiles_GetVar (f, files, "time")
-   hi    = addfiles_GetVar (f, files, "hi")
-   ai    = addfiles_GetVar (f, files, "aice")
-   hs    = addfiles_GetVar (f, files, "hs")
+   time1 = f[:]->time
+   hi    = f[:]->hi
+   ai    = f[:]->aice
+   hs    = f[:]->hs
 
    max_val = max(ai)
    if (max_val.le.1) then

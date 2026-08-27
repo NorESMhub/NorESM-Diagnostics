@@ -12,7 +12,6 @@ p_case = getenv("CASE_TO_CONT")
 dir   = getenv("PATH_PLOT")          ; Input data here
 frst_avg_yr = getenv("YR_AVG_FRST")
 last_avg_yr = getenv("YR_AVG_LAST")
-var_name = getenv("VAR_NAMES")
 hires = getenv("HIRES")
 
 ;---------USER DEFINED QUANTITIES------------------
@@ -21,16 +20,9 @@ NH_min_lat   = 40
 NH_max_lat   = 90
 SH_min_lat   = -90
 SH_max_lat   = -45
-if (var_name.eq."NEW")then
-  ; aice must be read in first for masking
-  var_to_plot = (/"aice","hi","hs","Tsfc","flat_ai","fsens_ai", \
-                "congel","frazil","snoice","meltb","meltt", \
-                "meltl","dvidtt","dvidtd","daidtt","daidtd","fsalt_ai","albsni"/)
-else
-  var_to_plot = (/"aice","hi","hs","Tsfc","Flat_aice","Fsens_aice", \
-                  "growb","frazil","snoice","meltb","meltt", \
-                  "meltl","dvidtt","dvidtd","daidtt","daidtd","Fsalt_aice","albsni"/)
-end if
+var_to_plot = (/"aice","hi","hs","Tsfc","flat_ai","fsens_ai", \
+              "congel","frazil","snoice","meltb","meltt", \
+              "meltl","dvidtt","dvidtd","daidtt","daidtd","fsalt_ai","albsni"/)
 nvar = dimsizes(var_to_plot)
 NH_Pcntrs = new((/nvar,14/), float)
 SH_Pcntrs = new((/nvar,14/), float)
@@ -229,13 +221,8 @@ nrank = dimsizes(dimsizes(lat2d))
 ;    print (season(j) + " SH Min " + var_to_plot(k) + "=" +  SH_min)
 ;    print (season(j) + " SH Max " + var_to_plot(k) + "=" +  SH_max)
 
-    if (var_name.eq."NEW")then
-       wks = gsn_open_wks("ps", wkdir + "con_"+season(j) \
-                  + "_" + var_to_plot(k) + "_cice")      ; open ps file
-    else
-       wks = gsn_open_wks("ps", wkdir + "con_"+season(j) \
-                  + "_" + var_to_plot(k) + "_csim4")      ; open ps file
-    end if
+     wks = gsn_open_wks("ps", wkdir + "con_"+season(j) \
+                + "_" + var_to_plot(k) + "_cice")      ; open ps file
 
 ;    print (" Plotting " + var_to_plot(k) + " " + season(j))
 
