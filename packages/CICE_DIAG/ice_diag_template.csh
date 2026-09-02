@@ -350,6 +350,7 @@ endif
 #  Set up some arrays for easy looping and do some error checking. 
 #-----------------------------------------------------------------------
 
+set CICE_VERSIONS = (CICE5 CICE5)   # initialize
 set TO_DIFF = -1
 if ($PLOT_CONT == 1 || $PLOT_VECT == 1 || $PLOT_LINE == 1) then
   set TO_DIFF = 0 # Make plots of a single case
@@ -461,7 +462,7 @@ foreach CASE_TO_READ ($CASES_TO_READ)
   set first_filename=`ls $PATHDAT/${CASE_TO_READ}.cice.h.${YYYY1}-*.nc |head -1`
   $ncksbin/ncks --quiet -d time,0 -d nj,0 -d ni,0 -v sivol $first_filename >& /dev/null
   if ($status == 0) then
-    setenv CICE_VERSION 'CICE6'
+    set CICE_VERSIONS[$m] = 'CICE6'
     setenv PRE_PROC_HIST ${SCRIPT_HOME}/pre_hist
     mkdir -p $PRE_PROC_HIST/${CASE_TO_READ}
   
@@ -494,8 +495,6 @@ foreach CASE_TO_READ ($CASES_TO_READ)
     end
     # Reset PATHDAT to processed files
     setenv PATHDAT $PRE_PROC_HIST/$CASE_TO_READ
-  else
-    setenv CICE_VERSION 'CICE5'
   endif
 
   if ($PLOT_LINE == 1 || $PLOT_LINE_DIFF == 1) then  # Need data for line plots?
@@ -596,7 +595,7 @@ foreach CASE_TO_READ ($CASES_TO_READ)
   setenv PATHDAT ${DATA_ROOT}/$CASE_TO_READ/ice/hist
   setenv CASE_READ ${CASE_TO_READ}
   setenv FILE_HEADER $FILE_HEAD[$m]
-  if ($CICE_VERSION == 'CICE6') then
+  if ($CICE_VERSIONS[$m] == 'CICE6') then
     setenv PATHDAT $PRE_PROC_HIST/$CASE_TO_READ
   endif
   if ($NCLIMO == 1) then
